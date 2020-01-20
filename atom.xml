@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://HelloJackGao.github.io</id>
     <title>JackBlog</title>
-    <updated>2020-01-20T02:50:26.231Z</updated>
+    <updated>2020-01-20T02:53:22.231Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://HelloJackGao.github.io"/>
     <link rel="self" href="https://HelloJackGao.github.io/atom.xml"/>
@@ -17,10 +17,12 @@
         </link>
         <updated>2020-01-19T13:13:14.000Z</updated>
         <summary type="html"><![CDATA[<p>Start First Blog In Gride！<br>
-创建gitalk地址：https://github.com/settings/applications/new</p>
+创建gitalk地址：https://github.com/settings/applications/new<br>
+gridea主页介绍：https://fehey.com</p>
 ]]></summary>
         <content type="html"><![CDATA[<p>Start First Blog In Gride！<br>
-创建gitalk地址：https://github.com/settings/applications/new</p>
+创建gitalk地址：https://github.com/settings/applications/new<br>
+gridea主页介绍：https://fehey.com</p>
 <!-- more -->
 ]]></content>
     </entry>
