@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>HELLO WORLD | JackBlog</title>
+<title>旅游 | JackBlog</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -12,23 +12,13 @@
 <link rel="stylesheet" href="https://HelloJackGao.github.io/styles/main.css">
 
 
-  
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
-  
-
-  
-
 
 <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 
 
-    <meta name="description" content="Start First Blog In Gride！
-创建gitalk地址：https://github.com/settings/applications/new
-gridea主页介绍：https://fehey.com
-gridea文档..." />
-    <meta name="keywords" content="" />
+    <meta name="description" content="Hello World">
   </head>
   <body>
     <div id="app" class="main">
@@ -118,33 +108,33 @@ gridea文档..." />
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">HELLO WORLD</h2>
-            <div class="post-date">2020-01-19</div>
-            
-              <div class="feature-container" style="background-image: url('https://HelloJackGao.github.io/post-images/number1.jpg')">
+          <h2 class="current-tag">标签: 旅游</h2>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://HelloJackGao.github.io/post/di-yi-ci-chang-tu-zi-jia-ya">
+                  <h2 class="post-title">第一次长途自驾呀</h2>
+                </a>
+                <div class="post-date">
+                  2020-10-17
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
               </div>
-            
-            <div class="post-content" v-pre>
-              <p>Start First Blog In Gride！<br>
-创建gitalk地址：https://github.com/settings/applications/new<br>
-gridea主页介绍：https://fehey.com<br>
-gridea文档：https://gridea.dev/</p>
-<!-- more -->
-
-            </div>
-            
-            
-
-            
               
-                <div id="gitalk-container" data-aos="fade-in"></div>
+                <a class="right" href="https://HelloJackGao.github.io/post/di-yi-ci-chang-tu-zi-jia-ya">
+                  <div class="feature-container" style="background-image: url('https://HelloJackGao.github.io/post-images/di-yi-ci-chang-tu-zi-jia-ya.JPG')">
+                  </div>
+                </a>
               
+            </article>
+          
 
-              
-            
-
-          </div>
+          <div class="pagination-container">
+  
+  
+</div>
 
         </div>
       </div>
@@ -165,29 +155,6 @@ var app = new Vue({
 </script>
 
 
-
-
-
-  
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-    <script>
-
-      var gitalk = new Gitalk({
-        clientID: '6e02be877284c3e5829a',
-        clientSecret: '9a1496cb025a218f5e753da940fc5d864703a2a3',
-        repo: 'HelloJackGao.github.io',
-        owner: 'HelloJackGao',
-        admin: ['HelloJackGao'],
-        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-        distractionFreeMode: false  // Facebook-like distraction free mode
-      })
-
-      gitalk.render('gitalk-container')
-
-    </script>
-  
-
-  
 
 
 
