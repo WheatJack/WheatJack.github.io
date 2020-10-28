@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://HelloJackGao.github.io</id>
     <title>JackBlog</title>
-    <updated>2020-10-28T14:25:15.835Z</updated>
+    <updated>2020-10-28T14:44:24.466Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://HelloJackGao.github.io"/>
     <link rel="self" href="https://HelloJackGao.github.io/atom.xml"/>
@@ -10,15 +10,6 @@
     <logo>https://HelloJackGao.github.io/images/avatar.png</logo>
     <icon>https://HelloJackGao.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, JackBlog</rights>
-    <entry>
-        <title type="html"><![CDATA[这是一个测试2]]></title>
-        <id>https://HelloJackGao.github.io/post/gao-xiao-dai-ma-11</id>
-        <link href="https://HelloJackGao.github.io/post/gao-xiao-dai-ma-11">
-        </link>
-        <updated>2020-10-28T13:53:57.000Z</updated>
-        <content type="html"><![CDATA[<p>11</p>
-]]></content>
-    </entry>
     <entry>
         <title type="html"><![CDATA[这是一个测试]]></title>
         <id>https://HelloJackGao.github.io/post/gao-xiao-dai-ma-ya</id>
