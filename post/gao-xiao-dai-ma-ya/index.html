@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>高效代码呀 | JackBlog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://HelloJackGao.github.io/favicon.ico?v=1603893301445">
+<link rel="stylesheet" href="https://HelloJackGao.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+
+1.常量&amp;变量
+1.1.直接赋值常量值，禁止声明新对象
+直接赋值常量值，只是创建了一个对象引用，而这个对象引用指向常量值。
+反例：
+Long i = new Long(1L);String s = new String(&quo..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://HelloJackGao.github.io">
+        <img src="https://HelloJackGao.github.io/images/avatar.png?v=1603893301445" class="site-logo">
+        <h1 class="site-title">JackBlog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/HelloJackGao" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://github.com/HelloJackGao" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://github.com/HelloJackGao" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://github.com/HelloJackGao" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://github.com/HelloJackGao" target="_blank">
+            <i class="fab fa-facebook"></i>
+          </a>
+        
+      
+    </div>
+    <div class="site-description">
+      Hello World
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/HelloJackGao" target="_blank">JackGao</a> | <a class="rss" href="https://HelloJackGao.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">高效代码呀</h2>
+            <div class="post-date">2020-10-28</div>
+            
+            <div class="post-content" v-pre>
+              <figure data-type="image" tabindex="1"><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gk5e0vmie9j31hc0u0nia.jpg" alt="v2-3afeb2f1af0211503f1c8fabf91d76df_r1" loading="lazy"></figure>
+<!-- more -->
+<h2 id="1常量变量"><strong>1.常量&amp;变量</strong></h2>
+<h3 id="11直接赋值常量值禁止声明新对象"><strong>1.1.直接赋值常量值，禁止声明新对象</strong></h3>
+<p>直接赋值常量值，只是创建了一个对象引用，而这个对象引用指向常量值。</p>
+<p><strong>反例：</strong></p>
+<pre><code>Long i = new Long(1L);String s = new String(&quot;abc&quot;);
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>Long i = 1L;String s = &quot;abc&quot;;
+</code></pre>
+<h3 id="12当成员变量值无需改变时尽量定义为静态常量"><strong>1.2.当成员变量值无需改变时，尽量定义为静态常量</strong></h3>
+<p>在类的每个对象实例中，每个成员变量都有一份副本，而成员静态常量只有一份实例。</p>
+<p><strong>反例：</strong></p>
+<pre><code>public class HttpConnection {    private final long timeout = 5L;    ...}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>public class HttpConnection {    private static final long TIMEOUT = 5L;    ...}
+</code></pre>
+<h3 id="13尽量使用基本数据类型避免自动装箱和拆箱"><strong>1.3.尽量使用基本数据类型，避免自动装箱和拆箱</strong></h3>
+<p>Java 中的基本数据类型double、float、long、int、short、char、boolean，分别对应包装类Double、Float、Long、Integer、Short、Character、Boolean。JVM支持基本类型与对应包装类的自动转换，被称为自动装箱和拆箱。装箱和拆箱都是需要CPU和内存资源的，所以应尽量避免使用自动装箱和拆箱。</p>
+<p><strong>反例：</strong></p>
+<pre><code>Integer sum = 0;int[] values = ...;for (int value : values) {    sum += value; // 相当于result = Integer.valueOf(result.intValue() + value);}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>int sum = 0;int[] values = ...;for (int value : values) {    sum += value;}
+</code></pre>
+<h3 id="14如果变量的初值会被覆盖就没有必要给变量赋初值"><strong>1.4.如果变量的初值会被覆盖，就没有必要给变量赋初值</strong></h3>
+<p><strong>反例：</strong></p>
+<pre><code>List&lt;UserDO&gt; userList = new ArrayList&lt;&gt;();if (isAll) {    userList = userDAO.queryAll();} else {    userList = userDAO.queryActive();}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>List&lt;UserDO&gt; userList;if (isAll) {    userList = userDAO.queryAll();} else {    userList = userDAO.queryActive();}
+</code></pre>
+<h3 id="15尽量使用函数内的基本类型临时变量"><strong>1.5.尽量使用函数内的基本类型临时变量</strong></h3>
+<p>在函数内，基本类型的参数和临时变量都保存在栈（Stack）中，访问速度较快；对象类型的参数和临时变量的引用都保存在栈（Stack）中，内容都保存在堆（Heap）中，访问速度较慢。在类中，任何类型的成员变量都保存在堆（Heap）中，访问速度较慢。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">public final class Accumulator {    private double result = 0.0D;    public void addAll(@NonNull double[] values) {        for(double value : values) {            result += value;        }    }    ...}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>public final class Accumulator {    private double result = 0.0D;    public void addAll(@NonNull double[] values) {        double sum = 0.0D;        for(double value : values) {            sum += value;        }        result += sum;    }    ...}
+</code></pre>
+<h3 id="16尽量不要在循环体外定义变量"><strong>1.6.尽量不要在循环体外定义变量</strong></h3>
+<p>在老版JDK中，建议“尽量不要在循环体内定义变量”，但是在新版的JDK中已经做了优化。通过对编译后的字节码分析，变量定义在循环体外和循环体内没有本质的区别，运行效率基本上是一样的。</p>
+<p>反而，根据“ 局部变量作用域最小化 ”原则，变量定义在循环体内更科学更便于维护，避免了延长大对象生命周期导致延缓回收问题 。</p>
+<p><strong>反例：</strong></p>
+<pre><code>UserVO userVO;List&lt;UserDO&gt; userDOList = ...;List&lt;UserVO&gt; userVOList = new ArrayList&lt;&gt;(userDOList.size());for (UserDO userDO : userDOList) {    userVO = new UserVO();    userVO.setId(userDO.getId());    ...    userVOList.add(userVO);}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>List&lt;UserDO&gt; userDOList = ...;List&lt;UserVO&gt; userVOList = new ArrayList&lt;&gt;(userDOList.size());for (UserDO userDO : userDOList) {    UserVO userVO = new UserVO();    userVO.setId(userDO.getId());    ...    userVOList.add(userVO);}
+</code></pre>
+<h3 id="17不可变的静态常量尽量使用非线程安全类"><strong>1.7.不可变的静态常量，尽量使用非线程安全类</strong></h3>
+<p>不可变的静态常量，虽然需要支持多线程访问，也可以使用非线程安全类。</p>
+<p><strong>反例：</strong></p>
+<pre><code>public static final Map&lt;String, Class&gt; CLASS_MAP;static {    Map&lt;String, Class&gt; classMap = new ConcurrentHashMap&lt;&gt;(16);    classMap.put(&quot;VARCHAR&quot;, java.lang.String.class);    ...    CLASS_MAP = Collections.unmodifiableMap(classMap);}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>public static final Map&lt;String, Class&gt; CLASS_MAP;static {    Map&lt;String, Class&gt; classMap = new HashMap&lt;&gt;(16);    classMap.put(&quot;VARCHAR&quot;, java.lang.String.class);    ...    CLASS_MAP = Collections.unmodifiableMap(classMap);}
+</code></pre>
+<h3 id="18不可变的成员变量尽量使用非线程安全类">1.8.不可变的成员变量，尽量使用非线程安全类**</h3>
+<p>不可变的成员变量，虽然需要支持多线程访问，也可以使用非线程安全类。</p>
+<p><strong>反例：</strong></p>
+<pre><code>@Servicepublic class StrategyFactory implements InitializingBean {    @Autowired    private List&lt;Strategy&gt; strategyList;    private Map&lt;String, Strategy&gt; strategyMap;    @Override    public void afterPropertiesSet() {        if (CollectionUtils.isNotEmpty(strategyList)) {            int size = (int) Math.ceil(strategyList.size() * 4.0 / 3);            Map&lt;String, Strategy&gt; map = new ConcurrentHashMap&lt;&gt;(size);            for (Strategy strategy : strategyList) {                map.put(strategy.getType(), strategy);            }            strategyMap = Collections.unmodifiableMap(map);        }    }    ...}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>@Servicepublic class StrategyFactory implements InitializingBean {    @Autowired    private List&lt;Strategy&gt; strategyList;    private Map&lt;String, Strategy&gt; strategyMap;    @Override    public void afterPropertiesSet() {        if (CollectionUtils.isNotEmpty(strategyList)) {            int size = (int) Math.ceil(strategyList.size() * 4.0 / 3);            Map&lt;String, Strategy&gt; map = new HashMap&lt;&gt;(size);            for (Strategy strategy : strategyList) {                map.put(strategy.getType(), strategy);            }            strategyMap = Collections.unmodifiableMap(map);        }    }    ...
+</code></pre>
+<h2 id=""></h2>
+<h2 id="2对象类"><strong>2</strong>.对象&amp;类</h2>
+<h3 id="21禁止使用json转化对象"><strong>2.1.禁止使用JSON转化对象</strong></h3>
+<p>JSON提供把对象转化为JSON字符串、把JSON字符串转为对象的功能，于是被某些人用来转化对象。这种对象转化方式，虽然在功能上没有问题，但是在性能上却存在问题。</p>
+<p><strong>反例：</strong></p>
+<pre><code>List&lt;UserDO&gt; userDOList = ...;List&lt;UserVO&gt; userVOList = JSON.parseArray(JSON.toJSONString(userDOList), UserVO.class);
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>List&lt;UserDO&gt; userDOList = ...;List&lt;UserVO&gt; userVOList = new ArrayList&lt;&gt;(userDOList.size());for (UserDO userDO : userDOList) {    UserVO userVO = new UserVO();    userVO.setId(userDO.getId());    ...    userVOList.add(userVO);}
+</code></pre>
+<h3 id="22尽量不使用反射赋值对象"><strong>2.2.尽量不使用反射赋值对象</strong></h3>
+<p>用反射赋值对象，主要优点是节省了代码量，主要缺点却是性能有所下降。</p>
+<p><strong>反例：</strong></p>
+<pre><code>List&lt;UserDO&gt; userDOList = ...;List&lt;UserVO&gt; userVOList = new ArrayList&lt;&gt;(userDOList.size());for (UserDO userDO : userDOList) {    UserVO userVO = new UserVO();    BeanUtils.copyProperties(userDO, userVO);    userVOList.add(userVO);}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>List&lt;UserDO&gt; userDOList = ...;List&lt;UserVO&gt; userVOList = new ArrayList&lt;&gt;(userDOList.size());for (UserDO userDO : userDOList) {    UserVO userVO = new UserVO();    userVO.setId(userDO.getId());    ...    userVOList.add(userVO);}
+</code></pre>
+<h3 id="-2"></h3>
+<h3 id="23采用lambda表达式替换内部匿名类"><strong>2.3.采用Lambda表达式替换内部匿名类</strong></h3>
+<p>对于大多数刚接触JDK8的同学来说，都会认为Lambda表达式就是匿名内部类的语法糖。实际上， Lambda表达式在大多数虚拟机中采用invokeDynamic指令实现，相对于匿名内部类在效率上会更高一些。</p>
+<p><strong>反例：</strong></p>
+<pre><code>List&lt;User&gt; userList = ...;Collections.sort(userList, new Comparator&lt;User&gt;() {    @Override    public int compare(User user1, User user2) {        Long userId1 = user1.getId();        Long userId2 = user2.getId();        ...        return userId1.compareTo(userId2);    }});
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>List&lt;User&gt; userList = ...;Collections.sort(userList, (user1, user2) -&gt; {    Long userId1 = user1.getId();    Long userId2 = user2.getId();    ...    return userId1.compareTo(userId2);});
+</code></pre>
+<h3 id="-3"></h3>
+<h3 id="24尽量避免定义不必要的子类"><strong>2.4.尽量避免定义不必要的子类</strong></h3>
+<p>多一个类就需要多一份类加载，所以尽量避免定义不必要的子类。</p>
+<p><strong>反例：</strong></p>
+<pre><code>public static final Map&lt;String, Class&gt; CLASS_MAP =    Collections.unmodifiableMap(new HashMap&lt;String, Class&gt;(16) {    private static final long serialVersionUID = 1L;    {        put(&quot;VARCHAR&quot;, java.lang.String.class);    }});
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>public static final Map&lt;String, Class&gt; CLASS_MAP;static {    Map&lt;String, Class&gt; classMap = new HashMap&lt;&gt;(16);    classMap.put(&quot;VARCHAR&quot;, java.lang.String.class);    ...    CLASS_MAP = Collections.unmodifiableMap(classMap);}
+</code></pre>
+<h3 id="-4"></h3>
+<h3 id="25尽量指定类的final修饰符"><strong>2.5.尽量指定类的final修饰符</strong></h3>
+<p>为类指定final修饰符，可以让该类不可以被继承。如果指定了一个类为final，则该类所有的方法都是final的，Java编译器会寻找机会内联所有的final方法。内联对于提升Java运行效率作用重大，具体可参见Java运行期优化，能够使性能平均提高50%。</p>
+<p><strong>反例：</strong></p>
+<pre><code>public class DateHelper {    ...}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>public final class DateHelper {    ...}
+</code></pre>
+<p>注意：使用Spring的AOP特性时，需要对Bean进行动态代理，如果Bean类添加了final修饰，会导致异常。</p>
+<h2 id="3方法"><strong>3.方法</strong></h2>
+<h3 id="31把跟类成员变量无关的方法声明成静态方法"><strong>3.1.把跟类成员变量无关的方法声明成静态方法</strong></h3>
+<p>静态方法的好处就是不用生成类的实例就可以直接调用。静态方法不再属于某个对象，而是属于它所在的类。只需要通过其类名就可以访问，不需要再消耗资源去反复创建对象。即便在类内部的私有方法，如果没有使用到类成员变量，也应该声明为静态方法。</p>
+<p><strong>反例：</strong></p>
+<pre><code>public int getMonth(Date date) {  Calendar calendar = Calendar.getInstance();  calendar.setTime(date);  return calendar.get(Calendar.MONTH) + 1;}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>public static int getMonth(Date date) {  Calendar calendar = Calendar.getInstance();  calendar.setTime(date);  return calendar.get(Calendar.MONTH) + 1;}
+</code></pre>
+<h3 id="32尽量使用基本数据类型作为方法参数类型避免不必要的装箱-拆箱和空指针判断"><strong>3.2.尽量使用基本数据类型作为方法参数类型，避免不必要的装箱、拆箱和空指针判断</strong></h3>
+<p><strong>反例：</strong></p>
+<pre><code>public static double sum(Double value1, Double value2) {    double double1 = Objects.isNull(value1) ? 0.0D : value1;    double double2 = Objects.isNull(value2) ? 0.0D : value2;    return double1 + double2;}double result = sum(1.0D, 2.0D);
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>public static double sum(double value1, double value2) {    return value1 + value2;}double result = sum(1.0D, 2.0D);
+</code></pre>
+<h3 id="33尽量使用基本数据类型作为方法返回值类型避免不必要的装箱-拆箱和空指针判断">3.3.尽量使用基本数据类型作为方法返回值类型，避免不必要的装箱、拆箱和空指针判断</h3>
+<p>在JDK类库的方法中，很多方法返回值都采用了基本数据类型，首先是为了避免不必要的装箱和拆箱，其次是为了避免返回值的空指针判断。比如：Collection.isEmpty()和Map.size()。</p>
+<p><strong>反例：</strong></p>
+<pre><code>public static Boolean isValid(UserDO user) {    if (Objects.isNull(user)) {        return false;    }  return Boolean.TRUE.equals(user.getIsValid());}
+// 调用代码UserDO user = ...;Boolean isValid = isValid(user);if (Objects.nonNull(isValid) &amp;&amp; isValid.booleanValue()) {     ...}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>public static boolean isValid(UserDO user) {    if (Objects.isNull(user)) {        return false;    }  return Boolean.TRUE.equals(user.getIsValid());}
+// 调用代码UserDO user = ...;if (isValid(user)) {    ...}
+</code></pre>
+<h3 id="-5"></h3>
+<h3 id="34协议方法参数值非空避免不必要的空指针判断"><strong>3.4.协议方法参数值非空，避免不必要的空指针判断</strong></h3>
+<p>协议编程，可以@NonNull和@Nullable标注参数，是否遵循全凭调用者自觉。</p>
+<p><strong>反例：</strong></p>
+<pre><code>public static boolean isValid(UserDO user) {    if (Objects.isNull(user)) {        return false;    }  return Boolean.TRUE.equals(user.getIsValid());}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>public static boolean isValid(@NonNull UserDO user) {  return Boolean.TRUE.equals(user.getIsValid());}
+</code></pre>
+<h3 id="-6"></h3>
+<h3 id="35协议方法返回值非空避免不必要的空指针判断"><strong>3.5.协议方法返回值非空，避免不必要的空指针判断</strong></h3>
+<p>协议编程，可以@NonNull和@Nullable标注参数，是否遵循全凭实现者自觉。</p>
+<p><strong>反例：</strong></p>
+<pre><code>// 定义接口public interface OrderService {    public List&lt;OrderVO&gt; queryUserOrder(Long userId);}
+// 调用代码List&lt;OrderVO&gt; orderList = orderService.queryUserOrder(userId);if (CollectionUtils.isNotEmpty(orderList)) {    for (OrderVO order : orderList) {        ...    }}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>// 定义接口public interface OrderService {    @NonNull    public List&lt;OrderVO&gt; queryUserOrder(Long userId);}
+// 调用代码List&lt;OrderVO&gt; orderList = orderService.queryUserOrder(userId);for (OrderVO order : orderList) {    ...}
+</code></pre>
+<h3 id="-7"></h3>
+<h3 id="36被调用方法已支持判空处理调用方法无需再进行判空处理"><strong>3.6.被调用方法已支持判空处理，调用方法无需再进行判空处理</strong></h3>
+<p><strong>反例：</strong></p>
+<pre><code>UserDO user = null;if (StringUtils.isNotBlank(value)) {    user = JSON.parseObject(value, UserDO.class);}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>UserDO user = JSON.parseObject(value, UserDO.class);
+</code></pre>
+<h3 id="37尽量避免不必要的函数封装"><strong>3.7.尽量避免不必要的函数封装</strong></h3>
+<p>方法调用会引起入栈和出栈，导致消耗更多的CPU和内存，应当尽量避免不必要的函数封装。当然，为了使代码更简洁、更清晰、更易维护，增加一定的方法调用所带来的性能损耗是值得的。</p>
+<p><strong>反例：</strong></p>
+<pre><code>// 函数封装public static boolean isVip(Boolean isVip) {    return Boolean.TRUE.equals(isVip);}
+// 使用代码boolean isVip = isVip(user.getVip());
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>boolean isVip = Boolean.TRUE.equals(user.getVip());
+</code></pre>
+<h3 id="38尽量指定方法的final修饰符"><strong>3.8.尽量指定方法的final修饰符</strong></h3>
+<p>方法指定final修饰符，可以让方法不可以被重写，Java编译器会寻找机会内联所有的final方法。内联对于提升Java运行效率作用重大，具体可参见Java运行期优化，能够使性能平均提高50%。</p>
+<p>注意：所有的private方法会隐式地被指定final修饰符，所以无须再为其指定final修饰符。</p>
+<p><strong>反例：</strong></p>
+<pre><code>public class Rectangle {    ...    public double area() {        ...    }}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>public class Rectangle {    ...    public final double area() {        ...    }}
+</code></pre>
+<p>注意：使用Spring的AOP特性时，需要对Bean进行动态代理，如果方法添加了final修饰，将不会被代理。</p>
+<h2 id="4表达式"><strong>4.表达式</strong></h2>
+<h3 id="41尽量减少方法的重复调用"><strong>4.1.尽量减少方法的重复调用</strong></h3>
+<p><strong>反例：</strong></p>
+<pre><code>List&lt;UserDO&gt; userList = ...;for (int i = 0; i &lt; userList.size(); i++) {    ...}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>List&lt;UserDO&gt; userList = ...;int userLength = userList.size();for (int i = 0; i &lt; userLength; i++) {    ...}
+</code></pre>
+<h3 id="-8"></h3>
+<h3 id="42尽量避免不必要的方法调用"><strong>4.2.尽量避免不必要的方法调用</strong></h3>
+<p><strong>反例：</strong></p>
+<pre><code>List&lt;UserDO&gt; userList = userDAO.queryActive();if (isAll) {    userList = userDAO.queryAll();}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>List&lt;UserDO&gt; userList;if (isAll) {    userList = userDAO.queryAll();} else {    userList = userDAO.queryActive();}
+</code></pre>
+<h3 id="-9"></h3>
+<h3 id="43尽量使用移位来代替正整数乘除"><strong>4.3.尽量使用移位来代替正整数乘除</strong></h3>
+<p>用移位操作可以极大地提高性能。对于乘除2^n(n为正整数)的正整数计算，可以用移位操作来代替。</p>
+<p><strong>反例：</strong></p>
+<pre><code>int num1 = a * 4;int num2 = a / 4;
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>int num1 = a &lt;&lt; 2;int num2 = a &gt;&gt; 2;
+</code></pre>
+<h3 id="-10"></h3>
+<h3 id="44提取公共表达式避免重复计算"><strong>4.4.提取公共表达式，避免重复计算</strong></h3>
+<p>提取公共表达式，只计算一次值，然后重复利用值。</p>
+<p><strong>反例：</strong></p>
+<pre><code>double distance = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>double dx = x2 - x1;double dy = y2 - y1;double distance = Math.sqrt(dx * dx + dy * dy);或double distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+</code></pre>
+<h3 id="-11"></h3>
+<h3 id="45尽量不在条件表达式中用取反"><strong>4.5.尽量不在条件表达式中用!取反</strong></h3>
+<p>使用!取反会多一次计算，如果没有必要则优化掉。</p>
+<p><strong>反例：</strong></p>
+<pre><code>if (!(a &gt;= 10)) {    ... // 条件处理1} else {    ... // 条件处理2}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>if (a &lt; 10) {    ... // 条件处理1} else {    ... // 条件处理2}
+</code></pre>
+<h3 id="-12"></h3>
+<h3 id="46对于多常量选择分支尽量使用switch语句而不是if-else语句"><strong>4.6.对于多常量选择分支，尽量使用switch语句而不是if-else语句</strong></h3>
+<p>if-else语句，每个if条件语句都要加装计算，直到if条件语句为true为止。switch语句进行了跳转优化，Java中采用tableswitch或lookupswitch指令实现，对于多常量选择分支处理效率更高。经过试验证明：在每个分支出现概率相同的情况下，低于5个分支时if-else语句效率更高，高于5个分支时switch语句效率更高。</p>
+<p><strong>反例：</strong></p>
+<pre><code>if (i == 1) {    ...; // 分支1} else if (i == 2) {    ...; // 分支2} else if (i == ...) {    ...; // 分支n} else {    ...; // 分支n+1}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>switch (i) {    case 1 :        ... // 分支1        break;    case 2 :        ... // 分支2        break;    case ... :        ... // 分支n        break;    default :        ... // 分支n+1        break;}
+</code></pre>
+<p>备注：如果业务复杂，可以采用Map实现策略模式。</p>
+<h2 id="5字符串"><strong>5.字符串</strong></h2>
+<h3 id="51尽量不要使用正则表达式匹配"><strong>5.1.尽量不要使用正则表达式匹配</strong></h3>
+<p>正则表达式匹配效率较低，尽量使用字符串匹配操作。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">String source = &quot;a::1,b::2,c::3,d::4&quot;;
+String target = source.replaceAll(&quot;::&quot;, &quot;=&quot;);
+Stringp[] targets = source.spit(&quot;::&quot;);
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">String source = &quot;a::1,b::2,c::3,d::4&quot;;
+String target = source.replace(&quot;::&quot;, &quot;=&quot;);
+Stringp[] targets = StringUtils.split(source, &quot;::&quot;);
+</code></pre>
+<h3 id="-13"></h3>
+<h3 id="52尽量使用字符替换字符串"><strong>5.2.尽量使用字符替换字符串</strong></h3>
+<p>字符串的长度不确定，而字符的长度固定为1，查找和匹配的效率自然提高了</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">String source = &quot;a:1,b:2,c:3,d:4&quot;;
+int index = source.indexOf(&quot;:&quot;);
+String target = source.replace(&quot;:&quot;, &quot;=&quot;);
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">String source = &quot;a:1,b:2,c:3,d:4&quot;;
+int index = source.indexOf(':');
+String target = source.replace(':', '=');
+</code></pre>
+<h3 id="-14"></h3>
+<h3 id="53尽量使用stringbuilder进行字符串拼接"><strong>5.3.尽量使用StringBuilder进行字符串拼接</strong></h3>
+<p>String是final类，内容不可修改，所以每次字符串拼接都会生成一个新对象。StringBuilder在初始化时申请了一块内存，以后的字符串拼接都在这块内存中执行，不会申请新内存和生成新对象。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">        String s = &quot;&quot;;
+        for (int i = 0; i &lt; 10; i++) {
+            if (i != 0) {
+                s += ',';
+            }
+            s += i;
+        }
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">        StringBuilder sb = new StringBuilder(128);
+        for (int i = 0; i &lt; 10; i++) {
+            if (i != 0) {
+                sb.append(',');
+            }
+            sb.append(i);
+        }
+</code></pre>
+<h3 id="-15"></h3>
+<h3 id="54不要使用转化字符串"><strong>5.4.不要使用&quot;&quot;+转化字符串</strong></h3>
+<p>使用&quot;&quot;+进行字符串转化，使用方便但是效率低，建议使用String.valueOf.</p>
+<p><strong>反例：</strong></p>
+<pre><code>int i = 12345;String s = &quot;&quot; + i;
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code>int i = 12345;String s = String.valueOf(i);
+</code></pre>
+<h2 id="-16"></h2>
+<h2 id="6数组"><strong>6.数组</strong></h2>
+<h3 id="61不要使用循环拷贝数组尽量使用systemarraycopy拷贝数组"><strong>6.1.不要使用循环拷贝数组，尽量使用System.arraycopy拷贝数组</strong></h3>
+<p>推荐使用System.arraycopy拷贝数组，也可以使用Arrays.copyOf拷贝数组。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">int[] sources = new int[] {1, 2, 3, 4, 5};
+int[] targets = new int[sources.length];
+for (int i = 0; i &lt; targets.length; i++) {    targets[i] = sources[i];}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">int[] sources = new int[] {1, 2, 3, 4, 5};
+int[] targets = new int[sources.length];
+System.arraycopy(sources, 0, targets, 0, targets.length);
+</code></pre>
+<h3 id="-17"></h3>
+<h3 id="62集合转化为类型t数组时尽量传入空数组t0"><strong>6.2.集合转化为类型T数组时，尽量传入空数组T[0]</strong></h3>
+<p>将集合转换为数组有2种形式：toArray(new T[n])和toArray(new T[0])。在旧的Java版本中，建议使用toArray(new T[n])，因为创建数组时所需的反射调用非常慢。在OpenJDK6后，反射调用是内在的，使得性能得以提高，toArray(new T[0])比toArray(new T[n])效率更高。此外，toArray(new T[n])比toArray(new T[0])多获取一次列表大小，如果计算列表大小耗时过长，也会导致toArray(new T[n])效率降低</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">List&lt;Integer&gt; integerList = Arrays.asList(1, 2, 3, 4, 5, ...);
+Integer[] integers = integerList.toArray(new Integer[integerList.size()]);
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">List&lt;Integer&gt; integerList = Arrays.asList(1, 2, 3, 4, 5, ...);
+Integer[] integers = integerList.toArray(new Integer[0]); // 勿用new Integer[]{}
+</code></pre>
+<p>建议：集合应该提供一个toArray(Class<T> clazz)方法，避免无用的空数组初始化（new T[0]）。</p>
+<h3 id="63集合转化为object数组时尽量使用toarray方法"><strong>6.3.集合转化为Object数组时，尽量使用toArray()方法</strong></h3>
+<p>转化Object数组时，没有必要使用toArray[new Object[0]]，可以直接使用toArray()。避免了类型的判断，也避免了空数组的申请，所以效率会更高。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">List&lt;Object&gt; objectList = Arrays.asList(1, &quot;2&quot;, 3, &quot;4&quot;, 5, ...);
+Object[] objects = objectList.toArray(new Object[0]);
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">List&lt;Object&gt; objectList = Arrays.asList(1, &quot;2&quot;, 3, &quot;4&quot;, 5, ...);
+Object[] objects = objectList.toArray();
+</code></pre>
+<h2 id="-18"></h2>
+<h2 id="7集合"><strong>7.集合</strong></h2>
+<h3 id="71初始化集合时尽量指定集合大小"><strong>7.1.初始化集合时，尽量指定集合大小</strong></h3>
+<p>Java集合初始化时都会指定一个默认大小，当默认大小不再满足数据需求时就会扩容，每次扩容的时间复杂度有可能是O(n)。所以，尽量指定预知的集合大小，就能避免或减少集合的扩容次数。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">        List&lt;UserDO&gt; userDOList = ...;
+        Set&lt;Long&gt; userSet = new HashSet&lt;&gt;();
+        Map&lt;Long, UserDO&gt; userMap = new HashMap&lt;&gt;();
+        List&lt;UserVO&gt; userList = new ArrayList&lt;&gt;();
+        for (UserDO userDO : userDOList) {
+            userSet.add(userDO.getId());
+            userMap.put(userDO.getId(), userDO);
+            userList.add(transUser(userDO));
+        }
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">        List&lt;UserDO&gt; userDOList = ...;
+        int userSize = userDOList.size();
+        Set&lt;Long&gt; userSet = new HashSet&lt;&gt;(userSize);
+        Map&lt;Long, UserDO&gt; userMap = new HashMap&lt;&gt;((int) Math.ceil(userSize * 4.0 / 3));
+        List&lt;UserVO&gt; userList = new ArrayList&lt;&gt;(userSize);
+        for (UserDO userDO : userDOList) {
+            userSet.add(userDO.getId());
+            userMap.put(userDO.getId(), userDO);
+            userList.add(transUser(userDO));
+        }
+</code></pre>
+<h3 id="-19"></h3>
+<h3 id="72不要使用循环拷贝集合尽量使用jdk提供的方法拷贝集合"><strong>7.2.不要使用循环拷贝集合，尽量使用JDK提供的方法拷贝集合</strong></h3>
+<p>JDK提供的方法可以一步指定集合的容量，避免多次扩容浪费时间和空间。同时，这些方法的底层也是调用System.arraycopy方法实现，进行数据的批量拷贝效率更高。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">        List&lt;UserDO&gt; user1List = ...;
+        List&lt;UserDO&gt; user2List = ...;
+        List&lt;UserDO&gt; userList = new ArrayList&lt;&gt;(user1List.size() + user2List.size());
+        for (UserDO user1 : user1List) {
+            userList.add(user1);
+        }
+        for (UserDO user2 : user2List) {
+            userList.add(user2);
+        }
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">        List&lt;UserDO&gt; user1List = ...;
+        List&lt;UserDO&gt; user2List = ...;
+        List&lt;UserDO&gt; userList = new ArrayList&lt;&gt;(user1List.size() + user2List.size());
+        userList.addAll(user1List);
+        userList.addAll(user2List);
+</code></pre>
+<h3 id="-20"></h3>
+<h3 id="73尽量使用arraysaslist转化数组为列表"><strong>7.3.尽量使用Arrays.asList转化数组为列表</strong></h3>
+<p>原理与&quot;不要使用循环拷贝集合，尽量使用JDK提供的方法拷贝集合&quot;类似。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">        List&lt;String&gt; typeList = new ArrayList&lt;&gt;(8);
+        typeList.add(&quot;Short&quot;);
+        typeList.add(&quot;Integer&quot;);
+        typeList.add(&quot;Long&quot;);
+        String[] names = ...;
+        List&lt;String&gt; nameList = ...;
+        for (String name : names) {
+            nameList.add(name);
+        }
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">        List&lt;String&gt; typeList = Arrays.asList(&quot;Short&quot;, &quot;Integer&quot;, &quot;Long&quot;);
+        String[] names = ...;
+        List&lt;String&gt; nameList = ...;
+        nameList.addAll(Arrays.asList(names));
+</code></pre>
+<h3 id="-21"></h3>
+<h3 id="74直接迭代需要使用的集合"><strong>7.4.直接迭代需要使用的集合</strong></h3>
+<p>直接迭代需要使用的集合，无需通过其它操作获取数据。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">        Map&lt;Long, UserDO&gt; userMap = ...;
+        for (Long userId : userMap.keySet()) {
+            UserDO user = userMap.get(userId);    ...}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">        Map&lt;Long, UserDO&gt; userMap = ...;
+        for (Map.Entry&lt;Long, UserDO&gt; userEntry : userMap.entrySet()) {
+            Long userId = userEntry.getKey();
+            UserDO user = userEntry.getValue();    ...}
+</code></pre>
+<h3 id="-22"></h3>
+<h3 id="75不要使用size方法检测空必须使用isempty方法检测空"><strong>7.5.不要使用size方法检测空，必须使用isEmpty方法检测空</strong></h3>
+<p>使用size方法来检测空逻辑上没有问题，但使用isEmpty方法使得代码更易读，并且可以获得更好的性能。任何isEmpty方法实现的时间复杂度都是O(1)，但是某些size方法实现的时间复杂度有可能是O(n)。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">        List&lt;UserDO&gt; userList = ...;
+        if (userList.size() == 0) {    ...}
+        Map&lt;Long, UserDO&gt; userMap = ...;
+        if (userMap.size() == 0) {    ...}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">        List&lt;UserDO&gt; userList = ...;
+        if (userList.isEmpty()) {    ...} 
+        Map&lt;Long, UserDO&gt; userMap = ...;
+        if (userMap.isEmpty()) {    ...}
+</code></pre>
+<h3 id="-23"></h3>
+<h3 id="76非随机访问的list尽量使用迭代代替随机访问"><strong>7.6.非随机访问的List，尽量使用迭代代替随机访问</strong></h3>
+<p>对于列表，可分为随机访问和非随机访问两类，可以用是否实现RandomAccess接口判断。随机访问列表，直接通过get获取数据不影响效率。而非随机访问列表，通过get获取数据效率极低。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">        LinkedList&lt;UserDO&gt; userDOList = ...;
+        int size = userDOList.size();
+        for (int i = 0; i &lt; size; i++) {
+            UserDO userDO = userDOList.get(i);    ...}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">        LinkedList&lt;UserDO&gt; userDOList = ...;
+        for (UserDO userDO : userDOList) {    ...}
+</code></pre>
+<p>其实，不管列表支不支持随机访问，都应该使用迭代进行遍历。</p>
+<h3 id="77尽量使用hashset判断值存在"><strong>7.7.尽量使用HashSet判断值存在</strong></h3>
+<p>在Java集合类库中，List的contains方法普遍时间复杂度是O(n)，而HashSet的时间复杂度为O(1)。如果需要频繁调用contains方法查找数据，可以先将List转换成HashSet。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">        List&lt;Long&gt; adminIdList = ...;
+        List&lt;UserDO&gt; userDOList = ...;
+        List&lt;UserVO&gt; userVOList = new ArrayList&lt;&gt;(userDOList.size());
+        for (UserDO userDO : userDOList) {
+            if (adminIdList.contains(userDO.getId())) {
+                userVOList.add(transUser(userDO));
+            }
+        }
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">        Set&lt;Long&gt; adminIdSet = ...;
+        List&lt;UserDO&gt; userDOList = ...;
+        List&lt;UserVO&gt; userVOList = new ArrayList&lt;&gt;(userDOList.size());
+        for (UserDO userDO : userDOList) {
+            if (adminIdSet.contains(userDO.getId())) {
+                userVOList.add(transUser(userDO));
+            }
+        }
+</code></pre>
+<h3 id="-24"></h3>
+<h3 id="78避免先判断存在再进行获取"><strong>7.8.避免先判断存在再进行获取</strong></h3>
+<p>如果需要先判断存在再进行获取，可以直接获取并判断空，从而避免了二次查找操作。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">    public static UserVO transUser(UserDO user, Map&lt;Long, RoleDO&gt; roleMap) {
+        UserVO userVO = new UserVO();
+        userVO.setId(user.getId());    ...if (roleMap.contains(user.getRoleId())) {
+            RoleDO role = roleMap.get(user.getRoleId());
+            userVO.setRole(transRole(role));
+        }
+    }
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">    public static UserVO transUser(UserDO user, Map&lt;Long, RoleDO&gt; roleMap) {
+        UserVO userVO = new UserVO();
+        userVO.setId(user.getId());    ...RoleDO role = roleMap.get(user.getRoleId());
+        if (Objects.nonNull(role)) {
+            userVO.setRole(transRole(role));
+        }
+    }
+</code></pre>
+<h2 id="-25"></h2>
+<h2 id="8异常"><strong>8.异常</strong></h2>
+<h3 id="81直接捕获对应的异常"><strong>8.1.直接捕获对应的异常</strong></h3>
+<p>直接捕获对应的异常，避免用instanceof判断，效率更高代码更简洁。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">        try {
+            saveData();
+        } catch (Exception e) {
+            if (e instanceof IOException) {
+                log.error(&quot;保存数据IO异常&quot;, e);
+            } else {
+                log.error(&quot;保存数据其它异常&quot;, e);
+            }
+        }
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">        try {
+            saveData();
+        } catch (IOException e) {
+            log.error(&quot;保存数据IO异常&quot;, e);
+        } catch (Exception e) {
+            log.error(&quot;保存数据其它异常&quot;, e);
+        }
+</code></pre>
+<h3 id="-26"></h3>
+<h3 id="82尽量避免在循环中捕获异常"><strong>8.2.尽量避免在循环中捕获异常</strong></h3>
+<p>当循环体抛出异常后，无需循环继续执行时，没有必要在循环体中捕获异常。因为，过多的捕获异常会降低程序执行效率。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">        public Double sum (List &lt; String &gt; valueList) {
+            double sum = 0.0D;
+            for (String value : valueList) {
+                try {
+                    sum += Double.parseDouble(value);
+                } catch (NumberFormatException e) {
+                    return null;
+                }
+            }
+            return sum;
+        }
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">        public Double sum (List &lt; String &gt; valueList) {
+            double sum = 0.0D;
+            try {
+                for (String value : valueList) {
+                    sum += Double.parseDouble(value);
+                }
+            } catch (NumberFormatException e) {
+                return null;
+            }
+            return sum;
+        }
+</code></pre>
+<h3 id="-27"></h3>
+<h3 id="83禁止使用异常控制业务流程"><strong>8.3.禁止使用异常控制业务流程</strong></h3>
+<p>相对于条件表达式，异常的处理效率更低。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">        public static boolean isValid (UserDO user){
+            try {
+                return Boolean.TRUE.equals(user.getIsValid());
+            } catch (NullPointerException e) {
+                return false;
+            }
+        }
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">        public static boolean isValid (UserDO user){
+            if (Objects.isNull(user)) {
+                return false;
+            }
+            return Boolean.TRUE.equals(user.getIsValid());
+        }
+</code></pre>
+<h2 id="-28"></h2>
+<h2 id="9缓冲区"><strong>9.缓冲区</strong></h2>
+<h3 id="91初始化时尽量指定缓冲区大小"><strong>9.1.初始化时尽量指定缓冲区大小</strong></h3>
+<p>初始化时，指定缓冲区的预期容量大小，避免多次扩容浪费时间和空间。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">StringBuffer buffer = new StringBuffer();
+StringBuilder builder = new StringBuilder();
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">StringBuffer buffer = new StringBuffer(1024);
+StringBuilder builder = new StringBuilder(1024);
+</code></pre>
+<h3 id="-29"></h3>
+<h3 id="92尽量重复使用同一缓冲区"><strong>9.2.尽量重复使用同一缓冲区</strong></h3>
+<p>针对缓冲区，Java虚拟机需要花时间生成对象，还要花时间进行垃圾回收处理。所以，尽量重复利用缓冲区。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">        StringBuilder builder1 = new StringBuilder(128);
+        builder1.append(&quot;update t_user set name = '&quot;).append(userName).append(&quot;' where id = &quot;).append(userId);
+        statement.executeUpdate(builder1.toString());
+        StringBuilder builder2 = new StringBuilder(128);
+        builder2.append(&quot;select id, name from t_user where id = &quot;).append(userId);
+        ResultSet resultSet = statement.executeQuery(builder2.toString());...
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">        StringBuilder builder = new StringBuilder(128);
+        builder.append(&quot;update t_user set name = '&quot;).append(userName).append(&quot;' where id = &quot;).append(userId);
+        statement.executeUpdate(builder.toString());
+        builder.setLength(0);
+        builder.append(&quot;select id, name from t_user where id = &quot;).append(userId);
+        ResultSet resultSet = statement.executeQuery(builder.toString());...
+</code></pre>
+<p>其中，使用setLength方法让缓冲区重新从0开始。</p>
+<h3 id="93尽量设计使用同一缓冲区"><strong>9.3.尽量设计使用同一缓冲区</strong></h3>
+<p>为了提高程序运行效率，在设计上尽量使用同一缓冲区。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">        // 转化XML(UserDO)
+         public static String toXml (UserDO user){
+            StringBuilder builder = new StringBuilder(128);
+            builder.append(&quot;&lt;UserDO&gt;&quot;);
+            builder.append(toXml(user.getId()));
+            builder.append(toXml(user.getName()));
+            builder.append(toXml(user.getRole()));
+            builder.append(&quot;&lt;/UserDO&gt;&quot;);
+            return builder.toString();
+        }
+        // 转化XML(Long)
+        public static String toXml (Long value){
+            StringBuilder builder = new StringBuilder(128);
+            builder.append(&quot;&lt;Long&gt;&quot;);
+            builder.append(value);
+            builder.append(&quot;&lt;/Long&gt;&quot;);
+            return builder.toString();
+        }...
+        // 使用代码
+        UserDO user = ...;
+        String xml = toXml(user);
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">        // 转化XML(UserDO)
+        public static void toXml (StringBuilder builder, UserDO user){
+            builder.append(&quot;&lt;UserDO&gt;&quot;);
+            toXml(builder, user.getId());
+            toXml(builder, user.getName());
+            toXml(builder, user.getRole());
+            builder.append(&quot;&lt;/UserDO&gt;&quot;);
+        }
+        // 转化XML(Long)
+        public static void toXml (StringBuilder builder, Long value){
+            builder.append(&quot;&lt;Long&gt;&quot;);
+            builder.append(value);
+            builder.append(&quot;&lt;/Long&gt;&quot;);
+        }...
+        // 使用代码
+        UserDO user = ...;
+        StringBuilder builder = new StringBuilder(1024);
+        toXml(builder, user);
+        String xml = builder.toString();
+</code></pre>
+<p>去掉每个转化方法中的缓冲区申请，申请一个缓冲区给每个转化方法使用。从时间上来说，节约了大量缓冲区的申请释放时间；从空间上来说，节约了大量缓冲区的临时存储空间。</p>
+<h3 id="94尽量使用缓冲流减少io操作"><strong>9.4.尽量使用缓冲流减少IO操作</strong></h3>
+<p>使用缓冲流BufferedReader、BufferedWriter、BufferedInputStream、BufferedOutputStream等，可以大幅较少IO次数并提升IO速度。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">        try (FileInputStream input = new FileInputStream(&quot;a&quot;); FileOutputStream output = new FileOutputStream(&quot;b&quot;)) {
+            int size = 0;
+            byte[] temp = new byte[1024];
+            while ((size = input.read(temp)) != -1) {
+                output.write(temp, 0, size);
+            }
+        } catch (IOException e) {
+            log.error(&quot;复制文件异常&quot;, e);
+        }
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-javascript">        try (BufferedInputStream input = new BufferedInputStream(new FileInputStream(&quot;a&quot;)); BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(&quot;b&quot;))) {
+            int size = 0;
+            byte[] temp = new byte[1024];
+            while ((size = input.read(temp)) != -1) {
+                output.write(temp, 0, size);
+            }
+        } catch (IOException e) {
+            log.error(&quot;复制文件异常&quot;, e);
+        }
+</code></pre>
+<p>其中，可以根据实际情况手动指定缓冲流的大小，把缓冲流的缓冲作用发挥到最大。</p>
+<h2 id="10线程"><strong>10.线程</strong></h2>
+<h3 id="101在单线程中尽量使用非线程安全类"><strong>10.1.在单线程中，尽量使用非线程安全类</strong></h3>
+<p>使用非线程安全类，避免了不必要的同步开销。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">StringBuffer buffer = new StringBuffer(128);
+buffer.append(&quot;select * from &quot;).append(T_USER).append(&quot; where id = ?&quot;);
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">StringBuilder buffer = new StringBuilder(128);
+buffer.append(&quot;select * from &quot;).append(T_USER).append(&quot; where id = ?&quot;);
+</code></pre>
+<h3 id="-30"></h3>
+<h3 id="102在多线程中尽量使用线程安全类"><strong>10.2.在多线程中，尽量使用线程安全类</strong></h3>
+<p>使用线程安全类，比自己实现的同步代码更简洁更高效。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">				private volatile int counter = 0;
+        public void access (Long userId){
+            synchronized (this) {
+                counter++;
+            }    ...}
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">private final AtomicInteger counter = new AtomicInteger(0);
+        public void access (Long userId){
+            counter.incrementAndGet();    ...}
+</code></pre>
+<h3 id="-31"></h3>
+<h3 id="103尽量减少同步代码块范围"><strong>10.3.尽量减少同步代码块范围</strong></h3>
+<p>在一个方法中，可能只有一小部分的逻辑是需要同步控制的，如果同步控制了整个方法会影响执行效率。所以，尽量减少同步代码块的范围，只对需要进行同步的代码进行同步。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">  		  private volatile int counter = 0;
+        public synchronized void access (Long userId){
+            counter++;    ... // 非同步操作
+        }
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">				private volatile int counter = 0;
+        public void access (Long userId){
+            synchronized (this) {
+                counter++;
+            }    ... // 非同步操作}
+</code></pre>
+<h3 id="-32"></h3>
+<h3 id="104尽量合并为同一同步代码块"><strong>10.4.尽量合并为同一同步代码块</strong></h3>
+<p>同步代码块是有性能开销的，如果确定可以合并为同一同步代码块，就应该尽量合并为同一同步代码块。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">				// 处理单一订单
+        public synchronized handleOrder(OrderDO order) {    ...}
+        // 处理所有订单
+        public void handleOrder (List &lt; OrderDO &gt; orderList) {
+            for (OrderDO order : orderList) {
+                handleOrder(order);
+            }
+        }
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java"> 				 // 处理单一订单
+         public handleOrder(OrderDO order) {    ...}
+        // 处理所有订单
+        public synchronized void handleOrder (List &lt; OrderDO &gt; orderList) {
+            for (OrderDO order : orderList) {
+                handleOrder(order);
+            }
+        }
+</code></pre>
+<h3 id="-33"></h3>
+<h3 id="105尽量使用线程池减少线程开销"><strong>10.5.尽量使用线程池减少线程开销</strong></h3>
+<p>多线程中两个必要的开销：线程的创建和上下文切换。采用线程池，可以尽量地避免这些开销。</p>
+<p><strong>反例：</strong></p>
+<pre><code class="language-java">        public void executeTask (Runnable runnable){
+            new Thread(runnable).start();
+        }
+</code></pre>
+<p><strong>正例：</strong></p>
+<pre><code class="language-java">private static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(10);
+        public void executeTask (Runnable runnable){
+            executorService.execute(runnable);
+        }
+</code></pre>
+<h2 id="-34"></h2>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://HelloJackGao.github.io/post/travel0911">
+                  <h3 class="post-title">
+                    第一次长途自驾呀
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '6e02be877284c3e5829a',
+        clientSecret: '9a1496cb025a218f5e753da940fc5d864703a2a3',
+        repo: 'HelloJackGao.github.io',
+        owner: 'HelloJackGao',
+        admin: ['HelloJackGao'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
