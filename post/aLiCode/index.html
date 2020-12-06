@@ -1,22 +1,134 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://HelloJackGao.github.io</id>
-    <title>JackBlog</title>
-    <updated>2020-12-06T11:20:47.571Z</updated>
-    <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://HelloJackGao.github.io"/>
-    <link rel="self" href="https://HelloJackGao.github.io/atom.xml"/>
-    <subtitle>Hello World</subtitle>
-    <logo>https://HelloJackGao.github.io/images/avatar.png</logo>
-    <icon>https://HelloJackGao.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, JackBlog</rights>
-    <entry>
-        <title type="html"><![CDATA[高效代码]]></title>
-        <id>https://HelloJackGao.github.io/post/aLiCode/</id>
-        <link href="https://HelloJackGao.github.io/post/aLiCode/">
-        </link>
-        <updated>2020-10-28T13:45:42.000Z</updated>
-        <content type="html"><![CDATA[<!-- more -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>高效代码 | JackBlog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://HelloJackGao.github.io/favicon.ico?v=1607253640675">
+<link rel="stylesheet" href="https://HelloJackGao.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+1.常量&amp;变量
+1.1.直接赋值常量值，禁止声明新对象
+直接赋值常量值，只是创建了一个对象引用，而这个对象引用指向常量值。
+反例：
+Long i = new Long(1L);String s = new String(&quot..." />
+    <meta name="keywords" content="standard code" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://HelloJackGao.github.io">
+        <img src="https://HelloJackGao.github.io/images/avatar.png?v=1607253640675" class="site-logo">
+        <h1 class="site-title">JackBlog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/HelloJackGao" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://github.com/HelloJackGao" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://github.com/HelloJackGao" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://github.com/HelloJackGao" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://github.com/HelloJackGao" target="_blank">
+            <i class="fab fa-facebook"></i>
+          </a>
+        
+      
+    </div>
+    <div class="site-description">
+      Hello World
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/HelloJackGao" target="_blank">JackGao</a> | <a class="rss" href="https://HelloJackGao.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">高效代码</h2>
+            <div class="post-date">2020-10-28</div>
+            
+              <div class="feature-container" style="background-image: url('https://HelloJackGao.github.io/post-images/aLiCode.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <!-- more -->
 <h2 id="1常量变量"><strong>1.常量&amp;变量</strong></h2>
 <h3 id="11直接赋值常量值禁止声明新对象"><strong>1.1.直接赋值常量值，禁止声明新对象</strong></h3>
 <p>直接赋值常量值，只是创建了一个对象引用，而这个对象引用指向常量值。</p>
@@ -757,130 +869,83 @@ buffer.append(&quot;select * from &quot;).append(T_USER).append(&quot; where id 
         }
 </code></pre>
 <h2 id="-34"></h2>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[第一次长途自驾呀]]></title>
-        <id>https://HelloJackGao.github.io/post/travel0911/</id>
-        <link href="https://HelloJackGao.github.io/post/travel0911/">
-        </link>
-        <updated>2020-10-17T14:52:31.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="青甘大环线七日攻略总结">青甘大环线七日攻略总结</h1>
-<figure data-type="image" tabindex="1"><img src="https://tva1.sinaimg.cn/large/007S8ZIlly1giw2e1rqefj311c0s8dxr.jpg" alt="image-20200919165906897" loading="lazy"></figure>
-<blockquote>
-<p>主要是记录一下生活，怕老了忘记了这次旅行。之前出发前也是各种找攻略，但是没有一份很全的攻略，都是七零八落的，但是这次是自己亲身经历，抱着开源的思想，还是把坑坑洼洼的经历告诉大家，避免大家踩坑坑，好了，我们的旅途开始了。GOGOGO。我们是三人自驾游，三个单身狗。第一次自驾三千公里，突然发现有点猛，时间为20200911-20200919，一次不一样的旅行✈️✈️✈️。上面那张图是整个环线的大图，下面还有详细的小图的。</p>
-</blockquote>
-<h2 id="必备物品清单">必备物品清单</h2>
-<blockquote>
-<p>我们的组合比例是两男一女，三个死单身狗，并且妹子也不化妆，所以东西都是个人的东西，我们有两个人是24寸行李箱，另外一个精致男带了一个二十寸的小箱子，但是感觉自己带少了，我们带了内衣袜子啥的，之前在网上看攻略，要带一次性内裤，之后才发现确实要带，没得后悔药吃，因为那边好多店没空调，洗了衣服根本干不了，所以朋友都是拿吹风机死命的吹，可怜了宾馆的吹风机。有空调的宾馆，开热风，三十度，晚上都热醒了。所以emmmm，还是多带点衣服。具体看下面的清单🧾吧。</p>
-</blockquote>
-<h3 id="1-摄影篇">1、摄影篇</h3>
-<p>首先有无人机一定要带无人机，因为好多景点都需要上帝视角来看才是最美的，有无人机可以拍出装逼的照片和视频。好多地方都需要无人机都拍的出来，什么恶魔之眼，水上雅丹等；其次，有相机就带相机，如果要拍星星✨，记得一定要带大光圈镜头，因为这边天黑了以后，银河星空都是肉眼可见那种，没带镜头，要哭了，貌似牛逼的华为也可以拍出星空来。但是专业的事情还是要专业的设备来拍。出色的手机也是很强的，还是要多拍拍，毕竟拍了才可以选，不拍肯定没得选，多拍，然后带上万能的墨镜摆pose，墨镜一戴，谁也不爱。哈哈哈哈。</p>
-<h3 id="2-护肤篇">2、护肤篇</h3>
-<p>这边及其干燥，必须带护肤品来，干到哭泣那种，玩个七天，感觉面容变得极其沧桑。防晒必须带过去，太阳太大了，及其大，紫外线及其强。是个妹子记得多带面膜，补补水，作为一个汉子都想带，后悔没带。</p>
-<h3 id="3-衣服篇">3、衣服篇</h3>
-<p>必备衣服啥的记得都带，轻薄羽绒服也是可以带的，因为早晚温度超级低。内衣内裤袜子啥的记得多带点，这边好多旅店没空调的，然后暖气也没开，导致洗了衣服根本干不了，一定要带墨镜🕶️，帽子🎩，面巾🎭，因为紫外线真的强了，光线可以照瞎狗眼🐶👀。记得带个拖鞋，因为宾馆的太脏了。枕头套记得带个。要好看，每天穿不一样的，肯定多带好看的衣服嘛，展现不一样的自己。</p>
-<h3 id="4-食物篇">4、食物篇</h3>
-<p>直接去超市买好几天的吃的东西就行，多买水果，多买喝的，因为及其干，多补充水份；多买些高热量的东西，因为经常是没有地方吃午饭和晚饭，因为一直在路上，emmmmm。</p>
-<p>重要的事情说三遍，一定要带一个<strong>空气加湿器</strong>，**空气加湿器，空气加湿器，**一定记得，好点的酒店房间里有这个，大部分酒店是没这个的，买带USB那种，可以放在车上开着使用。</p>
-<p><strong>墨镜墨镜墨镜，帽子帽子帽子，一定要带，可以遮阳，又可以当道具。</strong></p>
-<h3 id="5-药物篇">5、药物篇</h3>
-<p>这边没有高反，所以什么高原药就不要带了，可以带点感冒药啥的，肠胃不好带个肠炎宁来，可以带个指甲剪来，觉得在这边指甲长的特别快。</p>
-<p>----------------------我是一条没有感情的分割线-----------------------</p>
-<p>重要的事情说三遍，一定要带一个<strong>空气加湿器</strong>，**空气加湿器，空气加湿器，**一定记得，好点的酒店房间里有这个，大部分酒店是没这个的，买带USB那种，可以放在车上开着使用。</p>
-<p><strong>墨镜墨镜墨镜，帽子帽子帽子，一定要带，可以遮阳，又可以当道具。</strong></p>
-<p>----------------------我是一条没有感情的分割线-----------------------</p>
-<h2 id="旅行路线">旅行路线</h2>
-<blockquote>
-<p>这个路线主要走的就是一个环线，全长2400公里，但是我们开了三千公里，emmm，估计是走了太多的弯路，我们是周五晚上飞机飞到西宁，然后在西宁租车，然后西宁过夜。所以西宁是起点也是终点🏁。网上类型的环线地图很多，给大家找了一个标准的。基本上都是这个，只是细节多少的原因，我们选择了租车，因为自由，但是也是有点累的，毕竟要天天开车；之前看攻略，也是可以包车的，也自由，但是这种地方还是需要方向盘掌握自己手上，包车应该会多花钱，毕竟带了一个专职司机，还是本地人，但是一般都是本地人坑游客的，哈哈哈哈，大家根据自己情况来。如果是自驾，那么你大可以放心开，这边路况真的很好，有的国道比高速路还好，而且就一段坑坑洼洼的路，其他的路都很好，在路上看到了很多轿车都跑这个路，比如20年前的Santana，还有车中之王--五菱宏光大哥，所以，兄弟别犹豫了，赶紧上路吧，车只是工具，主要是有一颗奔跑的心。</p>
-</blockquote>
-<figure data-type="image" tabindex="2"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjtc6d72shj30lq0pqjvo.jpg" alt="IMG_2932" loading="lazy"></figure>
-<p>因为我们来的那天，青海的天气不好，甘肃的天气很好，所以我们走的是青甘环线的反方向，我们先往甘肃走，然后在绕一个圈子到西宁，第一天住宿在西宁。</p>
-<h3 id="1-day01">1、Day01</h3>
-<blockquote>
-<p>全长340KM，行程比较轻松(相对于后面的路程，真的好轻松)，到祁连山草原时海拔较高，弯道比较多，先是上山路段，然后就是下山路段，然后就是一直大直马路了，山路开车时需要注意。而且路边的厕所比较少，有公共厕所也是一元一次的收费厕所，注意不要喝太多水。</p>
-</blockquote>
-<p><strong>路线：西宁—黑泉水库—祁连山观景台—门源油菜花—祁连山大草原—张掖</strong></p>
-<p>第一天还没有感受到西宁的干燥，因为下雨，房间有加湿器。第一天的行程比较慢，所以我们就去逛了一下超市，毕竟好多时间在车子上，所以买了好多的吃吃喝喝的，还有水果啥的，满满一大袋袋购物车🛒，自助的收银的发票都好长，如图。</p>
-<img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gj4egzs7erj30u0268kjn.jpg" alt="IMG_3038" style="zoom:25%;" />
-<p>购物完，我们就开始上路，第一天没找到吃早餐的地方，全靠早上买的东西，所以我们就慢慢开，然后往水库出发。在半路上，看到风景还不错，我们就下车拍了一些照片，还没有到水库。就瞎拍了几张照片，感受了一下大自然的美丽，确实没见过类似的场景。哈哈哈。</p>
-<figure data-type="image" tabindex="3"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjtc6otl8rj31400u01ky.jpg" alt="IMG_1719" loading="lazy"></figure>
-<p>路边的水emmmmm。</p>
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjtc70r7ikj31hc0u04qv.jpg" alt="DJI_0020-1" loading="lazy">然后就是一路上的赶路了，<strong>黑泉水库</strong>就是一个水库，我们直接开过去了，没停下来拍照。然后天气逐渐变好，我们就赶到了下一个<strong>景点祁连山观景台</strong>，这边俯瞰整个山下真的超级美，而且那天的天气也相当的好，不说🙊直接上图。</p>
-<figure data-type="image" tabindex="4"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gj4faizrbsj31400u0kjq.jpg" alt="IMG_1722" loading="lazy"></figure>
-<img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjtc7coydnj31400u07wo.jpg" alt="IMG_1744"  />
-<p><em><strong>帮傻雕拍的照片。。。。。。</strong></em></p>
-<p>这里就是观景台了，emmmm好多人，千万别买那边卖的玉米，超级老，那边停车收费五块钱，有厕所哟。</p>
-<p>然后就开始下山路了，门源我们没去，因为是江西人，看多了油菜花，没去有点后悔，看了别人的照片发现别人家的油菜花还是香的。然后我们就直奔大草原了。路上看到肉眼可见的雪山，妈呀第一次看见雪山，有点激动。天真蓝呀。</p>
-<p><strong>远眺岗什卡雪峰</strong></p>
-<img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gj4fn2pnnvj31400u0x6t.jpg" alt="IMG_1749"  />
-<figure data-type="image" tabindex="5"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gj4ftspt82j31400u0x6r.jpg" alt="IMG_1754" loading="lazy"></figure>
-<p>然后就是一路上开开开了，这227真的是最美国道(接下来会打脸的)。</p>
-<p>不知道哪个山头。。。。。</p>
-<figure data-type="image" tabindex="6"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjspnao9caj31hc0u0qv8.jpg" alt="DJI_0032-1" loading="lazy"></figure>
-<p>一路祁连草原连片，牛羊成群。经过扁都峡，后面就没拍照了，一直在赶路。路上到达张掖。</p>
-<p>第一天，早上没吃，中午吃了一碗牛肉面。晚上在张掖吃了饭。去了是张掖最有名小吃店，emmmmm别去，好难吃。太油腻了，吃不下。别轻易尝试，一尝试就失败。</p>
-<figure data-type="image" tabindex="7"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjspoxw1aij31400u07wo.jpg" alt="IMG_1773" loading="lazy"></figure>
-<p><strong>今天一天的三人开支如下：</strong></p>
-<p><strong>超市零食608 、过路费 38 、午饭 41、意外险 27、加油 130、住宿 190、晚饭 176</strong></p>
-<h3 id="2-day-02">2、day 02</h3>
-<blockquote>
-<p>今天的行程是张掖一日游，然后赶路去敦煌市。今天的行程大概600+公里，感觉开了一路上的车子。张掖的丹霞地貌值得一看，尤其是第二个站最高点看的地貌非常的震撼，值得爬上去一看。</p>
-</blockquote>
-<p>张掖 — 丹霞地貌 — 嘉峪关市 — 敦煌</p>
-<p>张掖七彩丹霞 卓尔山 牛心山早餐后前往张掖七彩丹霞，张掖七彩丹霞地貌奇观形成于600万年前，位于张掖市临泽、肃南县境内，这里是国内唯一的丹霞地貌与色彩能丘陵景观复合区。这里也被«中国国家地理»杂志评为中国最美的七大丹霞地貌之一，景区内有多个观景台供大家进行游览、摄影。丹霞景区是张掖丹霞国家地质公园的重要组成部分，分为小西天景观区和大西天景观区。它是中国干旱地区最为典型的丹霞地貌，同时也是中国发育最完整，造型最为奇特的丹霞地貌之一。</p>
-<p>day 03</p>
-<p>敦煌 — 敦煌莫高窟 — 鸣沙山、月牙泉</p>
-<p>莫高窟俗称千佛洞，坐落在河西走廊西端的敦煌。它始建于十六国的前秦时期，历经十六国：北朝、隋、唐、五代、西夏、元等历代的兴建，形成巨大的规模，有洞窟735个，壁画4.5万平方米、泥质彩塑2415尊，是世界上现存规模最大、内容最丰富的佛教艺术地。1961年，莫高窟被中华人民共和国国务院公布为第一批全国重点文物保护单位之一。1987年，莫高窟被列为世界文化遗产。莫高窟门票购买网址http://www.mgk.org.cn/index.htm，提前30天购买，7、8月份必须提前购买，否则只能到现场后买到应急票。</p>
-<p>鸣沙山月牙泉风景名胜区，1994年被定为国家重点风景名胜区，荣获“中国最美的五大沙漠之一”等荣誉称号。2015年7月20日，被批准为国家AAAAA级旅游景区。2016年1月，国家旅游局和环保部拟认定甘肃省酒泉市鸣沙山月牙泉景区为国家生态旅游示范区。</p>
-<p>门票：莫高窟 200（淡季 100）；鸣沙山月牙泉 110 骆驼100</p>
-<p>Day04</p>
-<p>敦煌 — 阳关 — 阿克塞 — 石油小镇 — 冷湖镇 — 大柴旦</p>
-<p>Day1:西宁-张掖--丹霞口旅游小镇--七彩丹霞--嘉峪关</p>
-<p>Day3：嘉峪关城楼--敦煌--鸣沙山、月亮泉--敦煌</p>
-<p>Day4：敦煌--莫高窟--石油小镇--大柴旦/德令哈</p>
-<p>Day5：大柴旦/德令哈--可鲁克湖--茶卡盐湖--茶卡镇/共和</p>
-<p>Day6：茶卡/共和--青海湖--青海湖边油菜花田--藏族民俗村--西宁</p>
-<p>Day7：西宁--互助彩虹部落--塔尔寺</p>
-<p>塔尔寺位于青海省西宁市湟中县鲁沙尔镇西南隅的莲花山坳中。塔尔寺院依山势建筑，由众多殿宇、经堂、佛塔、僧舍等组成，布局严谨，建筑巍峨，金碧辉煌，气势恢宏，是我国著名的藏传佛教格鲁派六大寺院之一。塔尔寺是青海省佛学院的最高学府，现设有显宗、密宗、时轮、医明四大学院（经院），藏语分别称为参尼、居巴、丁科、曼巴ce札仓。</p>
-<p>二郎剑景区位于深入<a href="http://www.mafengwo.cn/travel-scenic-spot/mafengwo/10799.html">青海湖</a>中的特殊地理位置，以草原、沙滩、动植物为主的生态自然资源，以民间文化活动为内容，成为<a href="http://www.mafengwo.cn/travel-scenic-spot/mafengwo/10799.html">青海湖</a>旅游区一颗耀眼的明珠。目前，已经建成了以观鸟台、观鹿园、观海桥、观海亭为组合的观赏区，以码头广场、吉祥四瑞雕塑为组合的休闲区、以水上摩托、自驾游艇为活动内容的水上娱乐区，可以近距离接触到<a href="http://www.mafengwo.cn/travel-scenic-spot/mafengwo/10799.html">青海湖</a>。</p>
-<p>黑马河位于西宁以西约220公里处的<a href="http://www.mafengwo.cn/travel-scenic-spot/mafengwo/10799.html">青海湖</a>边，是<a href="http://www.mafengwo.cn/travel-scenic-spot/mafengwo/10799.html">青海湖</a>环湖公路的起点，由此沿环湖公路走70公里可达著名的鸟岛，黑马河往鸟岛方向这一段，又被称为环湖西路，不少&quot;暴走族&quot;驴友或自行车迷，都选择从黑马河开始他们的环湖梦幻之旅。</p>
-<p>茶卡盐湖位于青海省海西蒙古族藏族自治州乌兰县茶卡镇附近，盐湖四周雪山环绕，纯净、蓝白、倒影交织，恍若一面天然明镜。因其旅游资源禀赋可与玻利维亚乌尤尼盐沼相媲美，享有中国&quot;天空之镜&quot;之美称，是&quot;青海四大景&quot;之一，是国家旅游地理杂志评选的&quot;人一生必去的55个地方&quot;之一。</p>
-<p>第一天，西宁出发，塔尔寺，拉鸡山旅游公路，二郎剑151基地、到达黑马河，住黑马河。</p>
-<p>第二天 黑马河看日出，茶卡盐湖、柴达木、德令哈、外星人遗址、翡翠湖,大柴旦住宿。</p>
-<p>第三天 大柴旦出发，青海雅丹魔鬼城，阳关，敦煌古城，敦煌住宿，敦煌夜市。</p>
-<p>第四天，莫高窟，鸣沙山，月牙泉，敦煌住宿。</p>
-<p>第五天 敦煌出发，嘉峪关城楼、七彩丹霞到达张掖。</p>
-<p>第六天  张掖出发，扁都口风景旅游区、祁连山大草原、阿柔大寺、祁连卓尔山风景区，住祁连。</p>
-<p>第七天，祁连出发，岗卡什雪峰，门源，黑泉水库，到达西宁</p>
-<p>Day1：西宁-青海湖-茶卡盐湖-德令哈</p>
-<p>Day2：翡翠湖-U型公路-东台-水上雅丹</p>
-<p>Day3：西台吉乃尔湖-火星一号公路-火星营地</p>
-<p>Day4：恶魔之眼-冷湖-石油小镇 阿克塞老县城</p>
-<p>Day5：敦煌莫高窟-鸣沙山-月牙泉</p>
-<p>Day6：敦煌-嘉峪关-张掖七彩丹霞</p>
-<p>Day7：张掖-门源-祁连大草原-西宁</p>
-<p>􏲮􏲯􏰚􏱰􏳖􏴘􏷺􏷻􏷦􏳜􏳝􏳞􏱫􏳌􏶉􏷼􏳑􏷽􏱉􏱊􏱋􏱫􏱉􏱊􏱋􏷾􏷿􏱦 西宁*—30km—<em>塔尔寺</em>—120km—<em>青海湖畔</em>—80km—*黑马河，夜宿黑马河。</p>
-<p>早晨 8 点左右出发即可，塔尔寺游玩时间一般在 2 小时，然后驱车前往青海湖，一路边走边玩，经过日月山，到达青海湖南岸。在青海湖边，近距离体验湖水。然后到达黑马河边住宿休息，还能再次去青海湖边，继续欣赏。门票：塔尔寺 80 元；日月山 40 元；青海湖二郎剑 100 元；青海湖进入牧民家 20 元左右；</p>
-<p>主要看点：藏传佛教塔尔寺、高原蓝宝石青海湖、青海湖星空。</p>
-<p>黑马河*—80km—<em>茶卡盐湖</em>—220km—<em>德令哈</em>—240km—*大柴旦镇；</p>
-<p>从茶卡盐湖出来后，就向德令哈方向去。德令哈有可鲁克湖、托素湖、外星人遗址，都是路过即可，没必要买票进入。经过德令哈后一路直奔大柴旦，这个小镇子，每年夏季每天有近 1 万人入住。</p>
-<p>门票：茶卡盐湖 70；可鲁克湖 20</p>
-<p>主要看点：黑马河日出、茶卡盐湖、戈壁公路</p>
-<p>大柴旦*—20km—<em>柴达木盆地公路</em>—200km—<em>青海冷湖雅丹</em>—40km—<em>阿克塞</em>—64km—<em>阳关遗址</em>—63km—<em>敦煌市（或是大柴旦</em>—20km—<em>柴达木盆地公路</em>—240km—<em>阿克塞</em>—122km—<em>玉门关</em>—60km—<em>敦煌雅丹魔鬼城</em>—170km—*敦煌市）；</p>
-<p>这两个走法的主要差别在于——雅丹，你是走青海的冷湖雅丹，还是走敦煌的雅丹。两处雅丹各有优劣，目前来说大环线多数都是走青海雅丹。原因有三：无需门票，可以随便进入；亚洲规模最大；路程轻松些。敦煌雅丹进入是捆绑玉门关的门票。敦煌雅丹气势更凌人，但玉门关若不是几句诗词，确是有些不尽人意的。</p>
-<p>从大柴旦镇出来后，就是在柴达木盆地的外侧了，公路笔直的延伸在戈壁滩上，雅丹地貌排列在路的两边。到达冷湖后，青海的雅丹地貌群尽显，壮观威严。到 “西出阳关无故人” 的阳关后，再一赏古人面对戈壁的无限苍凉。然后入住敦煌，尽享繁华。</p>
-<p>门票：青海雅丹魔鬼城免费，阳关遗址 60，玉门关 40</p>
-<p>主要看点：青海雅丹、柴达木盆地公路片、阳关</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[HELLO WORLD]]></title>
-        <id>https://HelloJackGao.github.io/post/number1/</id>
-        <link href="https://HelloJackGao.github.io/post/number1/">
-        </link>
-        <updated>2020-01-19T13:13:14.000Z</updated>
-        <content type="html"><![CDATA[<p>记录自己的学习和生活呀。</p>
-]]></content>
-    </entry>
-</feed>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://HelloJackGao.github.io/tag/dYTSWWbhw/" class="tag">
+                    standard code
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://HelloJackGao.github.io/post/travel0911/">
+                  <h3 class="post-title">
+                    第一次长途自驾呀
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '6e02be877284c3e5829a',
+        clientSecret: '9a1496cb025a218f5e753da940fc5d864703a2a3',
+        repo: 'HelloJackGao.github.io',
+        owner: 'HelloJackGao',
+        admin: ['HelloJackGao'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
