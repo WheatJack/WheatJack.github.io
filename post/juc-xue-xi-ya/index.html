@@ -1,0 +1,2737 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>JUC学习呀 | JackJack</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://WheatJack.github.io/favicon.ico?v=1706154527226">
+<link rel="stylesheet" href="https://WheatJack.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+进程与线程
+
+2.1 进程与线程
+进程
+程序由指令和数据组成，但这些指令要运行，数据要读写，就必须将指令加载至CPU，数据加载至内存。在指令运行过程中还需要用到磁盘、网络等设备。进程就是用来加载指令、管理内存、管理IO的
+当一个程序被运行..." />
+    <meta name="keywords" content="Java基础" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://WheatJack.github.io">
+        <img src="https://WheatJack.github.io/images/avatar.png?v=1706154527226" class="site-logo">
+        <h1 class="site-title">JackJack</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            Home
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            Archive
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            Tags
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/WheatJack" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://github.com/WheatJack" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://github.com/WheatJack" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://github.com/WheatJack" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://github.com/WheatJack" target="_blank">
+            <i class="fab fa-facebook"></i>
+          </a>
+        
+      
+    </div>
+    <div class="site-description">
+      记录自己的生活
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/WheatJack" target="_blank">WheatJack</a> | <a class="rss" href="https://WheatJack.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">JUC学习呀</h2>
+            <div class="post-date">2022-01-17</div>
+            
+              <div class="feature-container" style="background-image: url('https://WheatJack.github.io/post-images/juc-xue-xi-ya.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <ol start="2">
+<li>进程与线程</li>
+</ol>
+<p>2.1 进程与线程</p>
+<p>进程</p>
+<p>程序由指令和数据组成，但这些指令要运行，数据要读写，就必须将指令加载至CPU，数据加载至内存。在指令运行过程中还需要用到磁盘、网络等设备。进程就是用来加载指令、管理内存、管理IO的</p>
+<p>当一个程序被运行，从磁盘加载这个程序的代码至内存，这时就开启了一个进程。</p>
+<p>进程就可以视为程序的一个实例。大部分程序可以同时运行多个实例进程(例如记事本、画图、浏览器等)，也有的程序只能启动一个实例进程(例如网易云音乐、360安全卫士等)</p>
+<p>线程</p>
+<p>一个进程之内可以分为一到多个线程。</p>
+<p>一个线程就是一个指令流，将指令流中的一条条指令以一定的顺序交给CPU执行<br>
+Java中，线程作为最小调度单位，进程作为资源分配的最小单位。在windows中进程是不活动的，只是作为线程的容器</p>
+<p>二者对比</p>
+<p>进程基本上相互独立的，而线程存在于进程内，是进程的一个子集<br>
+进程拥有共享的资源，如内存空间等，供其内部的线程共享<br>
+进程间通信较为复杂</p>
+<p>同一台计算机的进程通信称为IPC(Inter-process communication)<br>
+不同计算机之间的进程通信，需要通过网络，并遵守共同的协议，例如HTTP<br>
+线程通信相对简单，因为它们共享进程内的内存，一个例子是多个线程可以访问同一个共享变量<br>
+线程更轻量，线程上下文切换成本一般上要比进程上下文切换低</p>
+<p>2.2 并发和并行</p>
+<p>单核cpu下，线程实际还是串行执行的。操作系统中有一个组件叫做任务调度器，将cpu的时间片(windows下时间片最小约为15毫秒)分给不同的线程们使用，只是由于cpu在线程间(时间片很短)的切换非常快，人类感觉是同时运行的。总结为一句话就是:微观串行，宏观并行</p>
+<p>一般会将这种 线程轮流使用 CPU的做法称为并发 concurrent</p>
+<p>引用RobPike的一段描述：</p>
+<p>并发（concurrent）是同一时间应对（dealing with）多件事情的能力。</p>
+<p>并行（parallel）是同一时间动手做（doing）多件事情的能力</p>
+<p>2.3 应用</p>
+<p>应用之异步调用（案例1）</p>
+<p>从方法调用的角度来讲，如果</p>
+<p>需要等待结果返回，才能继续运行就是同步。</p>
+<p>不需要等待结果返回，就能继续运行就是异步</p>
+<p>注意：同步在多线程中还有另外一层意思，是让多个线程步调一致</p>
+<p>1）设计</p>
+<p>多线程可以让方法执行变为异步的（即不要巴巴干等着）比如说读取磁盘文件时，假设读取操作花费了5秒钟，如果没有线程调度机制，这5秒调用者什么都做不了，其代码都得暂停..</p>
+<p>2）结论</p>
+<p>比如在项目中，视频文件需要转换格式等操作比较费时，这时开一个新线程处理视频转换，避免阻塞主线程</p>
+<p>tomcat的异步servlet也是类似的目的，让用户线程处理耗时较长的操作，避免阻塞tomcat的工作线程■ui程序中，开线程进行其他操作，避免阻塞ui线程</p>
+<p>3）总结</p>
+<p>代码见【应用之效率-案例1】<br>
+1.单核cpu下，多线程不能实际提高程序运行效率，只是为了能够在不同的任务之间切换，不同线程轮流使用cpu，不至于一个线程总占用cpu，别的线程没法干活<br>
+2.多核cpu可以并行跑多个线程，但能否提高程序运行效率还是要分情况的，</p>
+<p>有些任务，经过精心设计，将任务拆分，并行执行，当然可以提高程序的运行效率。但不是所有计算任务都能拆分（参考后文的【阿姆达尔定律】）。</p>
+<p>也不是所有任务都需要拆分，任务的目的如果不同，谈拆分和效率没啥意义</p>
+<p>3.IO操作不占用cpu，只是我们一般拷贝文件使用的是【阻塞I0】，这时相当于线程虽然不用cpu，但需要一直等待IO结束，没能充分利用线程。所以才有后面的【非阻塞I0】和【异步IO】优化</p>
+<p>3.Java线程创建</p>
+<p>3.1 创建和运行线程</p>
+<p>方法一：直接使用Thread</p>
+<pre><code>public static void main(String[] args) {
+</code></pre>
+<p>​<br>
+new Thread(() -&gt; {<br>
+log.debug(&quot;aaa&quot;);<br>
+}, &quot;aa&quot;).start();<br>
+log.debug(&quot;bbb&quot;);<br>
+}<br>
+方法二：使用runnable</p>
+<p>public static void main(String[] args) {<br>
+​<br>
+Runnable runnable = new Runnable() {<br>
+@Override<br>
+public void run() {<br>
+log.debug(&quot;runnable&quot;);<br>
+}<br>
+};<br>
+​<br>
+Thread aa = new Thread(runnable, &quot;runnable&quot;);<br>
+aa.start();<br>
+log.debug(&quot;bbb&quot;);<br>
+}<br>
+原理之Thread与Runnable的关系</p>
+<p>分析Thread的源码，理清它与Runnable的关系</p>
+<p>小结</p>
+<p>方法1是把线程和任务合并在了一起，方法2是把线程和任务分开了</p>
+<p>用Runnable更容易与线程池等高级API配合</p>
+<p>用Runnable让任务类脱离了Thread继承体系，更灵活</p>
+<p>方法三：使用futureTask创建</p>
+<pre><code>public static void main(String[] args) throws ExecutionException, InterruptedException {
+
+    FutureTask&lt;Integer&gt; futureTask = new FutureTask&lt;&gt;(new Callable&lt;Integer&gt;() {
+        @Override
+        public Integer call() throws Exception {
+            log.debug(Thread.currentThread().getName() + &quot;线程输出:&quot; + &quot;Thread1Callable&quot;);
+            Thread.sleep(1000);
+            return 200;
+        }
+    });
+
+    Thread aa = new Thread(futureTask, &quot;futureTask&quot;);
+
+    aa.start();
+    // 阻塞等待线程结果
+    Integer integer = futureTask.get();
+    log.debug(&quot;线程返回结果：{}&quot;, integer);
+    log.debug(Thread.currentThread().getName() + &quot;线程输出:&quot; + &quot;bbb&quot;);
+}
+</code></pre>
+<p>3.2 查看进程的方法</p>
+<p>windows</p>
+<p>任务管理器可以查看进程和线程数，也可以用来杀死进程</p>
+<p>tasklist查看进程</p>
+<p>taskkill杀死进程</p>
+<p>linux</p>
+<p>ps-fe查看所有进程</p>
+<p>ps-fT-p《PID》查看某个进程（PID）的所有线程</p>
+<p>kill杀死进程</p>
+<p>top按大写H切换是否显示线程</p>
+<p>top -H -p《PID》查看某个进程（PID）的所有线程</p>
+<p>Java</p>
+<p>■ps命令查看所有Java进程</p>
+<p>jstack 《PID》查看某个Java进程（PID）的所有线程状态</p>
+<p>jconsole来查看某个Java进程中线程的运行情况（图形界面）</p>
+<p>jconsole远程监控配置<br>
+。需要以如下方式运行你的java类<br>
+java -Djava.rmi.server.hostname=~ip地址-Dcom.sun.management.jmxremote-<br>
+Dcom.sun.management.jmxremote.port='连接端口-Dcom.sun.management.jmxremote.ssl=是否安全连接-Dcom.sun.management.jmxremote.authenticate=是否认证java类<br>
+■修改/etc/hosts文件将127.0.0.1映射至主机名<br>
+如果要认证访问，还需要做如下步骤<br>
+■复制jmxremote.password文件<br>
+■修改jmxremote.password和jmxremote.access文件的权限为600即文件所有者可读写■连接时填入controlRole（用户名），R&amp;D（密码）</p>
+<p>3.3 线程运行原理</p>
+<p>栈与栈帧</p>
+<p>Java Virtual Machine Stacks （Java虚拟机栈）</p>
+<p>我们都知道JVM中由堆、栈、方法区所组成，其中栈内存是给谁用的呢？其实就是线程，每个线程启动后，虚拟机就会为其分配一块栈内存，每个栈由多个栈帧（Frame）组成，对应着每次方法调用时所占用的内存■每个线程只能有一个活动栈帧，对应着当前正在执行的那个方法</p>
+<p>栈帧是相互独立的，每个线程有自己的栈帧。</p>
+<p>单线程栈帧演示</p>
+<p>每次新的线程起来，就会入栈，使用完毕后就出栈。</p>
+<p>image-20210725113349782</p>
+<p>image-20210725114453084</p>
+<p>出栈 会带着返回地址，找到要返回的那个地址</p>
+<p>image-20210725113438700</p>
+<p>image-20210725114525969</p>
+<p>aaa</p>
+<p>image-20210725114555917</p>
+<p>多线程栈帧演示</p>
+<pre><code>public static void main(String[] args) {
+
+    new Thread(() -&gt; {
+        method1(20);
+    }, &quot;t1&quot;).start();
+
+    method1(10);
+}
+
+public static void method1(int x) {
+
+    System.out.println(x);
+    Object o = method2(x);
+    System.out.println(o);
+}
+
+public static Object method2(int x) {
+    return new Object();
+}
+</code></pre>
+<p>首先改变断点模式</p>
+<p>image-20210725114927737</p>
+<p>线程上下文切换(Thread Context Switch)</p>
+<p>因为以下一些原因导致cpu不再执行当前的线程，转而执行另一个线程的代码</p>
+<p>线程的cpu时间片用完</p>
+<p>垃圾回收</p>
+<p>有更高优先级的线程需要运行</p>
+<p>线程自己调用了sleep、 yield、 wait、join、 park、 synchronized、lock等方法</p>
+<p>上下文切换图例</p>
+<p>image-20210725142530526</p>
+<p>当Context Switch发生时，需要由操作系统保存当前线程的状态，并恢复另一个线程的状态，Java中对应的概念就是程序计数器（Program Counter Register），它的作用是记住下一条jvm指令的执行地址，是线程私有的</p>
+<p>状态包括程序计数器、虚拟机栈中每个栈帧的信息，如局部变量、操作数栈、返回地址等</p>
+<p>Context Switch频繁发生会影响性能</p>
+<p>3.4 常见方法</p>
+<p>start()<br>
+启动一个新线程，start方法只是让线程进入就绪，里面代码不一定立刻运行在新的线程运行run（CPU的时间片还没分给它）。每个线程对象的start方法只方法中的代码能调用一次，如果调用了多次会出现IllegalThreadStateException</p>
+<p>image-20210725142719859</p>
+<p>重点注意⚠️</p>
+<p>isInterrupted()   判断是否被打断，不会清除打断标记</p>
+<p>interrupted())   static   判断当前线程是否被打断. 会清除打断标记</p>
+<p>image-20210725143039366</p>
+<ol>
+<li>run和start</li>
+</ol>
+<p>Run()方法调用---执行的是普通方法，是main线程调用的 非新开线程调用</p>
+<p>public static void main(String[] args) throws ExecutionException, InterruptedException {</p>
+<pre><code>    Thread thread = new Thread(() -&gt; {
+        log.info(Thread.currentThread().getName() + &quot;:&quot; + &quot;run方法&quot;);
+    }, &quot;aaa&quot;);
+
+    // 执行的是普通方法，是main线程调用的 非新开线程调用
+    thread.run();
+
+}
+</code></pre>
+<p>start() 执行的新开线程调用</p>
+<p>public static void main(String[] args) throws ExecutionException, InterruptedException {</p>
+<pre><code>    Thread thread = new Thread(() -&gt; {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.info(Thread.currentThread().getName() + &quot;线程:&quot; + &quot;run方法&quot;);
+    }, &quot;aaa&quot;);
+
+    // 执行的新开线程调用
+    thread.start();
+    log.info(Thread.currentThread().getName() + &quot;线程执行了日志&quot; + &quot;：aaa&quot;);
+
+}
+</code></pre>
+<ol start="2">
+<li>sleep和yield</li>
+</ol>
+<p>yield 让出当前线程</p>
+<p>调用yield会让当前线程从Running进入Rumable状态，然后调度执行其它同优先级的线程。如果这时没有同优先级的线程，那么不能保证让当前线程暂停的效果</p>
+<p>具体的实现依赖于操作系统的任务调度器</p>
+<p>案例</p>
+<p>public static void main(String[] args) throws ExecutionException, InterruptedException {<br>
+Thread thread = new Thread(() -&gt; {<br>
+int count = 0;<br>
+for (; ; ) {<br>
+System.out.println(&quot;---&gt;&quot;+Thread.currentThread().getName() + &quot;线程：&quot; + count++);<br>
+}<br>
+}, &quot;thrad1&quot;);</p>
+<pre><code>    Thread thread2 = new Thread(() -&gt; {
+        int count = 0;
+
+        for (; ; ) {
+            Thread.yield();
+            System.out.println(&quot;                    --------&gt;&quot;+Thread.currentThread().getName() + &quot;线程：&quot; + count++);
+        }
+    }, &quot;thrad2&quot;);
+
+    thread.start();
+    thread2.start();
+}
+</code></pre>
+<p>sleep</p>
+<p>调用sleep会让当前线程从Running进入Timed Waiting状态</p>
+<p>其它线程可以使用interrupt方法打断正在睡眠的线程，这时sleep方法会抛出InterruptedException</p>
+<p>睡眠结束后的线程未必会立刻得到执行</p>
+<p>建议用TimeUnit的sleep代替Thread的sleep来获得更好的可读性</p>
+<p>1、状态演示</p>
+<p>public static void main(String[] args) throws ExecutionException, InterruptedException {</p>
+<pre><code>    Thread thread = new Thread(() -&gt; {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.info(Thread.currentThread().getName() + &quot;线程:&quot; + &quot;run方法&quot;);
+    }, &quot;aaa&quot;);
+
+    System.out.println(thread.getName()+&quot;线程：&quot;+thread.getState());
+    // 新开线程调用
+    thread.start();
+    System.out.println(thread.getName()+&quot;线程：&quot;+thread.getState());
+    log.info(Thread.currentThread().getName() + &quot;线程执行了日志&quot; + &quot;：aaa&quot;);
+    System.out.println(thread.getName()+&quot;线程：&quot;+thread.getState());
+
+}
+</code></pre>
+<p>输出：</p>
+<p>//info日志<br>
+aaa线程：NEW<br>
+aaa线程：RUNNABLE<br>
+15:01:04.816 [main] INFO com.example.heimajuc.my2thread.Thread1SleepMethodStatus - main线程执行了日志：aaa<br>
+aaa线程：TIMED_WAITING<br>
+15:01:05.813 [aaa] INFO com.example.heimajuc.my2thread.Thread1SleepMethodStatus - aaa线程:run方法<br>
+线程中断-打断</p>
+<p>public static void main(String[] args) throws ExecutionException, InterruptedException {</p>
+<pre><code>    Thread thread = new Thread(() -&gt; {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            log.info(&quot;interrupt .....&quot;);
+            e.printStackTrace();
+        }
+        log.info(Thread.currentThread().getName() + &quot;线程:&quot; + &quot;run方法&quot;);
+    }, &quot;aaa&quot;);
+
+    // 新开线程调用
+    thread.start();
+    Thread.sleep(1000);
+    log.info(Thread.currentThread().getName() + &quot;：interrupt aa Thread&quot;);
+    // 中间thread线程
+    thread.interrupt();
+
+}
+</code></pre>
+<p>2.1 线程优先级</p>
+<p>线程优先级会提示（hint）调度器优先调度该线程，但它仅仅是一个提示，绸度器可以忽略它</p>
+<p>如果cpu比较忙，那么优先级高的线程会获得更多的时间片，但cpu闲时，优先级几乎没作用</p>
+<p>public static void main(String[] args) throws ExecutionException, InterruptedException {</p>
+<pre><code>    Thread thread = new Thread(() -&gt; {
+        int count = 0;
+        for (; ; ) {
+            System.out.println(&quot;---&gt;&quot; + Thread.currentThread().getName() + &quot;线程：&quot; + count++);
+        }
+    }, &quot;thrad1&quot;);
+
+    Thread thread2 = new Thread(() -&gt; {
+        int count = 0;
+        for (; ; ) {
+            System.out.println(&quot;                    --------&gt;&quot; + Thread.currentThread().getName() + &quot;线程：&quot; + count++);
+        }
+    }, &quot;thrad2&quot;);
+
+    thread.setPriority(Thread.MAX_PRIORITY);
+    thread2.setPriority(Thread.MIN_PRIORITY);
+    thread.start();
+    thread2.start();
+}
+</code></pre>
+<ol start="3">
+<li>join使用</li>
+</ol>
+<p>等待其他线程结束完成<br>
+为什么使用join？结果是啥</p>
+<p>private static int anInt = 0;</p>
+<pre><code>public static void main(String[] args) throws ExecutionException, InterruptedException {
+    method1();
+}
+
+public static void method1() {
+    log.info(Thread.currentThread().getName() + &quot;：线程：start&quot;);
+    new Thread(() -&gt; {
+        log.info(Thread.currentThread().getName() + &quot;：线程：sleep start&quot;);
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.info(Thread.currentThread().getName() + &quot;：sleep：end&quot;);
+        anInt = 100;
+    }, &quot;thrad1&quot;).start();
+
+    log.info(&quot;int,{}&quot;, anInt);
+    log.info(&quot;int,{}&quot;, &quot;end&quot;);
+}
+</code></pre>
+<p>结果是0；</p>
+<p>分析：</p>
+<p>main线程还没有等thrad1线程执行完，就已经去拿数据了。所以是0</p>
+<p>解决办法：</p>
+<p>使用sleep 不推荐使用 因为不知道要休眠多久</p>
+<p>使用join</p>
+<p>使用futureTask get方法 拿到结果</p>
+<p>方法2解决</p>
+<p>private static int anInt = 0;</p>
+<pre><code>public static void main(String[] args) throws ExecutionException, InterruptedException {
+    method1();
+}
+
+public static void method1() {
+    log.info(Thread.currentThread().getName() + &quot;：线程：start&quot;);
+    Thread thread = new Thread(() -&gt; {
+        log.info(Thread.currentThread().getName() + &quot;：线程：sleep start&quot;);
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.info(Thread.currentThread().getName() + &quot;：sleep：end&quot;);
+        anInt = 100;
+    }, &quot;thrad1&quot;);
+    thread.start();
+
+    // 等待线程结束 在执行下面的代码
+    try {
+        thread.join();
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    log.info(&quot;int结果,{}&quot;, anInt);
+    log.info(&quot;int结果,{}&quot;, &quot;end&quot;);
+}
+</code></pre>
+<p>image-20210725155740764</p>
+<p>如果使用多个同步操作呢。实际耗费1s中</p>
+<p>private static int anInt = 0;</p>
+<pre><code>public static void main(String[] args) throws ExecutionException, InterruptedException {
+    method1();
+}
+
+public static void method1() throws InterruptedException {
+    log.info(Thread.currentThread().getName() + &quot;：线程：start&quot;);
+    Thread thread = new Thread(() -&gt; {
+        log.info(Thread.currentThread().getName() + &quot;：线程：sleep start&quot;);
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.info(Thread.currentThread().getName() + &quot;：sleep：end&quot;);
+        anInt = 100;
+    }, &quot;thrad1&quot;);
+
+    Thread thread2 = new Thread(() -&gt; {
+        log.info(Thread.currentThread().getName() + &quot;：线程：sleep start&quot;);
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.info(Thread.currentThread().getName() + &quot;：sleep：end&quot;);
+        anInt = 200;
+    }, &quot;thrad1&quot;);
+
+    thread.start();
+    thread2.start();
+    // 等待线程结束 在执行下面的代码
+    log.info(&quot;join1--begin&quot;);
+    thread.join();
+    log.info(&quot;join1--end&quot;);
+
+    log.info(&quot;join2--begin&quot;);
+    thread2.join();
+    log.info(&quot;join2--end&quot;);
+    log.info(&quot;int结果,{}&quot;, anInt);
+}
+</code></pre>
+<p>join方法等待其他线程操作</p>
+<p>image-20210725161055059</p>
+<p>带等待时间的join</p>
+<p>private static int anInt = 0;</p>
+<pre><code>public static void main(String[] args) throws ExecutionException, InterruptedException {
+    method1();
+}
+
+public static void method1() throws InterruptedException {
+    log.info(Thread.currentThread().getName() + &quot;：线程：start&quot;);
+    Thread thread = new Thread(() -&gt; {
+        log.info(Thread.currentThread().getName() + &quot;：线程：sleep start&quot;);
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.info(Thread.currentThread().getName() + &quot;：sleep：end&quot;);
+        anInt = 100;
+    }, &quot;thrad1&quot;);
+
+    thread.start();
+    Instant now = Instant.now();
+    // 等待线程结束 在执行下面的代码
+    log.info(&quot;join1--begin&quot;);
+    // 如果等到时间小于休眠时间 那么就会不再等待
+</code></pre>
+<p>//        thread.join(500);<br>
+// 如果等到时间大于休眠时间 那么就会提前结束<br>
+thread.join(2000);<br>
+log.info(&quot;join1--end&quot;);<br>
+long l = Duration.between(now, Instant.now()).toMillis();<br>
+log.info(&quot;int结果,{}&quot;, anInt);<br>
+log.info(&quot;时间,{}&quot;, l);<br>
+}<br>
+4. interrupt使用</p>
+<p>打断阻塞状态的线程：sleep、wait、join线程<br>
+打断阻塞线程才是清楚。非阻塞线程都是通知</p>
+<p>打断sleep、wait、join线程都是直接抛出异常</p>
+<p>public static void main(String[] args) throws ExecutionException, InterruptedException {</p>
+<pre><code>    Thread thread = new Thread(() -&gt; {
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException e) {
+            log.info(&quot;interrupt .....&quot;);
+            e.printStackTrace();
+        }
+        log.info(Thread.currentThread().getName() + &quot;线程:&quot; + &quot;run方法&quot;);
+    }, &quot;aaa&quot;);
+
+    // 新开线程调用
+    thread.start();
+    TimeUnit.SECONDS.sleep(2);
+    log.info(Thread.currentThread().getName() + &quot;：interrupt aa Thread&quot;);
+    // 中间thread线程
+    thread.interrupt();
+    log.info(thread.getName() + &quot;：打断标记：&quot;+thread.isInterrupted());
+}
+</code></pre>
+<p>输出：</p>
+<p>20:04:24.739 [main] INFO com.example.heimajuc.my2thread.Thread1InterruptMethodJoin - main：interrupt aa Thread<br>
+20:04:24.744 [main] INFO com.example.heimajuc.my2thread.Thread1InterruptMethodJoin - aaa：打断标记：false<br>
+20:04:24.745 [aaa] INFO com.example.heimajuc.my2thread.Thread1InterruptMethodJoin - interrupt .....<br>
+20:04:24.746 [aaa] INFO com.example.heimajuc.my2thread.Thread1InterruptMethodJoin - aaa线程:run方法<br>
+java.lang.InterruptedException: sleep interrupted<br>
+at java.lang.Thread.sleep(Native Method)<br>
+at java.lang.Thread.sleep(Thread.java:340)<br>
+at java.util.concurrent.TimeUnit.sleep(TimeUnit.java:386)<br>
+at com.example.heimajuc.my2thread.Thread1InterruptMethodJoin.lambda$main$0(Thread1InterruptMethodJoin.java:19)<br>
+at java.lang.Thread.run(Thread.java:748)<br>
+正常线程</p>
+<p>public static void main(String[] args) throws ExecutionException, InterruptedException {</p>
+<pre><code>    Thread thread = new Thread(() -&gt; {
+        while (true) {
+            boolean interrupted = Thread.interrupted();
+            if (interrupted) {
+                // 线程被人通知打断
+                log.info(&quot;线程被打断，退出循环&quot;);
+                break;
+            }
+
+        }
+    }, &quot;aaa&quot;);
+    // 新开线程调用
+    thread.start();
+    TimeUnit.SECONDS.sleep(2);
+    // 中间thread线程
+    thread.interrupt();
+    log.info(thread.getName() + &quot;：打断标记：&quot; + thread.isInterrupted());
+}
+</code></pre>
+<p>输出：</p>
+<p>20:21:00.488 [main] INFO com.example.heimajuc.my2thread.Thread1InterruptMethod - aaa：打断标记：false<br>
+20:21:00.489 [aaa] INFO com.example.heimajuc.my2thread.Thread1InterruptMethod - 线程被打断，退出循环<br>
+打断park线程</p>
+<p>public static void main(String[] args) throws ExecutionException, InterruptedException {<br>
+Thread thread =  new Thread(() -&gt; {<br>
+log.info(&quot;park  ing .....&quot;);<br>
+LockSupport.park();<br>
+log.info(&quot;park  end .....&quot;);<br>
+log.info(&quot;打断状态：{}&quot;,Thread.currentThread().isInterrupted());<br>
+// 打断标记为真的时候 就不再打断了 park失效状态<br>
+LockSupport.park();<br>
+log.info(&quot;park  end .....&quot;);<br>
+}, &quot;thread&quot;);<br>
+thread.start();<br>
+System.out.println(thread.getName()+&quot;线程：&quot;+thread.getState());<br>
+System.out.println(Thread.currentThread().getName()+&quot;线程：&quot;+Thread.currentThread().getState());<br>
+thread.interrupt();<br>
+System.out.println(thread.getName()+&quot;线程：&quot;+thread.getState());<br>
+}<br>
+// 打断标记为真的时候 就不再打断了 park失效状态**<br>
+LockSupport.park();**</p>
+<p>输出：</p>
+<p>thread线程：RUNNABLE<br>
+main线程：RUNNABLE<br>
+thread线程：RUNNABLE<br>
+22:44:07.018 [thread] INFO com.example.heimajuc.my2thread.Thread1InterruptPark - park  ing .....<br>
+22:44:07.022 [thread] INFO com.example.heimajuc.my2thread.Thread1InterruptPark - park  end .....<br>
+22:44:07.022 [thread] INFO com.example.heimajuc.my2thread.Thread1InterruptPark - 打断状态：true<br>
+3.5 主线程和守护线程</p>
+<p>默认情况下，Java进程需要等待所有线程都运行结束，才会结束。有一种特殊的线程叫做守护线程，只要其它非守护线程运行结束了，即使守护线程的代码没有执行完，也会强制结束。</p>
+<p>守护线程</p>
+<p>public static void main(String[] args) throws ExecutionException, InterruptedException {<br>
+Thread thread =  new Thread(() -&gt; {<br>
+while (true){<br>
+if (Thread.currentThread().isInterrupted()){<br>
+break;<br>
+}<br>
+System.out.print(&quot;aa&quot;);<br>
+}<br>
+log.info(&quot;aaa&quot;);<br>
+}, &quot;thread&quot;);<br>
+// 守护线程<br>
+thread.setDaemon(true);<br>
+thread.start();<br>
+System.out.println(Thread.currentThread().getName()+&quot;线程：&quot;+Thread.currentThread().getState());<br>
+}<br>
+注意⚠️</p>
+<p>垃圾回收器线程就是一种守护线程</p>
+<p>Tomcat中的Acceptor和Poller线程都是守护线程，所以Tomcat接收到shutdown命令后，不会等待它们处理完当前请求</p>
+<p>3.6 线程的五种状态</p>
+<p>从操作系统层面来描述。</p>
+<p>image-20210726203444819</p>
+<p>【初始状态】仅是在语言层面创建了线程对象，还未与操作系统线程关联</p>
+<p>【可运行状态】Runnable（就绪状态）指该线程已经被创建（与操作系统线程关联）</p>
+<p>可以由CPU调度执行【运行状态】start 指获取了CPU时间片运行中的状态</p>
+<p>当CPU时间片用完，会从【运行状态】Running 转换至【可运行状态】Runnable，会导致线程的上下文切换</p>
+<p>【运行状态】获取cpu调度使用</p>
+<p>【阻塞状态】</p>
+<p>如果调用了阻塞API，如BIO读写文件，这时该线程实际不会用到CPU，会导致线程上下文切换，进入【阻塞状态】</p>
+<p>等BIO操作完毕，会由操作系统唤醒阻塞的线程，转换至【可运行状态】</p>
+<p>与【可运行状态】的区别是，对【阻塞状态】的线程来说只要它们一直不唤醒，调度器就一直不会考虑调度它们</p>
+<p>【终止状态】表示线程已经执行完毕，生命周期已经结束，不会再转换为其它状态</p>
+<p>3.7 线程的六种状态</p>
+<p>这是从 Java API层面来描述的<br>
+根据 Thread. State枚举,分为六种状态</p>
+<p>NEW,RUNNABLE,BLOCKED,WAITING,TIMED_WAITING,TERMINATED;</p>
+<p>image-20210726204505441</p>
+<p>NEW线程刚被创建，但是还没有调用start（）方法</p>
+<p>RUNNABLE当调用了start（）方法之后，注意，Java API层面的RUNNABLE状态涵盖了操作系统层面的【可运行状态】、【运行状态】和【阻塞状态】（由于BIO导致的线程阻塞，在Java里无法区分，仍然认为是可运行）</p>
+<p>BLOCKED，WAITING，TIMED_WAITING都是JavaAPI层面对【阻塞状态】的细分，后面会在状态转换一节详述</p>
+<p>TERMINATED当线程代码运行结束</p>
+<p>public static void main(String[] args) throws ExecutionException, InterruptedException {<br>
+// NEW状态<br>
+Thread thread1 = new Thread(() -&gt; {<br>
+}, &quot;thread1&quot;);</p>
+<pre><code>    //RUNNABLE
+    Thread thread2 = new Thread(() -&gt; {
+        while (true) {
+        }
+    }, &quot;thread2&quot;);
+    thread2.start();
+
+    // TERMINATED
+    Thread thread3 = new Thread(() -&gt; {
+        log.info(&quot;thread3.......&quot;);
+    }, &quot;thread3&quot;);
+    thread3.start();
+
+    // TIMED_WAITING
+    Thread thread4 = new Thread(() -&gt; {
+        synchronized (Thread1Status.class){
+            try {
+                TimeUnit.SECONDS.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }, &quot;thread4&quot;);
+    thread4.start();
+
+    // WAITING
+    Thread thread5 = new Thread(() -&gt; {
+        try {
+            thread2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }, &quot;thread5&quot;);
+    thread5.start();
+
+    //BLOCK
+    Thread thread6 = new Thread(() -&gt; {
+        synchronized (Thread1Status.class){
+            try {
+                TimeUnit.SECONDS.sleep(1000000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }, &quot;thread6&quot;);
+    thread6.start();
+
+    TimeUnit.SECONDS.sleep(1);
+
+    System.out.println(thread1.getName() + &quot;线程：&quot; + thread1.getState());
+    System.out.println(thread2.getName() + &quot;线程：&quot; + thread2.getState());
+    System.out.println(thread3.getName() + &quot;线程：&quot; + thread3.getState());
+    System.out.println(thread4.getName() + &quot;线程：&quot; + thread4.getState());
+    System.out.println(thread5.getName() + &quot;线程：&quot; + thread5.getState());
+    System.out.println(thread6.getName() + &quot;线程：&quot; + thread6.getState());
+}
+</code></pre>
+<p>输出：</p>
+<p>thread1线程：NEW<br>
+thread2线程：RUNNABLE<br>
+thread3线程：TERMINATED<br>
+thread4线程：TIMED_WAITING<br>
+thread5线程：WAITING<br>
+thread6线程：BLOCKED<br>
+3.7 习题</p>
+<p>阅读华罗庚《统筹方法》，给出烧水泡茶的多线程解决方案，提示</p>
+<p>参考图二，用两个线程（两个人协作）模拟烧水泡茶过程</p>
+<p>文中办法乙、丙都相当于任务串行</p>
+<p>而图一相当于启动了4个线程，有点浪费</p>
+<p>用sleep（n）模拟洗茶壶、洗水壶等耗费的时间</p>
+<p>附：华罗庚《统筹方法》<br>
+统筹方法，是一种安排工作进程的数学方法。它的实用范围极广泛，在企业管理和基本建设中，以及关系复杂的科研项目的组织与管理中，都可以应用。<br>
+怎样应用呢？主要是把工序安排好。<br>
+比如，想泡壶茶喝。当时的情况是：开水没有；水壶要洗，茶壶、茶杯要洗；火已生了，茶叶也有了。怎么办？</p>
+<p>办法甲：洗好水壶，灌上凉水，放在火上，在等待水开的时间里，洗茶壶、洗茶杯、拿茶叶；等水开了，泡茶喝。</p>
+<p>办法乙：先做好一些准备工作，洗水壶，洗茶壶茶杯，拿茶叶；一切就绪，灌水烧水；坐待水开了，泡茶喝。</p>
+<p>办法丙：洗净水壶，灌上凉水，放在火上，坐待水开；水开了之后，急急忙忙找茶叶，洗茶壶茶杯，泡茶喝。</p>
+<p>哪一种办法省时间？我们能一眼看出，第一种办法好，后两种办法都窝了工。</p>
+<p>这是小事，但这是引子，可以引出生产管理等方面有用的方法来。</p>
+<p>水壶不洗，不能烧开水，因而洗水壶是烧开水的前提。没开水、没茶叶、不洗茶壶茶杯，就不能泡茶，因而这些又是泡茶的前提。它们的相互关系，可以用下边的箭头图来表示：</p>
+<p>image-20210726211924941</p>
+<p>工业的错综复杂的工艺过程中，往往就不是像泡茶喝这么简单了。任务多了，几百几千，甚至有好几万个任务。关系多了，错综复杂，千头万绪，往往出现“万事俱备，只欠东风”的情况。由于一两个零件没完成，耽误了一台复杂机器的出厂时间。或往往因为抓的不是关键，连夜三班，急急忙忙，完成这一环节之后，还得等待旁的环节才能装配。<br>
+洗茶壶，洗茶杯，拿茶叶，或先或后，关系不大，而且同是一个人的活儿，因而可以合并成为：</p>
+<p>image-20210726214512602</p>
+<p>看来这是“小题大做”，但在工作环节太多的时候，这样做就非常必要了。<br>
+这里讲的主要是时间方面的事，但在具体生产实践中，还有其他方面的许多事。这种方法虽然不一定能直接解决所有问题，但是，我们利用这种方法来考虑问题，也是不无裨益的。</p>
+<p>coding</p>
+<p>public static void main(String[] args) {<br>
+Thread t1 = new Thread(() -&gt; {<br>
+// 开始洗水壶 花费一分钟<br>
+log.info(Thread.currentThread().getName() + &quot;:&quot; + &quot;开始洗水壶&quot;);<br>
+try {<br>
+TimeUnit.SECONDS.sleep(1);<br>
+} catch (InterruptedException e) {<br>
+e.printStackTrace();<br>
+}<br>
+log.info(Thread.currentThread().getName() + &quot;:&quot; + &quot;洗完了洗水壶 花费1s&quot;);<br>
+log.info(Thread.currentThread().getName() + &quot;:&quot; + &quot;水壶洗完，就开始烧水&quot;);<br>
+try {<br>
+TimeUnit.SECONDS.sleep(8);<br>
+} catch (InterruptedException e) {<br>
+e.printStackTrace();<br>
+}<br>
+log.info(Thread.currentThread().getName() + &quot;:&quot; + &quot;烧水烧完了，花费8秒&quot;);<br>
+}, &quot;001&quot;);<br>
+t1.start();</p>
+<pre><code>    Thread t2 = new Thread(() -&gt; {
+        log.info(Thread.currentThread().getName() + &quot;:&quot; + &quot;开始--洗茶杯、洗茶壶、拿茶叶&quot;);
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.info(Thread.currentThread().getName() + &quot;:&quot; + &quot;洗茶杯、洗茶壶、拿茶叶,洗完了花费3秒&quot;);
+        try {
+            t1.join();
+            log.info(Thread.currentThread().getName() + &quot;:&quot; + &quot;开始泡茶&quot;);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }, &quot;002&quot;);
+    t2.start();
+}
+</code></pre>
+<p>输出：</p>
+<p>21:44:08.018 [001] INFO com.example.heimajuc.sample.ThreadTeaSample - 001:开始洗水壶<br>
+21:44:08.022 [002] INFO com.example.heimajuc.sample.ThreadTeaSample - 002:开始--洗茶杯、洗茶壶、拿茶叶<br>
+21:44:09.022 [001] INFO com.example.heimajuc.sample.ThreadTeaSample - 001:洗完了洗水壶 花费1s<br>
+21:44:09.022 [001] INFO com.example.heimajuc.sample.ThreadTeaSample - 001:水壶洗完，就开始烧水<br>
+21:44:11.022 [002] INFO com.example.heimajuc.sample.ThreadTeaSample - 002:洗茶杯、洗茶壶、拿茶叶,洗完了花费3秒<br>
+21:44:17.025 [001] INFO com.example.heimajuc.sample.ThreadTeaSample - 001:烧水烧完了，花费8秒<br>
+21:44:17.025 [002] INFO com.example.heimajuc.sample.ThreadTeaSample - 002:开始泡茶<br>
+解法1的缺陷：</p>
+<p>上面模拟的是小王等老王的水烧开了，小王泡茶，如果反过来要实现老王等小王的茶叶拿来了，老王泡茶呢？代码最好能适应两种情况</p>
+<p>上面的两个线程其实是各执行各的，如果要模拟老王把水壶交给小王泡茶，或模拟小王把茶叶交给老王泡茶呢</p>
+<p>本章总结</p>
+<p>本章的重点在于掌握</p>
+<p>线程创建</p>
+<p>线程重要api，如start，run，sleep，join，interrupt等</p>
+<p>线程状态</p>
+<p>应用方面</p>
+<p>异步调用：主线程执行期间，其它线程异步执行耗时操作。提高效率：并行计算，缩短运算时间</p>
+<p>同步等待：join</p>
+<p>统筹规划：合理使用线程，得到最优效果</p>
+<p>原理方面</p>
+<p>线程运行流程：栈、栈帧、上下文切换、程序计数器，Thread两种创建方式的源码</p>
+<p>模式方面</p>
+<p>两阶段终止</p>
+<ol start="4">
+<li>共享模型之管程</li>
+</ol>
+<p>共享问题 &quot; synchronized</p>
+<p>线程安全分析</p>
+<p>Monitor</p>
+<p>wait/notify</p>
+<p>线程状态转换</p>
+<p>活跃性</p>
+<p>Lock</p>
+<p>4.1 共享带来的问题</p>
+<p>image-20210726221529667</p>
+<p>image-20210726221701681</p>
+<p>image-20210726221946430</p>
+<p>image-20210726221848245</p>
+<p>Java体现</p>
+<p>static int anInt = 0;</p>
+<pre><code>public static void main(String[] args) throws InterruptedException {
+    Thread thread = new Thread(() -&gt; {
+        for (int i = 0; i &lt; 5000; i++) {
+            anInt++;
+        }
+    });
+
+    Thread thread1 = new Thread(() -&gt; {
+        for (int i = 0; i &lt; 5000; i++) {
+            anInt--;
+        }
+    });
+    thread.start();
+    thread1.start();
+    thread.join();
+    thread1.join();
+    System.out.println(anInt);
+}
+</code></pre>
+<p>输出：</p>
+<p>56<br>
+上下切换导致</p>
+<p>负数情况：</p>
+<p>image-20210726231003297</p>
+<p>正数情况：</p>
+<p>image-20210726231123189</p>
+<p>临界区</p>
+<p>临界区 Critical Section</p>
+<p>一个程序运行多个线程本身是没有问题的。</p>
+<p>问题出在多个线程访问共享资源，多个线程读共享资源其实也没有问题。在多个线程对共享资源读写操作时发生指令交错，就会出现问题，一段代码块内如果存在对共享资源的多线程读写操作，称这段代码块为临界区</p>
+<p>例如，下面代码中的临界区</p>
+<p>static int counter = 0;<br>
+static void increment() {cqunter++;}// 临界区<br>
+static void decrement() {counter--;}//临界区<br>
+竞态条件</p>
+<p>竞态条件 Race Condition<br>
+多个线程在临界区内执行，由于代码的执行序列不同而导致结果无法预测，称之为发生了竞态条件</p>
+<p>4.1 synchronized解决方案</p>
+<p>应用之互斥</p>
+<p>为了避免临界区的竞态条件发生，有多种手段可以达到目的。</p>
+<p>阻塞式的解决方案：synchronized，Lock</p>
+<p>非阻塞式的解决方案：原子变量</p>
+<p>本次课使用阻塞式的解决方案：synchronized，来解决上述问题，即俗称的【对象锁】，它采用互斥的方式让同一时刻至多只有一个线程能持有【对象锁】，其它线程再想获取这个【对象锁】时就会阻塞住。这样就能保证拥有锁的线程可以安全的执行临界区内的代码，不用担心线程上下文切换。注意，虽然java中互斥和同步都可以采用synchronized关键字来完成，但它们还是有区别的：</p>
+<p>互斥是保证临界区的竞态条件发生，同一时刻只能有一个线程执行临界区代码</p>
+<p>同步是由于线程执行的先后、顺序不同、需要一个线程等待其它线程运行到某个点</p>
+<p>加锁解决上下文切换导致数据不对的问题：</p>
+<p>​<br>
+static int anInt = 0;<br>
+static Object object = new Object();<br>
+​<br>
+public static void main(String[] args) throws InterruptedException {<br>
+Thread thread = new Thread(() -&gt; {<br>
+for (int i = 0; i &lt; 5000; i++) {<br>
+synchronized (object) {<br>
+anInt++;<br>
+}<br>
+}<br>
+});<br>
+​<br>
+Thread thread1 = new Thread(() -&gt; {<br>
+for (int i = 0; i &lt; 5000; i++) {<br>
+synchronized (object) {<br>
+anInt--;<br>
+}<br>
+}<br>
+});<br>
+thread.start();<br>
+thread1.start();<br>
+thread.join();<br>
+thread1.join();<br>
+System.out.println(anInt);<br>
+}<br>
+类比：</p>
+<p>image-20210728202754938</p>
+<p>image-20210728203143848</p>
+<p>image-20210728203207647</p>
+<p>思考</p>
+<p>synchronized实际是用对象锁保证了临界区内代码的原子性，临界区内的代码对外是不可分割的，不会被线程切换所打断。<br>
+为了加深理解，请思考下面的问题：</p>
+<p>如果把synchronized（obj）放在for循环的外面，如何理解？</p>
+<p>循环外，是一次性执行完整个for循环，执行完以后在执行其他的操作</p>
+<p>如果tl synchronized（obJ1）而t2synchronized（obj2）会怎样运作？</p>
+<p>对象不一致的时候，获取的对象锁不一致，所以无效</p>
+<p>如果tl synchronized（obj）而2没有加会怎么样？如何理解？</p>
+<p>2没有加synchronize，时间片轮到线程2的时候，不会去拿对象锁，他自己执行自己的内容</p>
+<p>4.2 方法上的synchronized</p>
+<p>public synchronized void addCount() {<br>
+count++;<br>
+}<br>
+// 等价于<br>
+public void addCount() {<br>
+synchronized (this) {<br>
+count++;<br>
+}<br>
+}<br>
+所谓的“线程八锁”</p>
+<p>情况1:</p>
+<p>答案为：12或者21</p>
+<p>public static void main(String[] args) throws InterruptedException {<br>
+A a = new A();<br>
+Thread thread = new Thread(() -&gt; { a.a1(); });</p>
+<pre><code>    Thread thread1 = new Thread(() -&gt; { a.a2(); });
+    thread.start();
+    thread1.start();
+}
+</code></pre>
+<p>}</p>
+<p>@Slf4j<br>
+class A {<br>
+// synchronized 锁住的是this对象<br>
+public synchronized void a1() {<br>
+log.info(&quot;111111&quot;);<br>
+}</p>
+<pre><code>public synchronized void a2() {
+    log.info(&quot;222222&quot;);
+}
+</code></pre>
+<p>情况2：</p>
+<p>答案为：12或者21</p>
+<p>两种情况：</p>
+<p>存在thread1 先拿到时间片 然后输出方法；然后thread在拿到时间片，在睡眠1s，在输出</p>
+<p>thread拿到时间片，然后等到一秒后，输出，thread2拿到时间片，输出</p>
+<p>public static void main(String[] args) throws InterruptedException {<br>
+A1 a = new A1();<br>
+Thread thread = new Thread(() -&gt; {a.a1(); });</p>
+<pre><code>    Thread thread1 = new Thread(() -&gt; { a.a2(); });
+    thread.start();
+    thread1.start();
+}
+</code></pre>
+<p>}</p>
+<p>@Slf4j<br>
+class A1 {<br>
+// synchronized 锁住的是this对象<br>
+public synchronized void a1() {<br>
+try {<br>
+TimeUnit.SECONDS.sleep(1);<br>
+} catch (InterruptedException e) {<br>
+e.printStackTrace();<br>
+}<br>
+log.info(&quot;111111&quot;);<br>
+}</p>
+<pre><code>public synchronized void a2() {
+    log.info(&quot;222222&quot;);
+}
+</code></pre>
+<p>}<br>
+情况3：</p>
+<p>答案为：312或者 321 或者231</p>
+<p>public static void main(String[] args) throws InterruptedException {<br>
+A2 a = new A2();<br>
+new Thread(() -&gt; { a.a1(); }).start();<br>
+new Thread(() -&gt; { a.a2(); }).start();<br>
+new Thread(() -&gt; { a.a3(); }).start();<br>
+}<br>
+}</p>
+<p>@Slf4j<br>
+class A2 {<br>
+// synchronized 锁住的是this对象<br>
+public synchronized void a1() {<br>
+try {<br>
+TimeUnit.SECONDS.sleep(2);<br>
+} catch (InterruptedException e) {<br>
+e.printStackTrace();<br>
+}<br>
+log.info(&quot;111111&quot;);<br>
+}</p>
+<pre><code>public synchronized void a2() {
+    log.info(&quot;222222&quot;);
+}
+public  void a3() { log.info(&quot;3333&quot;); }
+</code></pre>
+<p>情况4：</p>
+<p>答案为：2 1s 1</p>
+<pre><code>public static void main(String[] args) throws InterruptedException {
+    A2 a1 = new A2();
+    A2 a2 = new A2();
+    new Thread(() -&gt; { a1.a1(); }).start();
+    new Thread(() -&gt; { a2.a2(); }).start();
+}
+</code></pre>
+<p>}</p>
+<p>@Slf4j<br>
+class A3 {<br>
+// synchronized 锁住的是this对象<br>
+public synchronized void a1() {<br>
+try {<br>
+TimeUnit.SECONDS.sleep(1);<br>
+} catch (InterruptedException e) {<br>
+e.printStackTrace();<br>
+}<br>
+log.info(&quot;111111&quot;);<br>
+}<br>
+public synchronized void a2() {<br>
+log.info(&quot;222222&quot;);<br>
+}<br>
+情况5：</p>
+<p>答案为：2 1s 1</p>
+<p>public static void main(String[] args) throws InterruptedException {<br>
+A4 a1 = new A4();<br>
+new Thread(() -&gt; { a1.a1(); }).start();<br>
+new Thread(() -&gt; { a1.a2(); }).start();<br>
+}<br>
+}</p>
+<p>@Slf4j<br>
+class A4 {<br>
+/**<br>
+* desc:synchronized 锁住的是this对象<br>
+* static 锁住的是A4 对象<br>
+*/<br>
+public static synchronized void a1() {<br>
+try {<br>
+TimeUnit.SECONDS.sleep(1);<br>
+} catch (InterruptedException e) {<br>
+e.printStackTrace();<br>
+}<br>
+log.info(&quot;111111&quot;);<br>
+}<br>
+public synchronized void a2() {<br>
+log.info(&quot;222222&quot;);<br>
+}<br>
+情况6：</p>
+<p>答案为：2 1s 1 或者1 1s 2</p>
+<p>static锁住的对象都是A6</p>
+<p>public static void main(String[] args) throws InterruptedException {<br>
+A6 a1 = new A6();<br>
+new Thread(() -&gt; { a1.a1(); }).start();<br>
+new Thread(() -&gt; { a1.a2(); }).start();<br>
+}<br>
+}</p>
+<p>@Slf4j<br>
+class A6 {<br>
+/**<br>
+* desc:synchronized 锁住的是this对象<br>
+* static 锁住的是A6 对象<br>
+*/<br>
+public static synchronized void a1() {<br>
+try {<br>
+TimeUnit.SECONDS.sleep(1);<br>
+} catch (InterruptedException e) {<br>
+e.printStackTrace();<br>
+}<br>
+log.info(&quot;111111&quot;);<br>
+}<br>
+public  static synchronized void a2() {<br>
+log.info(&quot;222222&quot;);<br>
+}<br>
+情况7：</p>
+<p>答案为：2 1s 1</p>
+<p>static锁住的对象都是A7</p>
+<p>public static void main(String[] args) throws InterruptedException {<br>
+A7 a1 = new A7();<br>
+A7 a2 = new A7();<br>
+new Thread(() -&gt; {<br>
+a1.a1();<br>
+}).start();<br>
+new Thread(() -&gt; {<br>
+a2.a2();<br>
+}).start();<br>
+}<br>
+}</p>
+<p>@Slf4j<br>
+class A7 {<br>
+/**<br>
+* desc:synchronized 锁住的是this对象<br>
+* static 锁住的是A6 对象<br>
+*/<br>
+public static synchronized void a1() {<br>
+try {<br>
+TimeUnit.SECONDS.sleep(1);<br>
+} catch (InterruptedException e) {<br>
+e.printStackTrace();<br>
+}<br>
+log.info(&quot;111111&quot;);<br>
+}</p>
+<pre><code>public  synchronized void a2() {
+    log.info(&quot;222222&quot;);
+}
+</code></pre>
+<p>情况8：</p>
+<p>答案为：2 1s 1 或者 1 1s 2</p>
+<p>static锁住的对象都是A8</p>
+<p>public static void main(String[] args) throws InterruptedException {<br>
+A8 a1 = new A8();<br>
+A8 a2 = new A8();</p>
+<pre><code>    new Thread(() -&gt; {
+        a2.a2();
+    }).start();
+    new Thread(() -&gt; {
+        a1.a1();
+    }).start();
+}
+</code></pre>
+<p>}</p>
+<p>@Slf4j<br>
+class A8 {<br>
+/**<br>
+* desc:synchronized 锁住的是this对象<br>
+* static 锁住的是A6 对象<br>
+*/<br>
+public static synchronized void a1() {<br>
+try {<br>
+TimeUnit.SECONDS.sleep(1);<br>
+} catch (InterruptedException e) {<br>
+e.printStackTrace();<br>
+}<br>
+log.info(&quot;111111&quot;);<br>
+}</p>
+<pre><code>public static synchronized void a2() {
+    log.info(&quot;222222&quot;);
+}
+</code></pre>
+<p>}<br>
+4.3 变量的线程安全分析</p>
+<p>成员变量和静态变量是否线程安全？</p>
+<p>如果它们没有共享，则线程安全</p>
+<p>如果它们被共享了，根据它们的状态是否能够改变，又分两种情况</p>
+<p>如果只有读操作，则线程安全</p>
+<p>如果有读写操作，则这段代码是临界区，需要考虑线程安全</p>
+<p>局部变量是否线程安全？</p>
+<p>局部变量是线程安全的</p>
+<p>但局部变量引用的对象则未必</p>
+<p>如果该对象没有逃离方法的作用访问，它是线程安全的</p>
+<p>如果该对象逃离方法的作用范围，需要考虑线程安全</p>
+<p>public static void main(String[] args) {<br>
+ThreadUnsafe threadUnsafe = new ThreadUnsafe();<br>
+for (int i = 0; i &lt; 2; i++) {<br>
+new Thread(() -&gt; {<br>
+threadUnsafe.test();<br>
+});</p>
+<pre><code>    }
+}
+</code></pre>
+<p>}</p>
+<p>class ThreadUnsafe {<br>
+public static List<Integer> list = new ArrayList&lt;&gt;();</p>
+<pre><code>public void test() {
+    add();
+    in();
+}
+
+public void add() {
+    list.add(1);
+}
+
+public void in() {
+    list.remove(0);
+}
+</code></pre>
+<p>静态变量访问的是在共享内存中的，多个栈帧访问就会出现不安全的情况</p>
+<p>image-20210731171800940</p>
+<p>局部变量</p>
+<p>public static void main(String[] args) {<br>
+ThreadSafe threadUnsafe = new ThreadSafe();<br>
+for (int i = 0; i &lt; 20; i++) {<br>
+new Thread(() -&gt; {<br>
+threadUnsafe.test();<br>
+});</p>
+<pre><code>    }
+}
+</code></pre>
+<p>}</p>
+<p>class ThreadSafe {</p>
+<pre><code>public void test() {
+    List&lt;Integer&gt; list = new ArrayList&lt;&gt;();
+    add(list);
+    in(list);
+}
+
+public void add(List&lt;Integer&gt; list) {
+    list.add(1);
+}
+
+public void in(List&lt;Integer&gt; list) {
+    list.remove(0);
+}
+</code></pre>
+<p>局部变量使用的时候，创建实例的时候会单独创建对象，所以线程安全的</p>
+<p>image-20210731172201260</p>
+<p>如果方法修饰符：是使用privite  那么只能自己去调用，肯定线程安全。如果是final修饰 那么就不能被改变。</p>
+<p>常见的线程安全类</p>
+<p>String</p>
+<p>Integer</p>
+<p>StringBuffer</p>
+<p>Random</p>
+<p>Vector</p>
+<p>Hashtable</p>
+<p>java.util.concurrent包下的类</p>
+<p>这里说它们是线程安全的是指，多个线程调用它们同一个实例的某个方法时，是线程安全的。也可以理解为它们的每个方法是原子的</p>
+<p>但注意它们多个方法的组合不是原子的，见后面分析</p>
+<p>线程安全类的组合</p>
+<p>分析以下代码是否安全</p>
+<p>public static void main(String[] args) {<br>
+Hashtable&lt;String, String&gt; hashtable = new Hashtable&lt;&gt;();<br>
+if (Objects.isNull(hashtable.get(&quot;key&quot;))){<br>
+hashtable.put(&quot;key&quot;, &quot;a&quot;);<br>
+}<br>
+}<br>
+存在线程1 线程2 同时操作table 但是由于上下文切换，线程1执行到了判断为null 的时候，就把时间片交出去了，然后线程2 判断了为null，然后赋值操作，时间片在交给1，就会存在线程不安全的操作</p>
+<p>线程1<br>
+线程1<br>
+线程2<br>
+线程2<br>
+table<br>
+table<br>
+get(&quot;key&quot;)==null<br>
+get(&quot;key&quot;)==null<br>
+put(&quot;key&quot;,v2)<br>
+put(&quot;key&quot;,v1)<br>
+不可变类线程安全问题</p>
+<p>String、Integer等都是不可变类，因为其内部的状态不可以改变，因此它们的方法都是线程安全的<br>
+有同学或许有疑问，String有replace，substring等方法【可以】改变值啊，那么这些方法又是如何保证线程安全的呢？</p>
+<p>实例分析</p>
+<p>例1:</p>
+<p>public class MyServlet extends HttpServlet {<br>
+​<br>
+/*<em>线程不安全</em>/<br>
+Map&lt;String, String&gt; map = new HashMap&lt;&gt;();<br>
+/*<em>线程安全</em>/<br>
+String s1 = &quot;a&quot;;<br>
+/*<em>线程安全</em>/<br>
+final String s2 = &quot;22&quot;;<br>
+/*<em>线程不安全</em>/<br>
+Date date = new Date();<br>
+/*<em>线程不安全</em>/<br>
+final Date date2 = new Date();<br>
+​<br>
+@Override<br>
+public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){<br>
+// 使用上面的变量<br>
+​<br>
+}<br>
+}<br>
+例2:</p>
+<p>线程不安全，会有多个线程调用count</p>
+<p>​<br>
+public class MyServlet extends HttpServlet {<br>
+@Autowired<br>
+private UserService userService;<br>
+​<br>
+@Override<br>
+public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){<br>
+// 使用上面的变量<br>
+userService.update();<br>
+}}<br>
+​<br>
+public class UserServiceImpl implements UserService {<br>
+private int count = 0;<br>
+​<br>
+@Override<br>
+public void update() {<br>
+count++;<br>
+}<br>
+}</p>
+<p>例3:</p>
+<p>也是线程不安全的，使用了共享变量，模式是单例模式</p>
+<p>long l;<br>
+​<br>
+@Pointcut(&quot;execution(* com.example.heimajuc.<em>.</em>(..))&quot;)<br>
+public void pointcut() {<br>
+​<br>
+}<br>
+​<br>
+@Before(&quot;pointcut()&quot;)<br>
+public void before() {<br>
+l = System.nanoTime();<br>
+System.out.println(&quot;before&quot;);<br>
+}<br>
+​<br>
+@After(&quot;pointcut()&quot;)<br>
+public void after() {<br>
+System.out.println(&quot;after&quot;);<br>
+System.out.println(&quot;耗时：&quot; + (System.nanoTime() - l));<br>
+}<br>
+例4:</p>
+<p>常规操作写法是线程安全的，因为都是开启了新的栈帧，并且没有引用都是稀有的，只能自己调用。</p>
+<p>public class MyServlet extends HttpServlet {<br>
+@Autowired<br>
+private UserService userService;<br>
+​<br>
+@Override<br>
+public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){<br>
+// 使用上面的变量<br>
+userService.update();<br>
+}}</p>
+<p>@Service<br>
+public class UserServiceImpl implements UserService {<br>
+​<br>
+@Autowired<br>
+private UserMapper userMapper;<br>
+​<br>
+@Override<br>
+public void update() {<br>
+List<User> userList=  userMapper.SelectList(null);<br>
+}<br>
+}<br>
+例5:</p>
+<p>常规操作写法是线程不安全的，UserDaoImpl被多个线程共享，所以conn 被共享了。所以可能存在线程1在获取conn的时候，线程2 已经获取到了并且执行完了，然后conn关闭了 close</p>
+<p>public class MyServlet extends HttpServlet {<br>
+@Autowired<br>
+private UserService userService;<br>
+​<br>
+@Override<br>
+public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){<br>
+// 使用上面的变量<br>
+userService.update();<br>
+}}</p>
+<p>@Service<br>
+public class UserServiceImpl implements UserService {<br>
+​<br>
+@Autowired<br>
+private UserDao userDao;<br>
+​<br>
+​<br>
+@Override<br>
+public void update() {<br>
+userDao.update();<br>
+}<br>
+}<br>
+​<br>
+@Mapper<br>
+public class UserDaoImpl implements UserService {<br>
+​<br>
+private Connect conn=null;</p>
+<pre><code>@Override
+public void update() {
+  String sql =&quot;update user set password = ? where username =?&quot;; 
+conn = DriverManager.getconnection(&quot;&quot;,&quot;&quot;,&quot;&quot;);
+conn.close();
+}
+</code></pre>
+<p>}<br>
+​<br>
+​<br>
+例6:</p>
+<p>常规操作写法是线程不安全的，UserServiceImpl每次都是新建立的，私有的栈帧</p>
+<p>public class MyServlet extends HttpServlet {<br>
+@Autowired<br>
+private UserService userService;<br>
+​<br>
+@Override<br>
+public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){<br>
+// 使用上面的变量<br>
+userService.update();<br>
+}}</p>
+<p>@Service<br>
+public class UserServiceImpl implements UserService {<br>
+​<br>
+@Override<br>
+public void update() {<br>
+UserDao userDao =new UserDaoImpl();</p>
+<pre><code>userDao.update();
+}
+</code></pre>
+<p>}<br>
+​<br>
+@Mapper<br>
+public class UserDaoImpl implements UserService {<br>
+​<br>
+private Connect conn=null;</p>
+<pre><code>@Override
+public void update() {
+  String sql =&quot;update user set password = ? where username =?&quot;; 
+conn = DriverManager.getconnection(&quot;&quot;,&quot;&quot;,&quot;&quot;);
+conn.close();
+}
+</code></pre>
+<p>}<br>
+​<br>
+​<br>
+例7:</p>
+<p>常规操作写法是线程不安全的</p>
+<p>String类为什么设置为final ，因为如果不设置成final，string的子类可能覆盖父类的方法，然后可能导致修改或者覆盖掉了父类的一些行为，导致线程不安全。</p>
+<p>4.4 练习</p>
+<p>卖票练习</p>
+<p>线程不安全</p>
+<p>临界区：对共享变量有读写操作的区域</p>
+<p>public class SellTicketDemo {<br>
+​<br>
+public static void main(String[] args) {<br>
+​<br>
+WindowsSell windowsSell = new WindowsSell(1000);<br>
+// 线程安全的List<br>
+List<Integer> sellCount = new Vector&lt;&gt;();<br>
+List<Thread> list = new ArrayList&lt;&gt;();<br>
+for (int i = 0; i &lt; 2000; i++) {<br>
+Thread thread = new Thread(() -&gt; {<br>
+// 开始买票<br>
+int sell = windowsSell.sell(getRandom());<br>
+sellCount.add(sell);<br>
+});<br>
+thread.start();<br>
+list.add(thread);<br>
+}<br>
+for (Thread thread : list) {<br>
+try {<br>
+thread.join();<br>
+} catch (InterruptedException e) {<br>
+e.printStackTrace();<br>
+}<br>
+}<br>
+System.out.println(&quot;卖出的总数：&quot; + sellCount.stream().mapToInt(Integer::intValue).sum());<br>
+System.out.println(&quot;剩余的总数：&quot; + windowsSell.getCount());<br>
+​<br>
+}<br>
+​<br>
+/**<br>
+* 生产随机数<br>
+*/<br>
+private static Integer getRandom() {<br>
+return new Random().nextInt(5) + 1;<br>
+}<br>
+​<br>
+}<br>
+​<br>
+​<br>
+class WindowsSell {<br>
+private int count;<br>
+​<br>
+WindowsSell(int ticketCount) {<br>
+this.count = ticketCount;<br>
+}<br>
+​<br>
+int getCount() {<br>
+return count;<br>
+}<br>
+​<br>
+int sell(int tickerNum) {<br>
+if (tickerNum &lt; count) {<br>
+this.count -= tickerNum;<br>
+return tickerNum;<br>
+}<br>
+return 0;<br>
+}<br>
+}<br>
+输出：</p>
+<p>卖出的总数：1008<br>
+剩余的总数：1<br>
+解决办法1：加synchronized</p>
+<p>synchronized int sell(int tickerNum) {<br>
+if (tickerNum &lt; count) {<br>
+this.count -= tickerNum;<br>
+return tickerNum;<br>
+}<br>
+return 0;<br>
+}<br>
+4.5 Monitor概念</p>
+<p>Java对象头</p>
+<p>以32位虚拟机为例</p>
+<p>普通对象：</p>
+<p>image-20210801205334561</p>
+<p>数组对象：</p>
+<p>image-20210801205400575</p>
+<p>其中Mark Word结构为：</p>
+<p>image-20210801205706101</p>
+<p>Monitor(锁)</p>
+<p>Monitor被翻译为监视器或管程<br>
+每个Java对象都可以关联一个Monitor对象，如果使用synchronized给对象上锁（重量级）之后，该对象头的Mark Word中就被设置指向Monitor对象的指针</p>
+<p>Monitor结构如下</p>
+<p>image-20210801210926521</p>
+<p>过程：</p>
+<p>刚开始 monitor的Owner是没有主人的</p>
+<p>当Thread2获取锁对象的时候，就会成为Monitor的Owner，一个Monitor只有一个Owner</p>
+<p>在Thread2执行过程过程中的时候，其他的Thread线程来执行临界区的代码的时候，就会进入到EntryList中变成BLOCKED状态</p>
+<p>当Thread2执行完毕后，就不再是是Monitor的主人，Owner的为空，然后就会唤醒EntryList中的线程来竞争锁，竞争的时候是非公平的，就会开始竞争获取Owner</p>
+<p>图中Thread2是之前获取到锁的，但是不满足条件进入WAITING状态的线程</p>
+<p>注意⚠️：</p>
+<p>synchronized必须是进入同一个对象的monitor才有上述的效果</p>
+<p>不加synchronized，的对象不会关联监视器，不遵从以上规则</p>
+<p>原理之synchronized</p>
+<p>重点重点🌟Code</p>
+<p>public class MonitorDemo {<br>
+static int count = 0;<br>
+static final Object OBJECT = new Object();<br>
+public static void main(String[] args) {<br>
+synchronized (OBJECT.class) {<br>
+count++;<br>
+}<br>
+​<br>
+}<br>
+}<br>
+对应的字节码：</p>
+<p>image-20210801220837207</p>
+<p>故事：</p>
+<p>image-20210801221105163</p>
+<p>image-20210801221145300</p>
+<p>Synchronized原理进阶</p>
+<p>轻量级锁</p>
+<p>轻量级锁的使用场景：如果一个对象虽然有多线程访问，但多线程访问的时间是错开的（也就是没有竞争），那么可以使用轻量级锁来优化。<br>
+轻量级锁对使用者是透明的，即语法仍然是synchronized</p>
+<p>假设有两个方法同步块，利用同一个对象加锁</p>
+<p>private static  final Object OBJECT = new Object();<br>
+​<br>
+private static void method1() {<br>
+synchronized (OBJECT){<br>
+method();<br>
+}<br>
+}<br>
+private static void method() {<br>
+synchronized (OBJECT){<br>
+​<br>
+}<br>
+}<br>
+image-20210801231540211</p>
+<p>image-20210801231557726</p>
+<p>image-20210801231717225</p>
+<p>image-20210801231756727</p>
+<p>image-20210801232009436</p>
+<p>image-20210801232048833</p>
+<p>锁膨胀</p>
+<p>如果在尝试加轻量级锁的过程中,CAS操作无法成功,这时一种情况就是有其它线程为此对象加上了轻量级锁(有竞争),这时需要进行锁膨胀,将轻量级锁变为重量级锁。</p>
+<p>image-20210805214701753</p>
+<p>image-20210805214613850</p>
+<p>image-20210805214819790</p>
+<p>。当Thread-0退出同步块解锁时，使用cas将Mark Word的值恢复给对象头，失败。这时会进入重量级解锁流程，即按照Monitor地址找到Monitor对象，设置Owner为null，唤醒EntryList中BLOCKED线程</p>
+<p>自旋优化</p>
+<p>重量级锁竞争的时候，还可以使用自旋来进行优化，如果当前线程自旋成功（即这时候持锁线程已经退出了同步块，释放了锁），这时当前线程就可以避免阻塞。</p>
+<p>image-20210808124421980</p>
+<p>image-20210808124519420</p>
+<p>在Java6之后自旋锁是自适应的，比如对象刚刚的一次自旋操作成功过，那么认为这次自旋成功的可能性会高，就多自旋几次；反之，就少自旋甚至不自旋，总之，比较智能。</p>
+<p>自旋会占用CPU时间，单核CPU自旋就是浪费，多核CPU自旋才能发挥优势。<br>
+Java7之后不能控制是否开启自旋功能</p>
+<p>偏向锁</p>
+<p>轻量级锁在没有竞争时（就自己这个线程），每次重入仍然需要执行CAS操作。<br>
+Java6中引入了偏向锁来做进一步优化：只有第一次使用CAS将线程ID设置到对象的Mark Word头，之后发现这个线程D是自己的就表示没有竞争，不用重新CAS。以后只要不发生竞争，这个对象就归该线程所有。</p>
+<p>锁重入-- main调用m1,然后m1调用m2,m1、m2加了锁，当进入m2的时候，发生了重入，然后m2方法调用m3的是，又锁重入</p>
+<p>private static final Object OBJECT = new Object();</p>
+<pre><code>public static void main(String[] args) {
+    m1();
+}
+
+static void m1() {
+    synchronized (OBJECT) {
+        m2();
+    }
+}
+
+static void m2() {
+    synchronized (OBJECT) {
+        m3();
+    }
+}
+
+static void m3() {
+    synchronized (OBJECT) {
+        System.out.println(&quot;1&quot;);
+    }
+}
+</code></pre>
+<p>image-20210808125526972</p>
+<p>image-20210808125804598</p>
+<p>偏向状态</p>
+<p>对象头格式</p>
+<p>biased_lock：1 表示偏向状态。默认开启</p>
+<p>image-20210808172019584</p>
+<p>1个对象创建时：<br>
+如果开启了偏向锁（默认开启），那么对象创建后，markword值为0x05即最后3位为101，这时它的thread. epoch. age都为0</p>
+<p>偏向锁是默认是延迟的，不会在程序启动时立即生效，如果想避免延迟，可以加VM参数- xX：BiasedLockingStartupDelay=0来禁用延迟</p>
+<p>如果没有开启偏向锁，那么对象创建后，markword值为0x01即最后3位为001，这时它的hashcode、age 都为0，第一次用到hashcode时才会赋值</p>
+<p>image-20210808175029112</p>
+<p>3）测试禁用<br>
+在上面测试代码运行时在添加VM参数-xX：-UseBiasedLocking禁用偏向锁</p>
+<p>4）测试hashCode</p>
+<p>public static void main(String[] args) {<br>
+Dog dog = new Dog();<br>
+// 打印hashcode以后，偏向锁会关闭，因为在开启偏向锁状态的时候 ，没有地方存hashcode，所以只能是未开启偏向状态才能存储hashcode<br>
+dog.hashCode();<br>
+log.info(&quot;加锁前，{}&quot;, ClassLayout.parseInstance(dog).toPrintable());<br>
+4.6 wait/notify</p>
+<p>为什么需要wait/notify？</p>
+<p>image-20210815111733460</p>
+<p>image-20210815111826451</p>
+<p>原理之notify/wait</p>
+<p>image-20210815111948526</p>
+<p>API介绍</p>
+<p>所有的前提条件：拿到的都是同一个对象锁</p>
+<p>object.wait(); 进入waitset中等待唤醒</p>
+<p>object.wait(2); 进入waitset中等待唤醒，如果到了2s中还是没有唤醒，就不再等待，继续执行操作</p>
+<p>object.notify();唤醒waitSet中的某一个线程</p>
+<p>object.notifyAll();唤醒waitSet中的所有的线程</p>
+<p>private static Object object = new Object();</p>
+<pre><code>public static void main(String[] args) {
+    new Thread(() -&gt; {
+        log.info(&quot;t1开始了&quot;);
+        synchronized (object) {
+            try {
+                object.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            log.info(&quot;t1开始其他了&quot;);
+        }
+    }, &quot;t1&quot;).start();
+
+
+    new Thread(() -&gt; {
+        log.info(&quot;t2开始了&quot;);
+        synchronized (object) {
+            try {
+                // 进入等待
+                object.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            log.info(&quot;t2开始其他了&quot;);
+        }
+    }, &quot;t2&quot;).start();
+
+    try {
+        TimeUnit.SECONDS.sleep(2);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    synchronized (object) {
+        // 唤醒waitSet中的某一个
+</code></pre>
+<p>//            object.notify();<br>
+// 唤醒waitSet中的所有的<br>
+object.notifyAll();<br>
+}</p>
+<pre><code>}
+</code></pre>
+<p>4.7 wait/notify的正确姿势</p>
+<p>sleep和wait的区别</p>
+<p>wait是Object的防范，sleep是Thread的静态方法</p>
+<p>wait需要和synchronized一起使用，必须要获得对象锁，sleep不需要强制和synchronize一起使用</p>
+<p>wait的时候会释放对象锁，sleep在睡眠的时候不会释放对象锁</p>
+<p>他们的状态都是TIMED_WAITING</p>
+<p>Step1</p>
+<p>上述故事开始第一步</p>
+<p>static final Object OBJECT = new Object();<br>
+static boolean hasCigarette = false;<br>
+static boolean hasTokenTime = false;</p>
+<pre><code>public static void main(String[] args) {
+    new Thread(() -&gt; {
+        synchronized (OBJECT){
+            log.info(&quot;南开始干活儿&quot;);
+            if (!hasCigarette) {
+                log.info(&quot;没有烟不干活儿&quot;);
+                try {
+                    TimeUnit.SECONDS.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            log.info(&quot;有烟?，{}&quot;, hasCigarette);
+            if (hasCigarette) {
+                log.info(&quot;有烟开始干活儿&quot;);
+            }
+        }
+    }, &quot;小南&quot;).start();
+
+    for (int i = 0; i &lt; 5; i++) {
+        synchronized (OBJECT){
+            new Thread(()-&gt;{
+                log.info(&quot;其他人开始干活儿&quot;);
+            },&quot;其他人&quot;).start();
+        }
+    }
+    try {
+        TimeUnit.SECONDS.sleep(1);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    new Thread(()-&gt;{
+        hasCigarette = true;
+        log.info(&quot;送烟&quot;);
+    },&quot;🚬&quot;).start();
+}
+</code></pre>
+<p>问题：</p>
+<p>小南没有烟的时候就会阻塞两秒，不管烟是两秒前送到还有两秒后送到，小南都要休眠2s</p>
+<p>小南休息的时候，其他的线程也无法执行</p>
+<p>解决办法：使用interrupt打断sleep 或者使用wait/notify</p>
+<p>Step2</p>
+<p>使用wait/notify</p>
+<p>static final Object OBJECT = new Object();<br>
+static boolean hasCigarette = false;<br>
+static boolean hasTokenTime = false;</p>
+<pre><code>public static void main(String[] args) {
+    new Thread(() -&gt; {
+        synchronized (OBJECT){
+            log.info(&quot;南开始干活儿&quot;);
+            if (!hasCigarette) {
+                log.info(&quot;没有烟不干活儿&quot;);
+                try {
+                    OBJECT.wait(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            log.info(&quot;有烟?，{}&quot;, hasCigarette);
+            if (hasCigarette) {
+                log.info(&quot;有烟开始干活儿&quot;);
+            }
+        }
+    }, &quot;小南&quot;).start();
+
+    for (int i = 0; i &lt; 5; i++) {
+
+        new Thread(()-&gt;{
+            synchronized (OBJECT){
+                log.info(&quot;其他人开始干活儿&quot;);
+            }
+        },&quot;其他人&quot;).start();
+    }
+    try {
+        TimeUnit.SECONDS.sleep(1);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    new Thread(()-&gt;{
+        synchronized (OBJECT){
+            log.info(&quot;送烟&quot;);
+            hasCigarette = true;
+            OBJECT.notifyAll();
+        }
+    },&quot;🚬&quot;).start();
+}
+</code></pre>
+<p>输出：</p>
+<p>19:55:33.517 [小南] INFO com.example.heimajuc.demo.demo1UserWaitNotify - 南开始干活儿<br>
+19:55:33.521 [小南] INFO com.example.heimajuc.demo.demo1UserWaitNotify - 没有烟不干活儿<br>
+19:55:33.522 [其他人] INFO com.example.heimajuc.demo.demo1UserWaitNotify - 其他人开始干活儿<br>
+19:55:33.523 [其他人] INFO com.example.heimajuc.demo.demo1UserWaitNotify - 其他人开始干活儿<br>
+19:55:33.523 [其他人] INFO com.example.heimajuc.demo.demo1UserWaitNotify - 其他人开始干活儿<br>
+19:55:33.524 [其他人] INFO com.example.heimajuc.demo.demo1UserWaitNotify - 其他人开始干活儿<br>
+19:55:33.524 [其他人] INFO com.example.heimajuc.demo.demo1UserWaitNotify - 其他人开始干活儿<br>
+19:55:34.528 [🚬] INFO com.example.heimajuc.demo.demo1UserWaitNotify - 送烟<br>
+19:55:34.528 [小南] INFO com.example.heimajuc.demo.demo1UserWaitNotify - 有烟?，true<br>
+19:55:34.530 [小南] INFO com.example.heimajuc.demo.demo1UserWaitNotify - 有烟开始干活儿<br>
+解决其他干活的线程阻塞问题</p>
+<p>但是如果其他线程也有等待条件呢？？</p>
+<p>Step3</p>
+<p>OBJECT.notify(); 是随机叫醒线程</p>
+<p>static final Object OBJECT = new Object();<br>
+static boolean hasCigarette = false;<br>
+static boolean hasTokenTime = false;</p>
+<pre><code>// 虚假唤醒
+public static void main(String[] args) {
+    new Thread(() -&gt; {
+        synchronized (OBJECT){
+            log.info(&quot;南开始干活儿&quot;);
+            if (!hasCigarette) {
+                log.info(&quot;没有烟不干活儿&quot;);
+                try {
+                    OBJECT.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            log.info(&quot;有烟?，{}&quot;, hasCigarette);
+            if (hasCigarette) {
+                log.info(&quot;有烟开始干活儿&quot;);
+            }
+        }
+    }, &quot;小南&quot;).start();
+    new Thread(() -&gt; {
+        synchronized (OBJECT){
+            log.info(&quot;女开始干活儿&quot;);
+            if (!hasTokenTime) {
+                log.info(&quot;没有外卖不干活儿&quot;);
+                try {
+                    OBJECT.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            log.info(&quot;有外卖他？？，{}&quot;, hasTokenTime);
+            if (hasTokenTime) {
+                log.info(&quot;有外卖开始干活儿&quot;);
+            }
+        }
+    }, &quot;小女&quot;).start();
+
+
+
+    try {
+        TimeUnit.SECONDS.sleep(1);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    new Thread(()-&gt;{
+        synchronized (OBJECT){
+            log.info(&quot;送外卖&quot;);
+            hasTokenTime = true;
+            OBJECT.notify();
+            OBJECT.notifyAll();
+        }
+    },&quot;🥡&quot;).start();
+}
+</code></pre>
+<p>如何解决虚假唤醒线程？</p>
+<p>使用notifyAll可以叫醒所有的wait线程</p>
+<p>但是if加wait只有一次机会，如果唤醒的时候，条件没有达到，那么这个线程就结束了，不符合预期，必须是等待状态</p>
+<p>Step4</p>
+<p>解决办法是用while+wait解决问题，如果条件没有达到，那么就一直等待</p>
+<p>new Thread(() -&gt; {<br>
+synchronized (OBJECT){<br>
+log.info(&quot;南开始干活儿&quot;);<br>
+while (!hasCigarette) {<br>
+log.info(&quot;没有烟不干活儿&quot;);<br>
+try {<br>
+OBJECT.wait();<br>
+} catch (InterruptedException e) {<br>
+e.printStackTrace();<br>
+}<br>
+}<br>
+log.info(&quot;有烟?，{}&quot;, hasCigarette);<br>
+if (hasCigarette) {<br>
+log.info(&quot;有烟开始干活儿&quot;);<br>
+}<br>
+}<br>
+}, &quot;小南&quot;).start();<br>
+总结：正确姿势</p>
+<p>synchronized(LOCK){<br>
+// 线程1<br>
+while(条件不成立){<br>
+LOCK.wait();<br>
+}<br>
+// 条件成立，去干活儿<br>
+}</p>
+<p>// 线程2<br>
+synchronized(LOCK){<br>
+// 条件成立 唤醒操作<br>
+LOCK.notifyAll();<br>
+}<br>
+模式之保护性暂停 -&gt;模式篇md</p>
+<p>4.8 Park和UnPark的使用</p>
+<p>基本使用</p>
+<p>LockSupport.park();<br>
+LockSupport.unpark(thread);<br>
+Demo</p>
+<p>@Slf4j<br>
+public class ParkAndUnPark {</p>
+<pre><code>public static void main(String[] args) {
+
+    Thread thread = new Thread(() -&gt; {
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.info(&quot;开始park&quot;);
+        LockSupport.park();
+        log.info(&quot;开始resume&quot;);
+    }, &quot;线程1&quot;);
+
+    thread.start();
+
+    try {
+        TimeUnit.SECONDS.sleep(1);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    log.info(&quot;开始unpark&quot;);
+    LockSupport.unpark(thread);
+}
+</code></pre>
+<p>}<br>
+输出：</p>
+<p>17:12:34.654 [main] INFO com.example.heimajuc.park2demo.ParkAndUnPark - 开始unpark<br>
+17:12:35.645 [线程1] INFO com.example.heimajuc.park2demo.ParkAndUnPark - 开始park<br>
+17:12:35.645 [线程1] INFO com.example.heimajuc.park2demo.ParkAndUnPark - 开始resume<br>
+特点：与notifyAll、wait的区别</p>
+<p>wait，notify和notifyAll必须配合Object Monitor 一起使用，而park，unpark不必</p>
+<p>park &amp; unpark是以线程为单位来【阻塞】和【唤醒】线程，而notify只能随机唤醒一个等待线程，notifyAll是唤醒所有等待线程，就不那么【精确】</p>
+<p>park &amp; unpark可以先unpark，而wait &amp; notify不能先notify</p>
+<p>原理</p>
+<p>每个线程都有自己的一个Parker对象，由三部分组成counter，cond和_mutex打个比喻</p>
+<p>线程就像一个旅人，Parker就像他随身携带的背包，条件变量就好比背包中的帐篷。_counter就好比背包中的备用干粮（0为耗尽，1为充足）</p>
+<p>调用park就是要看需不需要停下来歇息<br>
+1、如果备用干粮耗尽，那么钻进帐篷歇息</p>
+<p>2、如果备用干粮充足，那么不需停留，继续前进</p>
+<p>调用unpark，就好比令干粮充足<br>
+1、如果这时线程还在帐篷，就唤醒让他继续前进<br>
+2、如果这时线程还在运行，那么下次他调用park时，仅是消耗掉备用干粮，不需停留继续前进<br>
+a、因为背包空间有限，多次调用unpark仅会补充一份备用干粮</p>
+<p>图解：</p>
+<p>image-20210829172232556</p>
+<p>1.当前线程调用Unsafe.park()方法<br>
+2.检查counter，本情况为0，这时，获得mutex互斥锁<br>
+3.线程进入cond条件变量阻塞<br>
+4.设置counter=0</p>
+<p>image-20210829223727960</p>
+<p>调用Unsafe.unpark（Thread_0）方法，设置_counter为1</p>
+<p>唤醒_cond条件变量中的Thread_0</p>
+<p>Thread_O恢复运行</p>
+<p>设置_counter为0</p>
+<p>image-20210829223620343</p>
+<p>1.调用Unsafe.unpark（Thread_0）方法，设置counter为1<br>
+2.当前线程调用Unsafe.park（）方法<br>
+3.检查counter，本情况为1，这时线程无需阻塞，继续运行<br>
+4.设置_counter为0</p>
+<p>4.10 重新理解线程状态转换</p>
+<p>image-20210829224618064</p>
+<p>情况1 NEW-&gt;RUNNABLE</p>
+<p>new Thread().start();</p>
+<p>情况2 RUNNABLE&lt;---&gt;WAITING</p>
+<p>t线程 synchronized(obj) 获取了对象锁以后</p>
+<p>调用obj.wait(); ,t线程就会从RUNNABLE-&gt;WAITING</p>
+<p>当obj.notifyAll(); 会出现两种情况</p>
+<p>竞争锁成功，t线程从WAITING-&gt;RUNNING</p>
+<p>竞争锁失败，t线程从WAITING-&gt;BLOCKED</p>
+<p>image-20210920215318339</p>
+<p>image-20210920215532572</p>
+<p>代码CODE：</p>
+<p>public class TestWaitNotify {</p>
+<pre><code>private static Object object = new Object();
+
+public static void main(String[] args) {
+    new Thread(() -&gt; {
+        log.info(&quot;t1线程开始&quot;);
+        try {
+            synchronized (object) {
+                object.wait();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.info(&quot;t1线程开结束&quot;);
+    }, &quot;t1&quot;).start();
+    new Thread(() -&gt; {
+        log.info(&quot;t2线程开始&quot;);
+        try {
+            synchronized (object) {
+                object.wait();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.info(&quot;t2线程开结束&quot;);
+    }, &quot;t2&quot;).start();
+
+    try {
+        TimeUnit.SECONDS.sleep(1);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    synchronized (object) {
+        // 唤醒waitSet中的某一个
+</code></pre>
+<p>//            object.notify();<br>
+// 唤醒waitSet中的所有的<br>
+object.notifyAll();<br>
+}<br>
+}<br>
+}<br>
+情况3 RUNNABLE&lt;---&gt;WAITING</p>
+<p>当前线程调用 t.join()方法时，当前线程从Runnable--&gt;Waiting</p>
+<p>注意是当前线程在t线程对象的监视器上等待</p>
+<p>t线程运行结束后，或者调用了当前线程的interrupt()方法的时候，当前线程是从Waiting--&gt;Runnable</p>
+<p>情况4 WAITING&lt;---&gt;RUNNABLE</p>
+<p>当前线程调用LockSupport.park()方法的时候，当前线程会从RUNNABLE--&gt;WAITING</p>
+<p>当前线程调用unpark(目标线程)方法的时候，或者调用了interrupt方法的时候，会让目标线程的状态从WAITING--&gt;RUNNABLE</p>
+<p>情况5 RUNNABLE&lt;---&gt;TIME_WAITING</p>
+<p>t线程获得对象锁sychronized(obj)的时候</p>
+<p>当前线程调用 obj.wait(long n)方法时，当前线程从Runnable--&gt;TIME_Waiting</p>
+<p>t线程等待时间超过n秒以后，或者调用了obj.notify(),obj.notifyAll()方法后，或者调用了t.interrupt()方法后</p>
+<p>竞争锁成功，t线程从TIME_WAITING---&gt;RUNNABLE</p>
+<p>竞争锁失败，t线程从TIME_WAITING---&gt;BLOCKED</p>
+<p>情况6 RUNNABLE&lt;---&gt;TIME_WAITING</p>
+<p>当前线程调用 t.join(long n)方法时，当前线程从RUNNABLE--&gt;TIME_WAITING</p>
+<p>注意是当前线程在t线程对象的监视器上等待</p>
+<p>当前线程等待时间超过n毫秒以后，或者t线程验证结束后，或者调用当前线程的interrupt()方法后，当前线程从TIME_WAITING---&gt;RUNNABLE</p>
+<p>情况7 RUNNABLE&lt;---&gt;TIME_WAITING</p>
+<p>当前线程调用 LockSupport.parkNanos(long nanos)方法时，或者当前线程调用了LockSupport.parkUntil(long deadline)时，当前线程从RUNNABLE--&gt;TIME_WAITING</p>
+<p>当前线程等待时间超过n毫秒以后，或者等待超时，或者当前线程调用unpark(目标线程)方法的时候，或者调用了interrupt方法的时候，会让目标线程的状态从TIME_WAITING---&gt;RUNNABLE</p>
+<p>情况8 RUNNABLE&lt;---&gt;TIME_WAITING</p>
+<p>当前线程调用 Thread.sleep(long ms)方法时，当前线程从RUNNABLE--&gt;TIME_WAITING</p>
+<p>当前线程等待时间超过n毫秒以后，或者等待超时，或者当前线程调用unpark(目标线程)方法的时候，或者调用了interrupt方法的时候，会让目标线程的状态从TIME_WAITING---&gt;RUNNABLE</p>
+<p>情况9 RUNNABLE&lt;---&gt;BLOCKED</p>
+<p>T1线程在使用synchronize(obj)竞争锁的时候，如果竞争锁失败，T1线程就从RUNNABLE--&gt;BLOCKED</p>
+<p>持有OBJ锁线程的同步代码块执行完毕后，会唤醒该对象上所有BLOCKED的线程全部重新竞争锁，如果竞争到了，就会从BLOCKED变成RUNNABLE，其他失败的线程依然是BLOCKED状态。</p>
+<p>情况10 RUNNABLE&lt;---&gt;TERMINATE</p>
+<p>当前线程运行结束以后，当前线程从RUNNABLE--&gt;TERMINATE</p>
+<p>4.11 多把锁🔒</p>
+<p>一间大屋子有两个功能：睡觉、学习，互不相干。</p>
+<p>现在小南要学习，小女要睡觉，但如果只用一间屋子（一个对象锁）的话，那么并发度很低解决方法是准备多个房间（多个对象锁）</p>
+<p>@Slf4j<br>
+public class MoreLockDemo {</p>
+<pre><code>public static void main(String[] args) {
+    BigRoom bigRoom = new BigRoom();
+    new Thread(() -&gt; {
+        bigRoom.sleep();
+    }, &quot;线程1&quot;).start();
+    new Thread(() -&gt; {
+        bigRoom.study();
+    }, &quot;线程2&quot;).start();
+}
+</code></pre>
+<p>}</p>
+<p>@Slf4j<br>
+class BigRoom {<br>
+private final Object obj = new Object();</p>
+<pre><code>public void sleep() {
+    synchronized (obj) {
+        log.info(&quot;开始睡觉&quot;);
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+public void study() {
+    synchronized (obj) {
+        log.info(&quot;开始学习&quot;);
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<p>}<br>
+输出结果，并发不高</p>
+<p>15:01:43.777 [线程1] INFO com.example.heimajuc.demo.BigRoom - 开始睡觉<br>
+15:01:44.780 [线程2] INFO com.example.heimajuc.demo.BigRoom - 开始学习<br>
+采用多把锁，控制，提高并发</p>
+<p>@Slf4j<br>
+class BigRoom {<br>
+private final Object sleep = new Object();<br>
+private final Object study = new Object();</p>
+<pre><code>public void sleep() {
+    synchronized (sleep) {
+        log.info(&quot;开始睡觉&quot;);
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+public void study() {
+    synchronized (study) {
+        log.info(&quot;开始学习&quot;);
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<p>}<br>
+输出结果：</p>
+<p>15:02:06.507 [线程2] INFO com.example.heimajuc.demo.BigRoom - 开始学习<br>
+15:02:06.507 [线程1] INFO com.example.heimajuc.demo.BigRoom - 开始睡觉<br>
+将锁的粒度细分：</p>
+<p>好处，会增加并发度</p>
+<p>好处，如果一个线程需要同时获得多把锁，就容易发生死锁</p>
+<p>4.12 活跃度</p>
+<p>死锁</p>
+<p>有这样的情况：一个线程需要同时获取多把锁，这时就容易发生死锁</p>
+<p>t1线程获得A对象锁，接下来想获取B对象的锁</p>
+<p>t2线程获得B对象锁，接下来想获取A对象的锁</p>
+<p>demo：</p>
+<p>public static void main(String[] args) {<br>
+Object o1 = new Object();<br>
+Object o2 = new Object();<br>
+new Thread(() -&gt; {<br>
+synchronized (o1) {<br>
+log.info(&quot;t1---info&quot;);<br>
+try {<br>
+TimeUnit.SECONDS.sleep(1);<br>
+} catch (InterruptedException e) {<br>
+e.printStackTrace();<br>
+}<br>
+synchronized (o2) {<br>
+log.info(&quot;111&quot;);<br>
+}<br>
+}<br>
+}, &quot;t1&quot;).start();</p>
+<pre><code>    new Thread(() -&gt; {
+        synchronized (o2) {
+            log.info(&quot;t2---info&quot;);
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            synchronized (o1) {
+                log.info(&quot;222&quot;);
+            }
+        }
+    }, &quot;t2&quot;).start();
+
+}
+</code></pre>
+<p>定位死锁</p>
+<p>检测死锁可以使用jconsole工具，或者使用jps定位进程id，再用jstack定位死锁：</p>
+<p>jps定位进程id:</p>
+<p>➜  heima-juc git:(master) ✗ jps<br>
+90551 RemoteMavenServer36<br>
+91065 TestDeadLock<br>
+91064 Launcher<br>
+17806 IptiqLixApp<br>
+23167<br>
+91102 Jps<br>
+用jstack定位死锁:</p>
+<p>➜  heima-juc git:(master) ✗ jstack 91065</p>
+<p>&quot;t2&quot; #11 prio=5 os_prio=31 tid=0x00007fbd730fe000 nid=0x3a03 waiting for monitor entry [0x00007000088ff000]<br>
+java.lang.Thread.State: BLOCKED (on object monitor)<br>
+at com.example.heimajuc.demo.TestDeadLock.lambda$main<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>(</mo><mi>T</mi><mi>e</mi><mi>s</mi><mi>t</mi><mi>D</mi><mi>e</mi><mi>a</mi><mi>d</mi><mi>L</mi><mi>o</mi><mi>c</mi><mi>k</mi><mi mathvariant="normal">.</mi><mi>j</mi><mi>a</mi><mi>v</mi><mi>a</mi><mo>:</mo><mn>42</mn><mo>)</mo><mo>−</mo><mi>w</mi><mi>a</mi><mi>i</mi><mi>t</mi><mi>i</mi><mi>n</mi><mi>g</mi><mi>t</mi><mi>o</mi><mi>l</mi><mi>o</mi><mi>c</mi><mi>k</mi><mo>&lt;</mo><mn>0</mn><mi>x</mi><mn>000000076</mn><mi>b</mi><mn>3753</mn><mi>a</mi><mn>8</mn><mo>&gt;</mo><mo>(</mo><mi>a</mi><mi>j</mi><mi>a</mi><mi>v</mi><mi>a</mi><mi mathvariant="normal">.</mi><mi>l</mi><mi>a</mi><mi>n</mi><mi>g</mi><mi mathvariant="normal">.</mi><mi>O</mi><mi>b</mi><mi>j</mi><mi>e</mi><mi>c</mi><mi>t</mi><mo>)</mo><mo>−</mo><mi>l</mi><mi>o</mi><mi>c</mi><mi>k</mi><mi>e</mi><mi>d</mi><mo>&lt;</mo><mn>0</mn><mi>x</mi><mn>000000076</mn><mi>b</mi><mn>3753</mn><mi>b</mi><mn>8</mn><mo>&gt;</mo><mo>(</mo><mi>a</mi><mi>j</mi><mi>a</mi><mi>v</mi><mi>a</mi><mi mathvariant="normal">.</mi><mi>l</mi><mi>a</mi><mi>n</mi><mi>g</mi><mi mathvariant="normal">.</mi><mi>O</mi><mi>b</mi><mi>j</mi><mi>e</mi><mi>c</mi><mi>t</mi><mo>)</mo><mi>a</mi><mi>t</mi><mi>c</mi><mi>o</mi><mi>m</mi><mi mathvariant="normal">.</mi><mi>e</mi><mi>x</mi><mi>a</mi><mi>m</mi><mi>p</mi><mi>l</mi><mi>e</mi><mi mathvariant="normal">.</mi><mi>h</mi><mi>e</mi><mi>i</mi><mi>m</mi><mi>a</mi><mi>j</mi><mi>u</mi><mi>c</mi><mi mathvariant="normal">.</mi><mi>d</mi><mi>e</mi><mi>m</mi><mi>o</mi><mi mathvariant="normal">.</mi><mi>T</mi><mi>e</mi><mi>s</mi><mi>t</mi><mi>D</mi><mi>e</mi><mi>a</mi><mi>d</mi><mi>L</mi><mi>o</mi><mi>c</mi><mi>k</mi></mrow><annotation encoding="application/x-tex">1(TestDeadLock.java:42)
+        - waiting to lock &lt;0x000000076b3753a8&gt; (a java.lang.Object)
+        - locked &lt;0x000000076b3753b8&gt; (a java.lang.Object)
+        at com.example.heimajuc.demo.TestDeadLock</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mord mathdefault">e</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault">e</span><span class="mord mathdefault">a</span><span class="mord mathdefault">d</span><span class="mord mathdefault">L</span><span class="mord mathdefault">o</span><span class="mord mathdefault">c</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mord">.</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">4</span><span class="mord">2</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mord mathdefault">a</span><span class="mord mathdefault">i</span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">t</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault">c</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.73354em;vertical-align:-0.0391em;"></span><span class="mord">0</span><span class="mord mathdefault">x</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">7</span><span class="mord">6</span><span class="mord mathdefault">b</span><span class="mord">3</span><span class="mord">7</span><span class="mord">5</span><span class="mord">3</span><span class="mord mathdefault">a</span><span class="mord">8</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">a</span><span class="mord">.</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord">.</span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mord mathdefault">b</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord mathdefault">e</span><span class="mord mathdefault">c</span><span class="mord mathdefault">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.73354em;vertical-align:-0.0391em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault">c</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mord mathdefault">e</span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.73354em;vertical-align:-0.0391em;"></span><span class="mord">0</span><span class="mord mathdefault">x</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">7</span><span class="mord">6</span><span class="mord mathdefault">b</span><span class="mord">3</span><span class="mord">7</span><span class="mord">5</span><span class="mord">3</span><span class="mord mathdefault">b</span><span class="mord">8</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">a</span><span class="mord">.</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord">.</span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mord mathdefault">b</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord mathdefault">e</span><span class="mord mathdefault">c</span><span class="mord mathdefault">t</span><span class="mclose">)</span><span class="mord mathdefault">a</span><span class="mord mathdefault">t</span><span class="mord mathdefault">c</span><span class="mord mathdefault">o</span><span class="mord mathdefault">m</span><span class="mord">.</span><span class="mord mathdefault">e</span><span class="mord mathdefault">x</span><span class="mord mathdefault">a</span><span class="mord mathdefault">m</span><span class="mord mathdefault">p</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">e</span><span class="mord">.</span><span class="mord mathdefault">h</span><span class="mord mathdefault">e</span><span class="mord mathdefault">i</span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord mathdefault">u</span><span class="mord mathdefault">c</span><span class="mord">.</span><span class="mord mathdefault">d</span><span class="mord mathdefault">e</span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord">.</span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mord mathdefault">e</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault">e</span><span class="mord mathdefault">a</span><span class="mord mathdefault">d</span><span class="mord mathdefault">L</span><span class="mord mathdefault">o</span><span class="mord mathdefault">c</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span>$Lambda$2/2110121908.run(Unknown Source)<br>
+at java.lang.Thread.run(Thread.java:748)</p>
+<p>&quot;t1&quot; #10 prio=5 os_prio=31 tid=0x00007fbd730ae800 nid=0x3903 waiting for monitor entry [0x00007000087fc000]<br>
+java.lang.Thread.State: BLOCKED (on object monitor)<br>
+at com.example.heimajuc.demo.TestDeadLock.lambda$main<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>0</mn><mo>(</mo><mi>T</mi><mi>e</mi><mi>s</mi><mi>t</mi><mi>D</mi><mi>e</mi><mi>a</mi><mi>d</mi><mi>L</mi><mi>o</mi><mi>c</mi><mi>k</mi><mi mathvariant="normal">.</mi><mi>j</mi><mi>a</mi><mi>v</mi><mi>a</mi><mo>:</mo><mn>28</mn><mo>)</mo><mo>−</mo><mi>w</mi><mi>a</mi><mi>i</mi><mi>t</mi><mi>i</mi><mi>n</mi><mi>g</mi><mi>t</mi><mi>o</mi><mi>l</mi><mi>o</mi><mi>c</mi><mi>k</mi><mo>&lt;</mo><mn>0</mn><mi>x</mi><mn>000000076</mn><mi>b</mi><mn>3753</mn><mi>b</mi><mn>8</mn><mo>&gt;</mo><mo>(</mo><mi>a</mi><mi>j</mi><mi>a</mi><mi>v</mi><mi>a</mi><mi mathvariant="normal">.</mi><mi>l</mi><mi>a</mi><mi>n</mi><mi>g</mi><mi mathvariant="normal">.</mi><mi>O</mi><mi>b</mi><mi>j</mi><mi>e</mi><mi>c</mi><mi>t</mi><mo>)</mo><mo>−</mo><mi>l</mi><mi>o</mi><mi>c</mi><mi>k</mi><mi>e</mi><mi>d</mi><mo>&lt;</mo><mn>0</mn><mi>x</mi><mn>000000076</mn><mi>b</mi><mn>3753</mn><mi>a</mi><mn>8</mn><mo>&gt;</mo><mo>(</mo><mi>a</mi><mi>j</mi><mi>a</mi><mi>v</mi><mi>a</mi><mi mathvariant="normal">.</mi><mi>l</mi><mi>a</mi><mi>n</mi><mi>g</mi><mi mathvariant="normal">.</mi><mi>O</mi><mi>b</mi><mi>j</mi><mi>e</mi><mi>c</mi><mi>t</mi><mo>)</mo><mi>a</mi><mi>t</mi><mi>c</mi><mi>o</mi><mi>m</mi><mi mathvariant="normal">.</mi><mi>e</mi><mi>x</mi><mi>a</mi><mi>m</mi><mi>p</mi><mi>l</mi><mi>e</mi><mi mathvariant="normal">.</mi><mi>h</mi><mi>e</mi><mi>i</mi><mi>m</mi><mi>a</mi><mi>j</mi><mi>u</mi><mi>c</mi><mi mathvariant="normal">.</mi><mi>d</mi><mi>e</mi><mi>m</mi><mi>o</mi><mi mathvariant="normal">.</mi><mi>T</mi><mi>e</mi><mi>s</mi><mi>t</mi><mi>D</mi><mi>e</mi><mi>a</mi><mi>d</mi><mi>L</mi><mi>o</mi><mi>c</mi><mi>k</mi></mrow><annotation encoding="application/x-tex">0(TestDeadLock.java:28)
+        - waiting to lock &lt;0x000000076b3753b8&gt; (a java.lang.Object)
+        - locked &lt;0x000000076b3753a8&gt; (a java.lang.Object)
+        at com.example.heimajuc.demo.TestDeadLock</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">0</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mord mathdefault">e</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault">e</span><span class="mord mathdefault">a</span><span class="mord mathdefault">d</span><span class="mord mathdefault">L</span><span class="mord mathdefault">o</span><span class="mord mathdefault">c</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mord">.</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mord">8</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mord mathdefault">a</span><span class="mord mathdefault">i</span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">t</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault">c</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.73354em;vertical-align:-0.0391em;"></span><span class="mord">0</span><span class="mord mathdefault">x</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">7</span><span class="mord">6</span><span class="mord mathdefault">b</span><span class="mord">3</span><span class="mord">7</span><span class="mord">5</span><span class="mord">3</span><span class="mord mathdefault">b</span><span class="mord">8</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">a</span><span class="mord">.</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord">.</span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mord mathdefault">b</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord mathdefault">e</span><span class="mord mathdefault">c</span><span class="mord mathdefault">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.73354em;vertical-align:-0.0391em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault">c</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mord mathdefault">e</span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.73354em;vertical-align:-0.0391em;"></span><span class="mord">0</span><span class="mord mathdefault">x</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">7</span><span class="mord">6</span><span class="mord mathdefault">b</span><span class="mord">3</span><span class="mord">7</span><span class="mord">5</span><span class="mord">3</span><span class="mord mathdefault">a</span><span class="mord">8</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">a</span><span class="mord">.</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord">.</span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mord mathdefault">b</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord mathdefault">e</span><span class="mord mathdefault">c</span><span class="mord mathdefault">t</span><span class="mclose">)</span><span class="mord mathdefault">a</span><span class="mord mathdefault">t</span><span class="mord mathdefault">c</span><span class="mord mathdefault">o</span><span class="mord mathdefault">m</span><span class="mord">.</span><span class="mord mathdefault">e</span><span class="mord mathdefault">x</span><span class="mord mathdefault">a</span><span class="mord mathdefault">m</span><span class="mord mathdefault">p</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">e</span><span class="mord">.</span><span class="mord mathdefault">h</span><span class="mord mathdefault">e</span><span class="mord mathdefault">i</span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord mathdefault">u</span><span class="mord mathdefault">c</span><span class="mord">.</span><span class="mord mathdefault">d</span><span class="mord mathdefault">e</span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord">.</span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mord mathdefault">e</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault">e</span><span class="mord mathdefault">a</span><span class="mord mathdefault">d</span><span class="mord mathdefault">L</span><span class="mord mathdefault">o</span><span class="mord mathdefault">c</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span>$Lambda$1/231685785.run(Unknown Source)<br>
+at java.lang.Thread.run(Thread.java:748)<br>
+使用jconsole检测死锁以及定位死锁</p>
+<p>image-20211031115537515</p>
+<p>image-20211031115605879</p>
+<p>哲学家就餐问题</p>
+<p>image-20211031115720369</p>
+<p>有五位哲学家，围坐在圆桌旁。</p>
+<p>■他们只做两件事，思考和吃饭，思考一-会吃口饭，吃完饭后接着思考。</p>
+<p>■吃饭时要用两根筷子吃，桌上共有5根筷子，每位哲学家左右手边各有一根筷子。</p>
+<p>■如果筷子被身边的人拿着，自己就得等待</p>
+<p>问题：如果每个人都拿起了一个筷子，那么就是死锁了，所有人都在等待</p>
+<p>Code:</p>
+<p>@Slf4j<br>
+public class PhilosophersEatProblem {</p>
+<pre><code>public static void main(String[] args) {
+
+    Chopsticks chopsticks1 = new Chopsticks(&quot;1&quot;);
+    Chopsticks chopsticks2 = new Chopsticks(&quot;2&quot;);
+    Chopsticks chopsticks3 = new Chopsticks(&quot;3&quot;);
+    Chopsticks chopsticks4 = new Chopsticks(&quot;4&quot;);
+    Chopsticks chopsticks5 = new Chopsticks(&quot;5&quot;);
+    new Philosophers(&quot;苏格拉底&quot;, chopsticks1, chopsticks2).start();
+    new Philosophers(&quot;柏拉图&quot;, chopsticks2, chopsticks3).start();
+    new Philosophers(&quot;亚里士多德&quot;, chopsticks3, chopsticks4).start();
+    new Philosophers(&quot;张三&quot;, chopsticks4, chopsticks5).start();
+    new Philosophers(&quot;里斯&quot;, chopsticks5, chopsticks1).start();
+
+}
+</code></pre>
+<p>}</p>
+<p>/**</p>
+<ul>
+<li>
+<p>@author JackGao</p>
+</li>
+<li>
+<p>@since 2021/10/31</p>
+</li>
+<li>
+<p>desc: 哲学家类<br>
+*/<br>
+@EqualsAndHashCode(callSuper = true)<br>
+@Data<br>
+@Slf4j<br>
+class Philosophers extends Thread {</p>
+<p>Chopsticks left;<br>
+Chopsticks right;</p>
+<p>public Philosophers(String name, Chopsticks left, Chopsticks right) {<br>
+super(name);<br>
+this.left = left;<br>
+this.right = right;<br>
+}</p>
+<p>@Override<br>
+public void run() {<br>
+while (true) {<br>
+synchronized (left) {<br>
+synchronized (right) {<br>
+eat();<br>
+}<br>
+}<br>
+}</p>
+<p>}</p>
+<p>private void eat() {<br>
+log.info(&quot;eating...&quot;);<br>
+// 思考问题。。。。。。<br>
+try {<br>
+TimeUnit.SECONDS.sleep(1);<br>
+} catch (InterruptedException e) {<br>
+e.printStackTrace();<br>
+}<br>
+}<br>
+}</p>
+</li>
+</ul>
+<p>/**</p>
+<ul>
+<li>@author JackGao</li>
+<li>@since 2021/10/31</li>
+<li>
+<p>
+</li>
+<li>desc:筷子</li>
+<li>
+</p>
+</li>
+</ul>
+<p>*/<br>
+@Data<br>
+class Chopsticks {</p>
+<pre><code>String name;
+
+public Chopsticks(String name) {
+    this.name = name;
+}
+
+@Override
+public String toString() {
+    return &quot;Chopsticks{&quot; +
+            &quot;name='&quot; + name + '\'' +
+            '}';
+}
+</code></pre>
+<p>}</p>
+<p>console result：</p>
+<p>14:26:20.360 [亚里士多德] INFO com.example.heimajuc.demo.Philosophers - eating...<br>
+14:26:21.361 [柏拉图] INFO com.example.heimajuc.demo.Philosophers - eating...<br>
+14:26:22.362 [柏拉图] INFO com.example.heimajuc.demo.Philosophers - eating...<br>
+14:26:23.366 [柏拉图] INFO com.example.heimajuc.demo.Philosophers - eating...<br>
+14:26:24.366 [柏拉图] INFO com.example.heimajuc.demo.Philosophers - eating...<br>
+使用jconsole查看结果：发现产生了死锁</p>
+<p>image-20211101143339725</p>
+<p>活锁</p>
+<p>活锁出现在两个线程互相改变了对方的结束条件，最后谁也无法结束，例如</p>
+<p>code：</p>
+<p>@Slf4j<br>
+public class LiveLockDemo {<br>
+static volatile int COUNT = 10;<br>
+static final Object OBJECT = new Object();</p>
+<pre><code>public static void main(String[] args) {
+    new Thread(() -&gt; {
+        while (COUNT &gt; 0) {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            COUNT--;
+            log.info(&quot;count,{}&quot;, COUNT);
+        }
+    }, &quot;t1&quot;).start();
+
+    new Thread(() -&gt; {
+        while (COUNT &lt; 20) {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            COUNT++;
+            log.info(&quot;count,{}&quot;, COUNT);
+        }
+    }, &quot;t2&quot;).start();
+}
+</code></pre>
+<p>}<br>
+console result：</p>
+<p>14:59:17.514 [t1] INFO com.example.heimajuc.demo.LiveLockDemo - count,10<br>
+14:59:18.520 [t1] INFO com.example.heimajuc.demo.LiveLockDemo - count,10<br>
+14:59:18.520 [t2] INFO com.example.heimajuc.demo.LiveLockDemo - count,10<br>
+14:59:19.520 [t2] INFO com.example.heimajuc.demo.LiveLockDemo - count,10<br>
+14:59:19.520 [t1] INFO com.example.heimajuc.demo.LiveLockDemo - count,9<br>
+14:59:20.524 [t2] INFO com.example.heimajuc.demo.LiveLockDemo - count,11<br>
+14:59:20.524 [t1] INFO com.example.heimajuc.demo.LiveLockDemo - count,11<br>
+解决办法：使两个线程的执行时间有交错，就可以避免或者增加随机睡眠时间</p>
+<p>饥饿</p>
+<p>很多教程中把饥饿定义为，一个线程由于优先级太低，始终得不到CPU调度执行，也不能够结束，饥饿的情况不易演示，讲读写锁时会涉及饥饿问题<br>
+下面我讲一下我遇到的一个线程饥饿的例子，先来看看使用顺序加锁的方式解决之前的死锁问题</p>
+<p>image-20211101150501490</p>
+<p>顺序加锁的解决方案：</p>
+<p>image-20211101150523056</p>
+<p>4.13 ReentrantLock</p>
+<p>reentrant 重入  reentrantLock 可以重入锁<br>
+相对于synchronized它具备如下特点，</p>
+<p>可中断</p>
+<p>可以设置超时时间</p>
+<p>可以设置为公平锁</p>
+<p>支持多个条件变量</p>
+<p>与synchronized一样，都支持可重入</p>
+<p>基本语法：</p>
+<p>// 获取锁<br>
+reentrantLock.lock();<br>
+try {<br>
+// 临界区<br>
+}finally {<br>
+reentrantLock.unlock();<br>
+}<br>
+可重入锁</p>
+<p>可重入：是指同一个线程如果首次获得了这把锁，那么因为它是这把锁的拥有者，因此有权利再次获取这把锁<br>
+如果是不可重入锁，那么第二次获得锁时，自己也会被锁挡住</p>
+<p>code：</p>
+<p>@Slf4j<br>
+public class ReentrantLockDemo {<br>
+private static final ReentrantLock REENTRANT_LOCK = new ReentrantLock();</p>
+<pre><code>public static void main(String[] args) {
+
+    REENTRANT_LOCK.lock();
+    try {
+        // 临界区
+        log.info(&quot;main&quot;);
+        m1();
+    } finally {
+        REENTRANT_LOCK.unlock();
+    }
+
+}
+
+private static void m1() {
+    REENTRANT_LOCK.lock();
+    try {
+        // 临界区
+        log.info(&quot;m1&quot;);
+        m2();
+    } finally {
+        REENTRANT_LOCK.unlock();
+    }
+}
+
+private static void m2() {
+    REENTRANT_LOCK.lock();
+    try {
+        // 临界区
+        log.info(&quot;m2&quot;);
+    } finally {
+        REENTRANT_LOCK.unlock();
+    }
+}
+</code></pre>
+<p>}<br>
+console result：</p>
+<p>15:50:51.472 [main] INFO com.example.heimajuc.demo.ReentrantLockDemo - main<br>
+15:50:51.479 [main] INFO com.example.heimajuc.demo.ReentrantLockDemo - m1<br>
+15:50:51.479 [main] INFO com.example.heimajuc.demo.ReentrantLockDemo - m2<br>
+可打断</p>
+<p>synchronize不能被打断，获取到锁了，就是获取到锁了，但是reentrantLock可以被打断</p>
+<p>code：</p>
+<p>@Slf4j<br>
+public class ReentrantLock_interruptDemo {<br>
+private static final ReentrantLock REENTRANT_LOCK = new ReentrantLock();</p>
+<pre><code>public static void main(String[] args) {
+
+    Thread thread = new Thread(() -&gt; {
+        try {
+            log.info(&quot;尝试获取锁&quot;);
+            REENTRANT_LOCK.lockInterruptibly();
+        } catch (InterruptedException e) {
+            log.info(&quot;被打断&quot;);
+            e.printStackTrace();
+            // 如果被打断  没有return返回 那么会继续往下走 重
+            log.info(&quot;1、解锁了吗？，{}&quot;, REENTRANT_LOCK.isLocked());
+            return;
+        }
+        try {
+            log.info(&quot;获取到锁&quot;);
+            log.info(&quot;2、解锁了吗?，{}&quot;, REENTRANT_LOCK.isLocked());
+        } finally {
+            REENTRANT_LOCK.unlock();
+            log.info(&quot;3、解锁了吗？，{}&quot;, REENTRANT_LOCK.isLocked());
+        }
+    });
+
+    REENTRANT_LOCK.lock();
+    thread.start();
+    log.info(&quot;打断thread线程&quot;);
+    thread.interrupt();
+    log.info(&quot;4、解锁了吗？，{}&quot;, REENTRANT_LOCK.isLocked());
+</code></pre>
+<p>//        REENTRANT_LOCK.unlock();<br>
+//        log.info(&quot;5、解锁了吗？，{}&quot;,REENTRANT_LOCK.isLocked());<br>
+}<br>
+}<br>
+？？？如果线程执行完毕，没有释放锁。。咋办？？</p>
+<p>锁超时</p>
+<p>立即释放锁，如果获取不到锁就结束</p>
+<p>REENTRANT_LOCK.tryLock()<br>
+demo：</p>
+<p>@Slf4j<br>
+public class ReentrantLock_TimeOutDemo {<br>
+private static final ReentrantLock REENTRANT_LOCK = new ReentrantLock();</p>
+<pre><code>public static void main(String[] args) {
+
+    Thread thread = new Thread(() -&gt; {
+        log.info(&quot;尝试获取到锁&quot;);
+        if (!REENTRANT_LOCK.tryLock()) {
+            log.info(&quot;获取不到锁&quot;);
+            log.info(&quot;1、被锁了吗？，{}&quot;, REENTRANT_LOCK.isLocked());
+            // 结束
+            return;
+        }
+        try {
+            log.info(&quot;获取到了锁&quot;);
+        } finally {
+            REENTRANT_LOCK.unlock();
+            log.info(&quot;3、被锁了吗？，{}&quot;, REENTRANT_LOCK.isLocked());
+        }
+    });
+    REENTRANT_LOCK.lock();
+    thread.start();
+    log.info(&quot;2、被锁了吗？，{}&quot;, REENTRANT_LOCK.isLocked());
+}
+</code></pre>
+<p>}<br>
+特定时间拿不到锁后，就结束</p>
+<p>REENTRANT_LOCK.tryLock(2, TimeUnit.SECONDS)<br>
+demo：</p>
+<p>@Slf4j<br>
+public class ReentrantLock_HasTimeOutDemo {<br>
+private static final ReentrantLock REENTRANT_LOCK = new ReentrantLock();</p>
+<pre><code>public static void main(String[] args) {
+
+    Thread thread = new Thread(() -&gt; {
+        log.info(&quot;尝试获取到锁&quot;);
+        try {
+            if (!REENTRANT_LOCK.tryLock(2, TimeUnit.SECONDS)) {
+                log.info(&quot;获取不到锁&quot;);
+                log.info(&quot;1、被锁了吗？，{}&quot;, REENTRANT_LOCK.isLocked());
+                // 结束
+                return;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        try {
+            log.info(&quot;获取到了锁&quot;);
+        } finally {
+            log.info(&quot;3、被锁了吗？，{}&quot;, REENTRANT_LOCK.isLocked());
+            REENTRANT_LOCK.unlock();
+        }
+    },&quot;t1&quot;);
+    REENTRANT_LOCK.lock();
+    thread.start();
+    try {
+        TimeUnit.SECONDS.sleep(1);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    log.info(&quot;主线程释放锁&quot;);
+    REENTRANT_LOCK.unlock();
+    log.info(&quot;2、被锁了吗？，{}&quot;, REENTRANT_LOCK.isLocked());
+}
+</code></pre>
+<p>}<br>
+锁公平</p>
+<p>ReentrantLock默认是不公平的</p>
+<p>源码：是不公平的</p>
+<pre><code>/**
+ * Creates an instance of {@code ReentrantLock} with the
+ * given fairness policy.
+ *
+ * @param fair {@code true} if this lock should use a fair ordering policy
+ */
+public ReentrantLock(boolean fair) {
+    sync = fair ? new FairSync() : new NonfairSync();
+}
+</code></pre>
+<p>公平锁一般没必要设置，使用公平锁一般会降低并发。</p>
+<p>条件变量</p>
+<p>synchronized中也有条件变量，就是我们讲原理时那个waitSet休息室，当条件不满足时进入waitSet等待<br>
+ReentrantLock的条件变量比synchronized强大之处在于，它是支持多个条件变量的，这就好比：</p>
+<p>synchronized是那些不满足条件的线程都在一间休息室等消息。</p>
+<p>而ReentrantLock支持多间休息室，有专门等烟的休息室、专门等早餐的休息室、唤醒时也是按休息室来唤醒</p>
+<p>使用流程：</p>
+<p>await前需要获得锁</p>
+<p>await执行后，会释放锁，进入conditionObject等待</p>
+<p>await的线程被唤醒（或打断、或超时）取重新竞争lock锁</p>
+<p>竞争lock锁成功后，从await后继续执行</p>
+<p>Code template:</p>
+<p>送验送外卖案例：</p>
+<p>@Slf4j<br>
+public class ReentrantLock_ConditionDemo1 {<br>
+private static final ReentrantLock REENTRANT_LOCK = new ReentrantLock();<br>
+static boolean HAS_CIGARETTE_WAIT = false;<br>
+static boolean HAS_TAKEOUT_WAIT = false;<br>
+static Condition waitCigaretteRoom = REENTRANT_LOCK.newCondition();<br>
+static Condition waitTakeoutRoom = REENTRANT_LOCK.newCondition();</p>
+<pre><code>public static void main(String[] args) throws InterruptedException {
+
+
+    new Thread(() -&gt; {
+        REENTRANT_LOCK.lock();
+        try {
+            while (!HAS_CIGARETTE_WAIT) {
+                log.info(&quot;没有烟，休息一会儿&quot;);
+                // 去等烟休息室内等会儿
+                try {
+                    waitCigaretteRoom.await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            log.info(&quot;有烟了，开始i干活活儿&quot;);
+        } finally {
+            REENTRANT_LOCK.unlock();
+        }
+    }, &quot;t1&quot;).start();
+
+
+    new Thread(() -&gt; {
+        REENTRANT_LOCK.lock();
+        try {
+            while (!HAS_TAKEOUT_WAIT) {
+                log.info(&quot;没有🥡 外卖，休息一会儿&quot;);
+                // 去等外卖室内等会儿
+                try {
+                    waitTakeoutRoom.await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            log.info(&quot;外卖了，开始i干活活儿&quot;);
+        } finally {
+            REENTRANT_LOCK.unlock();
+        }
+    }, &quot;t2&quot;).start();
+
+
+    TimeUnit.SECONDS.sleep(1);
+    new Thread(() -&gt; {
+        REENTRANT_LOCK.lock();
+        try {
+            log.info(&quot;开始之前送烟&quot;);
+            HAS_CIGARETTE_WAIT = true;
+            waitCigaretteRoom.signal();
+        } finally {
+            REENTRANT_LOCK.unlock();
+        }
+    }, &quot;t3&quot;).start();
+
+    TimeUnit.SECONDS.sleep(1);
+    new Thread(() -&gt; {
+        REENTRANT_LOCK.lock();
+        try {
+            log.info(&quot;开始之前送外卖&quot;);
+            HAS_TAKEOUT_WAIT = true;
+            waitTakeoutRoom.signal();
+        } finally {
+            REENTRANT_LOCK.unlock();
+        }
+    }, &quot;t4&quot;).start();
+}
+</code></pre>
+<p>}<br>
+第四章总结</p>
+<p>本章我们需要重点掌握的是：</p>
+<p>分析多线程访问和共享资源时，哪些代码片段属于临界区</p>
+<p>使用synchronized 互斥解决临界区的线程安全问题</p>
+<p>掌握sychronized锁对象语法</p>
+<p>掌握sychronized加载成员方法（this）和静态方法（class）语法</p>
+<p>掌握wait/notify同步方法</p>
+<p>使用lock互斥解决临界区的线程安全问题</p>
+<p>掌握lock的使用细节：可打断、锁超时（超时释放）、公平锁、条件变量</p>
+<p>学会分析变量的线程安全问题、掌握常见线程安全类的使用</p>
+<p>了解线程活跃性问题：死锁、活锁、饥饿</p>
+<p>应用方面</p>
+<p>互斥：使用stnchronized或Lock达到共享资源互斥效果</p>
+<p>同步：使用wait/notify或者Lock的条件变量来达到线程间通信问题</p>
+<p>原理方面</p>
+<p>monitor、sychronized、wait/notify原理</p>
+<p>sychronized进阶原理</p>
+<p>park &amp; unpark原理</p>
+<p>模式方面</p>
+<p>同步模式之保护性暂停</p>
+<p>异步模式之生产者消费者</p>
+<p>同步模式之顺序控制</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://WheatJack.github.io/tag/_qMU1wHsm/" class="tag">
+                    Java基础
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://WheatJack.github.io/post/idea-kuai-jie-jian-qi-yin-ji-qiao/">
+                  <h3 class="post-title">
+                    奇淫技巧之IDEA
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '6e02be877284c3e5829a',
+        clientSecret: '9a1496cb025a218f5e753da940fc5d864703a2a3',
+        repo: 'WheatJack.github.io',
+        owner: 'WheatJack',
+        admin: ['WheatJack'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Mysql 基础篇 | JackJack</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://WheatJack.github.io/favicon.ico?v=1706154527226">
+<link rel="stylesheet" href="https://WheatJack.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="MYSQL学习
+
+开始学习mysql了，奥力给⛽️⛽️
+
+一、基础学习
+1、通用语法及分类
+SQL分类
+
+DDL语句
+数据库操作-CRUD
+// 查询所有数据库
+show Database;
+// 查询当前数据库
+select databa..." />
+    <meta name="keywords" content="mysql" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://WheatJack.github.io">
+        <img src="https://WheatJack.github.io/images/avatar.png?v=1706154527226" class="site-logo">
+        <h1 class="site-title">JackJack</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            Home
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            Archive
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            Tags
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/WheatJack" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://github.com/WheatJack" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://github.com/WheatJack" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://github.com/WheatJack" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://github.com/WheatJack" target="_blank">
+            <i class="fab fa-facebook"></i>
+          </a>
+        
+      
+    </div>
+    <div class="site-description">
+      记录自己的生活
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/WheatJack" target="_blank">WheatJack</a> | <a class="rss" href="https://WheatJack.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Mysql 基础篇</h2>
+            <div class="post-date">2022-02-27</div>
+            
+              <div class="feature-container" style="background-image: url('https://WheatJack.github.io/post-images/mysql-ji-chu-pian.png')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="mysql学习">MYSQL学习</h1>
+<blockquote>
+<p>开始学习mysql了，奥力给⛽️⛽️</p>
+</blockquote>
+<h1 id="一-基础学习">一、基础学习</h1>
+<h2 id="1-通用语法及分类">1、通用语法及分类</h2>
+<h3 id="sql分类">SQL分类</h3>
+<figure data-type="image" tabindex="1"><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1gzjxc4b8mmj20m00663z3.jpg" alt="image-20220220134319454" loading="lazy"></figure>
+<h4 id="ddl语句">DDL语句</h4>
+<h5 id="数据库操作-crud">数据库操作-CRUD</h5>
+<pre><code class="language-mysql">// 查询所有数据库
+show Database;
+// 查询当前数据库
+select database();
+// 创建数据库
+Create database [if not exists] 数据库名 [default charset utf8mb4][collate 排序规则];
+// 删除数据库
+drop database  if exists test_database;
+// 使用数据库
+use test_database;
+
+</code></pre>
+<h5 id="表操作-查询">表操作-查询</h5>
+<pre><code class="language-mysql">// 查询数据库所有的表
+show tables;
+// 查询所有表的状态
+show table status;
+// 查询表结构
+desc table_name;
+// 查询指定表的建表语句
+show create table table_name;
+</code></pre>
+<h5 id="表操作-创建">表操作-创建</h5>
+<pre><code class="language-mysql">// 创建表--结构
+CREATE TABLE table_name (
+'id' varchar(50) [comment 注释],
+'id' varchar(50) [comment 注释],
+'id' varchar(50) [comment 注释],
+)[comment 表注释];
+
+// 创建表
+CREATE TABLE `employ` (
+  `id` varchar(50) NOT NULL COMMENT '主健id',
+  `name` varchar(5) DEFAULT NULL COMMENT 'name',
+  `time` datetime DEFAULT NULL COMMENT '创建时间',
+  `age` int DEFAULT NULL COMMENT '年纪',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='员工表';
+</code></pre>
+<h5 id="表数据类型及案例">表数据类型及案例</h5>
+<h6 id="数值类型"><strong>数值类型</strong></h6>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>大小</th>
+<th>有符号(SIGNED)范围</th>
+<th>无符号(UNSIGNED)范围</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TINYINT</td>
+<td>1  byte</td>
+<td>(-128，127)</td>
+<td>(0，255)</td>
+<td>小整数值</td>
+</tr>
+<tr>
+<td>SMALLINT</td>
+<td>2  bytes</td>
+<td>(-32768，32767)</td>
+<td>(0，65535)</td>
+<td>大整数值</td>
+</tr>
+<tr>
+<td>MEDIUMINT</td>
+<td>3  bytes</td>
+<td>(-8388608，8388607)</td>
+<td>(0，16777215)</td>
+<td>大整数值</td>
+</tr>
+<tr>
+<td>INT或INTEGER</td>
+<td>4  bytes</td>
+<td>(-2147483648，2147483647)</td>
+<td>(0，4294967295)</td>
+<td>大整数值</td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>8  bytes</td>
+<td>(-2<sup>63，2</sup>63-1)</td>
+<td>(0，2^64-1)</td>
+<td>极大整数值</td>
+</tr>
+<tr>
+<td>FLOAT</td>
+<td>4  bytes</td>
+<td>(-3.402823466 E+38，3.402823466351  E+38)</td>
+<td>0 和 (1.175494351  E-38，3.402823466 E+38)</td>
+<td>单精度浮点数值</td>
+</tr>
+<tr>
+<td>DOUBLE</td>
+<td>8  bytes</td>
+<td>(-1.7976931348623157 E+308，1.7976931348623157 E+308)</td>
+<td>0 和  (2.2250738585072014 E-308，1.7976931348623157 E+308)</td>
+<td>双精度浮点数值</td>
+</tr>
+<tr>
+<td>DECIMAL</td>
+<td></td>
+<td>依赖于M(精度)和D(标度)的值</td>
+<td>依赖于M(精度)和D(标度)的值</td>
+<td>小数值(精确定点数)</td>
+</tr>
+</tbody>
+</table>
+<h6 id="字符串类型">字符串类型</h6>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>大小</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CHAR</td>
+<td>0-255 bytes</td>
+<td>定长字符串</td>
+</tr>
+<tr>
+<td>VARCHAR</td>
+<td>0-65535 bytes</td>
+<td>变长字符串</td>
+</tr>
+<tr>
+<td>TINYBLOB</td>
+<td>0-255 bytes</td>
+<td>不超过255个字符的二进制数据</td>
+</tr>
+<tr>
+<td>TINYTEXT</td>
+<td>0-255 bytes</td>
+<td>短文本字符串</td>
+</tr>
+<tr>
+<td>BLOB</td>
+<td>0-65 535 bytes</td>
+<td>二进制形式的长文本数据</td>
+</tr>
+<tr>
+<td>TEXT</td>
+<td>0-65 535 bytes</td>
+<td>长文本数据</td>
+</tr>
+<tr>
+<td>MEDIUMBLOB</td>
+<td>0-16 777 215 bytes</td>
+<td>二进制形式的中等长度文本数据</td>
+</tr>
+<tr>
+<td>MEDIUMTEXT</td>
+<td>0-16 777 215 bytes</td>
+<td>中等长度文本数据</td>
+</tr>
+<tr>
+<td>LONGBLOB</td>
+<td>0-4 294 967 295 bytes</td>
+<td>二进制形式的极大文本数据</td>
+</tr>
+<tr>
+<td>LONGTEXT</td>
+<td>0-4 294 967 295 bytes</td>
+<td>极大文本数据</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">explain</th>
+<th>example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">char(10)  -----------&gt; 性能好</td>
+<td>用户名 username   varchar(50)</td>
+</tr>
+<tr>
+<td style="text-align:left">varchar(10)  ---------&gt; 性能较差</td>
+<td>性别 gender   char(1)</td>
+</tr>
+</tbody>
+</table>
+<h6 id="时间类型"><strong>时间类型</strong></h6>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>大小</th>
+<th>范围</th>
+<th>格式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DATE</td>
+<td>3</td>
+<td>1000-01-01 至  9999-12-31</td>
+<td>YYYY-MM-DD</td>
+<td>日期值</td>
+</tr>
+<tr>
+<td>TIME</td>
+<td>3</td>
+<td>-838:59:59 至  838:59:59</td>
+<td>HH:MM:SS</td>
+<td>时间值或持续时间</td>
+</tr>
+<tr>
+<td>YEAR</td>
+<td>1</td>
+<td>1901 至 2155</td>
+<td>YYYY</td>
+<td>年份值</td>
+</tr>
+<tr>
+<td>DATETIME</td>
+<td>8</td>
+<td>1000-01-01 00:00:00 至 9999-12-31 23:59:59</td>
+<td>YYYY-MM-DD HH:MM:SS</td>
+<td>混合日期和时间值</td>
+</tr>
+<tr>
+<td>TIMESTAMP</td>
+<td>4</td>
+<td>1970-01-01 00:00:01 至 2038-01-19 03:14:07</td>
+<td>YYYY-MM-DD HH:MM:SS</td>
+<td>混合日期和时间值，时间戳</td>
+</tr>
+</tbody>
+</table>
+<h5 id="表结构-修改">表结构-修改</h5>
+<pre><code class="language-mysql">// 新增字段
+alter table table_name add 字段 类型(长度) [comment 注释] [约束];
+// 只修改数据类型
+alter table table_name modify 字段 类型(长度) [comment 注释] [约束];
+// 修改字段名和字段类型
+Alter table table_name change 旧字段名 新字段名 类型(长度) [comment 注释] [约束];
+// 删除字段
+alter table table_name drop 字段名;
+// 修改表名
+alter table table_name rename to new_table_name;
+// 删除表
+drop table if exists table_name;
+// 删除(截断)指定表 并重新创建该表
+truncate table table_name;
+</code></pre>
+<h4 id="dml语句">DML语句</h4>
+<h5 id="添加数据">添加数据</h5>
+<pre><code class="language-mysql">// 给指定字段添加数据
+insert into table_name (字段1,字段2) values (值1,值2......);
+// 给全部字段添加数据
+insert into table_name values (值1,值2......);
+// 批量添加数据
+insert into table_name (字段1,字段2) values (值1,值2......),(值1,值2......),(值1,值2......);
+insert into table_name values (值1,值2......),(值1,值2......),(值1,值2......);
+// 从别的表取数 插入到这个表
+insert into table_name select * from table_name2;
+</code></pre>
+<p>Notes：</p>
+<ul>
+<li>插入数据时，指定的字段顺序需要与值的顺序一一对应的</li>
+<li><strong>字符串和日期类型应该包含在引号中</strong></li>
+<li>插入的数据大小 应该在字段的规定范围内</li>
+</ul>
+<h5 id="修改数据">修改数据</h5>
+<pre><code class="language-mysql">// 更新数据
+update table_name set 字段1=值1,字段2=值2	.... [where 条件];
+// 删除数据
+delete from table_name  [where 条件];
+</code></pre>
+<h4 id="dql语句">DQL语句</h4>
+<pre><code class="language-mysql">// 结构
+select 
+	字段列表 
+from 
+	table_name 
+where 条件列表 
+group by 分组字段列表 
+having 分组后条件查询 
+order by 排序字段列表 
+limit 分页参数 ;
+</code></pre>
+<p><strong>查询学习：</strong></p>
+<ul>
+<li>基本查询</li>
+<li>条件查询 where</li>
+<li>聚合函数 （count、max、min、avg、sum）</li>
+<li>分组查询 group by</li>
+<li>排序查询 order by</li>
+<li>分页查询 limit</li>
+</ul>
+<h5 id="基本查询">基本查询</h5>
+<pre><code class="language-mysql">// 查询全部
+select * from table_name;
+// 设置字段别名  as 可以省略
+select name as userName from table_name;
+// 去除重复 distinct
+select distinct name from table_name;
+
+</code></pre>
+<h5 id="条件查询">条件查询</h5>
+<pre><code class="language-mysql">select * from table_name where 条件列表;
+// 查询名字为两个字的员工信息---使用like 或者使用length
+select * from emp where name like '__';
+</code></pre>
+<p><strong>条件列表：</strong></p>
+<figure data-type="image" tabindex="2"><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1gzk0fhu4bij20ed08qgm2.jpg" alt="image-20220220153026880" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1gzk0fv6c9kj20do03u0st.jpg" alt="image-20220220153048518" loading="lazy"></figure>
+<hr>
+<h5 id="聚合函数">聚合函数</h5>
+<blockquote>
+<p>将<strong>一列</strong>数据作为一个整体，进行纵向计算</p>
+<p><strong>所有的null值是不参与聚合函数的</strong></p>
+</blockquote>
+<figure data-type="image" tabindex="4"><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1gzk0mip1bgj20f204wjrf.jpg" alt="image-20220220153712548" loading="lazy"></figure>
+<pre><code class="language-mysql">// 语法
+select max(age) from table_name;
+</code></pre>
+<hr>
+<h5 id="分组查询">分组查询</h5>
+<pre><code class="language-mysql">// 语法
+select 字段列表 from table_name where 条件  group by 分组字段名 having  分组过滤条件;
+</code></pre>
+<p><strong>WHERE与HAVING的区别：</strong></p>
+<ul>
+<li>执行时机不同：<strong>where 是分组之前</strong>进行过滤的 不满足where条件 不参与分组；<strong>having是分组之后</strong>对结果进行过滤</li>
+<li>判断条件不同：where不能对聚合函数进行判断，而having可以</li>
+</ul>
+<p><strong>Notes：</strong></p>
+<ul>
+<li>执行顺序：where&gt;聚合函数&gt;having</li>
+<li>分组之后，查询的字段一般为聚合函数和分组字段，查询其他字段无任何意义</li>
+</ul>
+<hr>
+<h5 id="排序查询">排序查询</h5>
+<pre><code class="language-mysql">// 语法  默认asc  
+Select 字段列表 from table_name  order by 字段1 asc,字段2 desc;
+</code></pre>
+<hr>
+<h5 id="分页查询">分页查询</h5>
+<pre><code class="language-mysql">// 语法
+select * from table_name limit 起始索引,查询记录数;
+
+</code></pre>
+<p><strong>Notes:</strong></p>
+<ul>
+<li>起始索引 从0开始 起始索引= 查询页码-1  * 每页显示的条数</li>
+<li>分页查询是数据库的方言，不同的数据库有不同的实现 Mysql是Limit</li>
+<li>如果查询的是第一页数据，起始索引可以省略，直接简写为 limit 10</li>
+</ul>
+<hr>
+<h5 id="执行顺序">执行顺序</h5>
+<figure data-type="image" tabindex="5"><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1gzk99ryqehj20t80crwfo.jpg" alt="image-20220220203618076" loading="lazy"></figure>
+<hr>
+<h4 id="dcl语句">DCL语句</h4>
+<blockquote>
+<p>Data Control Language ，用来管理数据库用户、控制数据库的访问权限等等</p>
+</blockquote>
+<h5 id="基础crud">基础CRUD</h5>
+<pre><code class="language-mysql">// 使用mysql 库
+use mysql;
+// 查询用户
+select * from user;
+
+// 创建用户 test_user
+create user 'test_user'@'主机名：localhost' identified  by '123456';
+
+// 修改用户密码
+alter user 'test_user 用户名'@'主机名: localhost' identified  with mysql_native_password By '新密码';
+
+// 删除用户
+drop user 'test_user 用户名'@'主机名: localhost';
+</code></pre>
+<hr>
+<h5 id="权限控制">权限控制</h5>
+<p>权限列表</p>
+<figure data-type="image" tabindex="6"><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1gzkbahykr6j20t409xwf0.jpg" alt="image-20220220214614372" loading="lazy"></figure>
+<pre><code class="language-mysql">// 查询权限
+SHOW GRANTS FOR 'root'@'%';
+
+// 授予权限 如果授予所有的 就使用*.*
+GRANTS 权限列表 ON 数据库.表名 TO '用户名：test_user'@'主机名：localhost';
+grant all on *.* to 'test_user'@'localhost';
+
+//撤销权限
+REVOKE 权限列表 ON 数据库.表名 FROM '用户名：test_user'@'主机名：localhost';
+REVOKE all ON *.* FROM 'test_user'@'localhost';
+
+</code></pre>
+<h3 id="2-函数">2、函数</h3>
+<blockquote>
+<p>可以直接被调用的程序或代码</p>
+</blockquote>
+<h4 id="字符串函数">字符串函数</h4>
+<figure data-type="image" tabindex="7"><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1gzkburecjrj20t80aewfq.jpg" alt="image-20220220220543391" loading="lazy"></figure>
+<pre><code class="language-mysql">// 字符串拼接
+select concat('aaaa', name) from employ where id = 1;
+select concat('hello', 'world');
+// 转大小写
+select lower('hello');
+select upper('hello');
+// 左右填充
+select  lpad('aaa',10,'___');
+select  rpad('aaa',10,'___');
+// 去掉空格
+select  trim(' hello world  ');
+// 截取字符串
+select  substr('11aaaaaa',1,5);
+</code></pre>
+<p><strong>案例：使得员工编号小于5位的前面自动补0，例如 1变成00001；</strong></p>
+<pre><code class="language-mysql">update employ set  id = lpad(id,5,'0');
+</code></pre>
+<hr>
+<h4 id="数值函数">数值函数</h4>
+<figure data-type="image" tabindex="8"><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1gznrhydzjlj20ri07fwex.jpg" alt="image-20220223212333518" loading="lazy"></figure>
+<pre><code class="language-mysql">// 向上取整 --13
+select ceil(12.1);
+// 向下取整  --1
+select floor(1.1);
+//返回x/y的模 --20
+select mod(20,100);
+// 返回0-1的随机数
+select rand();
+// 参数x的四舍五入，保留指定小数 ----1.2222
+select round(1.222222,4);
+</code></pre>
+<p><strong>生成6位随机数</strong></p>
+<pre><code class="language-mysql">select lpad(round((select rand()*1000000),0),6,'0');
+</code></pre>
+<hr>
+<h4 id="日期函数">日期函数</h4>
+<figure data-type="image" tabindex="9"><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1gznrtp75f4j20rr0bbmy7.jpg" alt="image-20220223213455206" loading="lazy"></figure>
+<pre><code class="language-mysql">-- 当前日期  2022-03-15
+select curdate();
+-- 当前时间  21:04:07
+select curtime();
+-- 当前日期和时间2022-03-15 21:04:32
+select now();
+// 获取data的年份
+select year(now());
+// 获取data的月份
+select month(now());
+// 获取data的日份
+select day(now());
+// 是时间相加
+select date_add(now(),INTERVAL 100 YEAR );
+select date_add(now(),INTERVAL 100 day );
+select date_add(now(),INTERVAL 100 month );
+// 时间差
+select datediff(now(),now());
+</code></pre>
+<hr>
+<h4 id="流程函数">流程函数</h4>
+<figure data-type="image" tabindex="10"><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1gzns458rvyj20rs06pq3n.jpg" alt="image-20220223214454850" loading="lazy"></figure>
+<pre><code class="language-mysql">-- IFNULL
+select ifnull('',111);
+select ifnull('2222',111);
+select ifnull(null,'22');
+-- IF
+select if(true,'1','0');
+-- CASE WHEN
+select name, (case age when 10 then '10岁' when 11 then '11岁' else '不是这个年纪' end) as age
+from employ;
+
+</code></pre>
+<hr>
+<h3 id="3-约束">3、约束</h3>
+<blockquote>
+<p><strong>作用于表中字段上的规则，用于限制存储在表中的数据</strong></p>
+</blockquote>
+<h4 id="概述">概述</h4>
+<figure data-type="image" tabindex="11"><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1gznsitdjlgj20ok081q3y.jpg" alt="image-20220223215903635" loading="lazy"></figure>
+<p>Notes：</p>
+<p><strong>约束是作用于表字段上的，可以在创建表/修改表的时候添加约束</strong></p>
+<h4 id="约束演示">约束演示</h4>
+<p>id 主键、自动增长</p>
+<p>name 不为空 唯一</p>
+<p>age &gt;0 小于等于120</p>
+<p>status 如果没有指定值，默认为1</p>
+<pre><code class="language-mysql">CREATE TABLE `table_user` (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `name` varchar(10) NOT NULL COMMENT 'name',
+  `age` int DEFAULT NULL COMMENT '年纪',
+  `status` char(1) DEFAULT '1' COMMENT 'status',
+  `gender` char(1) NOT NULL COMMENT 'gender',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  CONSTRAINT `table_user_chk_1` CHECK (((`age` &gt; (0 &amp; `age`)) &lt;= 120))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户表';
+</code></pre>
+<h4 id="外键约束">外键约束</h4>
+<blockquote>
+<p>目前不在使用强关联物理外键约束</p>
+</blockquote>
+<pre><code class="language-mssql">-- 添加外键
+alter table  employ add constraint  foreign_key_id foreign key (id) references table_user(id);
+-- 删除外键
+alter table  employ drop foreign key  foreign_key_id;
+</code></pre>
+<h5 id="删除更新行为">删除/更新行为</h5>
+<figure data-type="image" tabindex="12"><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1gznti7j9hyj20sr06x3zs.jpg" alt="image-20220223223305281" loading="lazy"></figure>
+<h3 id="4-多表查询">4、多表查询</h3>
+<h4 id="多表关系">多表关系</h4>
+<p><em>关系分为：</em></p>
+<ul>
+<li>一对一**（单表拆分，在任意一方加入外键盘，关联另一方的外键，并设置外键为unique）**</li>
+<li>一对多</li>
+<li>多对多**（需要中间表维护关系）**</li>
+</ul>
+<h4 id="多表查询概述">多表查询概述</h4>
+<pre><code class="language-mysql">-- 两个表关联 隐式内连接 形成笛卡尔积
+select * from employ,table_user;
+</code></pre>
+<hr>
+<h4 id="内连接">内连接</h4>
+<blockquote>
+<p><strong>查询AB交集的部分数据</strong></p>
+</blockquote>
+<h5 id="隐式内连接">隐式内连接</h5>
+<pre><code class="language-mysql">select * from employ e,gift_history g where e.id =g.id;
+</code></pre>
+<h5 id="显式内连接">显式内连接</h5>
+<pre><code class="language-mysql">select * from employ e inner join  gift_history g on  e.id =g.id;
+</code></pre>
+<hr>
+<h4 id="外连接">外连接</h4>
+<h5 id="左外连接">左外连接</h5>
+<blockquote>
+<p><strong>查询左表所有数据，以及两张表交集部分数据</strong></p>
+</blockquote>
+<pre><code class="language-mysql">select * from employ  e left join table_user P on e.id = P.id where e.name is not null ;
+</code></pre>
+<h5 id="右外连接">右外连接</h5>
+<blockquote>
+<p><strong>查询右表所有数据，以及两张表交集部分数据</strong></p>
+</blockquote>
+<pre><code class="language-mysql">select * from employ  e right outer join  table_user P on e.id = P.id where e.name is not null ;
+</code></pre>
+<h4 id="自连接">自连接</h4>
+<blockquote>
+<p><strong>自己与自己关联查询</strong></p>
+</blockquote>
+<pre><code class="language-mysql">-- 显示自连接
+select * from employ  e1 join employ e2 on e1.id = e2.id;
+-- 隐式自连接
+select * from employ  e1 , employ e2 on e1.id = e2.id;
+</code></pre>
+<p>业务场景：比如员工表，需要查询员工的上级领导是谁，那么就自连接，根据自己的manager_id 等于自己表的id ，那么就可以查询对应的信息出来</p>
+<p>Notes：自连接查询，可以是内连接查询，也可以是外连接查询</p>
+<hr>
+<h4 id="联合查询">联合查询</h4>
+<blockquote>
+<p><strong>对于union查询，就是把多次查询的结果合并起来，形成一个新的查询结果集</strong></p>
+</blockquote>
+<p>union，union all</p>
+<p>对于union查询，就是把多次查询的结果合并起来，形成一个新的查询结果集</p>
+<pre><code class="language-mysql">select * from employ where age&gt;10
+union
+select * from employ where age&lt;10
+union
+select a.id,a.age,a.name,a.status
+from table_user a where a.id&gt;1;
+</code></pre>
+<p>Notes：</p>
+<ul>
+<li>对于联合查询的多张表的数据必须保持一致，字段类型也需要保持一致</li>
+<li>union all 会将全部的数据直接合并在一起**（不做任何操作）**，<strong>union会对合并之后的数据去重、排序</strong></li>
+</ul>
+<hr>
+<h4 id="子查询">子查询</h4>
+<blockquote>
+<p>sql中嵌套select语句</p>
+</blockquote>
+<pre><code class="language-mysql">select * from table_name where column =(select id form table_name2 where ....);
+</code></pre>
+<h5 id="标量子查询">标量子查询</h5>
+<p>查询结果为单个值 ---一种条件 确定</p>
+<pre><code class="language-mysql">select * from employ where id &gt; (select id from employ where age ='11');
+</code></pre>
+<h5 id="列子查询">列子查询</h5>
+<p>查询结果为一列--- in、not in</p>
+<pre><code class="language-mysql">select * from employ where id in (select id from employ where age &gt;1);
+-- all 用法 满足查询出来的所有条件
+select * from employ where id &gt; all (select id from employ where age ='1');
+-- some 用法 满足查询出来的其中一个条件
+select * from employ where id &gt; some (select id from employ where age ='1');
+</code></pre>
+<h5 id="行子查询">行子查询</h5>
+<p>查询结果为一行</p>
+<pre><code class="language-mysql">-- 新语法🐮🍺
+select * from employ where  (name,age)!=(select name,age from employ where id =00011);
+
+</code></pre>
+<h5 id="表子查询">表子查询</h5>
+<p>查询结果为多行多列</p>
+<pre><code class="language-mysql">-- 多条件in 🐮🍺
+select * from employ where  (name,age) in(select name,age from employ where id is not null);
+-- 子查询当一个表
+select * from (select * from employ where time&lt;now()) as a;
+</code></pre>
+<hr>
+<h3 id="5-事务">5、事务</h3>
+<h4 id="事务简介">事务简介</h4>
+<blockquote>
+<p>要么全部成功，要么全部失败，是一个不可分割的工作单位，事务会把所有的操作作为一个整体一起向系统提交或者撤销操作请求</p>
+</blockquote>
+<p>默认mysql的事务是自动提交的，也就是说，<strong>当执行一条dml语句，mysql会立即隐式的提交事务</strong></p>
+<h4 id="事务操作">事务操作</h4>
+<pre><code class="language-mysql">-- 银行转账例子
+-- 查看当前事务是否自动提交  1就是自动提交  基于session级别
+select @@autocommit;
+-- 设置为手动提交
+set @@autocommit = 0;
+-- 开启事务
+start transaction 或者 begin;
+
+-- 开始处理业务逻辑
+update account set money = money-1000 where name = 'Jack';
+update account set money = money+1000 where name = 'Tony';
+-- 提交操作
+commit;
+-- 异常回滚操作
+rollback;
+
+</code></pre>
+<h4 id="事务四大特性acid">事务四大特性（ACID）</h4>
+<p><strong>原子性（atomicity）</strong>：事务是不可分割的最小单元，要么全部成功，要么全部失败。</p>
+<p><strong>一致性（consistency）</strong>：事务完成时，必须使所有的数据都保持一致状态</p>
+<p><strong>隔离性（isolation）</strong>：数据库系统提供的隔离机制，保证事务在不受外部并发操作影响的独立环境下运行</p>
+<p><strong>持久性（durability）</strong>：事务一旦提交或回滚，它对数据库中的操作的改变时永久的</p>
+<hr>
+<h4 id="并发事务问题">并发事务问题🌟</h4>
+<ul>
+<li><strong>脏读</strong>：一个事务读到另外一个事务还没提交的数据</li>
+<li><strong>不可重复读</strong>：一个事务先后读取同一条记录，但是两次读取到数据不同，称之为不可重复读</li>
+<li><strong>幻读</strong>：一个事务按照条件查询数据时，没有对应的数据行，但是在插入数据时，又发现这行数据已经存在，好像出现了幻觉</li>
+</ul>
+<h4 id="事务隔离级别">事务隔离级别🌟</h4>
+<p>各个级别会出现的情况：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">隔离级别</th>
+<th style="text-align:center">脏读</th>
+<th style="text-align:center">不可重复读</th>
+<th style="text-align:center">幻读</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Read uncommitted</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+</tr>
+<tr>
+<td style="text-align:center">Read committed</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>Repeatable Read（默认）</strong></td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">√</td>
+</tr>
+<tr>
+<td style="text-align:center">Serializable</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">×</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-mysql">-- 查看事务隔离级别
+select @@transaction_isolation;
+
+-- 设置事务隔离级别
+set session  transaction isolation level read uncommitted ;
+set session  transaction isolation level read committed ;
+set session  transaction isolation level repeatable read ;
+set session  transaction isolation level serializable ;
+</code></pre>
+<hr>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://WheatJack.github.io/tag/fCv0bjMyG/" class="tag">
+                    mysql
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://WheatJack.github.io/post/juc-xue-xi-ya/">
+                  <h3 class="post-title">
+                    JUC学习呀
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '6e02be877284c3e5829a',
+        clientSecret: '9a1496cb025a218f5e753da940fc5d864703a2a3',
+        repo: 'WheatJack.github.io',
+        owner: 'WheatJack',
+        admin: ['WheatJack'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
